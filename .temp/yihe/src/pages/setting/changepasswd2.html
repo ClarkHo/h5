@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="x5-orientation" content="portrait">
+    <meta name="msapplication-tap-highlight" content="no">
+    <title></title>
+    <link rel="stylesheet" href="${staticPath}/libs/frozenui/css/frozen.css?v=${version}">
+    <link rel="stylesheet" href="${staticPath}/common.css?v=${version}">
+    <link rel="stylesheet" href="${staticPath}/setting/setting.css?v=${version}">
+</head>
+<style>
+    .ui-form {
+        background: none !important;
+        margin-right: 20px;
+        margin-left: 20px;
+    }
+    .ui-form   label{
+        text-align:center!important;
+    }
+
+    .ui-form-item{
+        margin-left:0!important;
+    }
+    .submit-btn {
+        padding-right: 0 !important;
+        margin:25px 0px 0px 0px;
+
+    }
+    .sms-btn{
+        border-radius:2px;
+        border-color:#f74c31;
+    }
+</style>
+<body v-need-login>
+    <ui-header title="修改密码"></ui-header>
+    <section class="ui-container">
+        <div class="ui-form">
+            <form novalidate>
+                <div class="ui-form-item ui-form-item-show has-icon ui-border bgf ">
+                    <label for="#">旧密码</label>
+                    <input type="{{spypassword}}" v-model="password" placeholder="请输入旧密码">
+                    <a href="javascript:void(0)" class="ui-icon-close" v-show="password" @click="password=''"></a>
+                    <i class="icon icon-eyes-close" v-if="spypassword == 'password'" @click="spypassword = 'text'"></i>
+                    <i class="icon icon-eyes" v-if="spypassword == 'text'" @click="spypassword = 'password'"></i>
+                </div>
+                <div class="ui-form-item ui-form-item-show has-icon ui-border-b">
+                    <label for="#">新密码</label>
+                    <input type="{{spypassword1}}" v-model="password1" placeholder="新密码(6-18个字符)">
+                    <a href="javascript:void(0)" class="ui-icon-close" v-show="password1" @click="password1=''"></a>
+                    <i class="icon icon-eyes-close" v-if="spypassword1 == 'password'" @click="spypassword1 = 'text'"></i>
+                    <i class="icon icon-eyes" v-if="spypassword1 == 'text'" @click="spypassword1 = 'password'"></i>
+                </div>
+                <div class="ui-form-item ui-form-item-show has-icon ui-border-b">
+                    <label for="#">确认密码</label>
+                    <input type="{{spypassword2}}" v-model="password2" placeholder="确认新密码">
+                    <a href="javascript:void(0)" class="ui-icon-close" v-show="password2" @click="password2=''"></a>
+                    <i class="icon icon-eyes-close" v-if="spypassword2 == 'password'" @click="spypassword2 = 'text'"></i>
+                    <i class="icon icon-eyes" v-if="spypassword2 == 'text'" @click="spypassword2 = 'password'"></i>
+                </div>
+            </form>
+        </div>
+        <div class="submit-btn">
+            <button type="button" class="ui-btn ui-btn-primary" @click="modifyPassword">确认提交</button>
+        </div>
+    </section>
+    <script type="text/javascript" src="/cms/view/frontier_guide/h5/templateJS.json"></script>
+    <script src="${staticPath}/libs/frozenui/lib/zepto.min.js?v=${version}"></script>
+    <script src="${staticPath}/libs/swiper/swipe.js?v=${version}"></script>
+    <script src="${staticPath}/libs/frozenui/js/frozen.js?v=${version}"></script>
+    <script src="${staticPath}/libs/vendor.js?v=${version}"></script>
+    <script src="${staticPath}/common.js?v=${version}"></script>
+    <script src="${staticPath}/setting/changepasswd2.js?v=${version}"></script>
+</body>
+</html>

@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="x5-orientation" content="portrait">
+    <meta name="msapplication-tap-highlight" content="no">
+    <title></title>
+    <link rel="stylesheet" href="/libs/frozenui/css/frozen.css?v=1537883801478">
+    <link rel="stylesheet" href="/common.css?v=1537883801478">
+    <link rel="stylesheet" href="/my/merch-manage.css?v=1537883801478">
+</head>
+<body  v-need-login ontouchstart="" >
+    <ui-header title="商品管理" app-back="true">
+        <i class="icons2 icons2-pending-search head-icon"></i>
+        <div class="search op0 w100" :class="{hide:showSearchPop}" @click="showSearchPop = true"></div>
+        <div class="search hide" :class="{show:showSearchPop}">
+            <i class="icon icon-search"></i>
+            <div class="input">
+                <input type="search" placeholder="{{placehoder}}" @keyup.13="submitSearch(keyword)"
+                       maxlength="25" v-model="keyword" id="keyword" @change="autoFillShow(keyword)"></div>
+        </div>
+        <a href="javascript:void(0)" class="handle op0 hide" :class="{show:showSearchPop}" @click="submitSearch(keyword)">搜索</a>
+    </ui-header>
+    <!-- main section -->
+    <section v-cloak class="mgT43">
+        <div class="ui-tab">
+            <ul class="ui-tab-nav ui-border-b" @click="closeAllPop()">
+                <li class="current">可推荐商品</li>
+                <li>已推荐商品</li>
+            </ul>
+            <!--综合排序弹层-->
+            <div class="ui-actionsheet sequence" :class="{'show': showSequencePop}" v-cloak>
+                <div class="ui-actionsheet-cnt ui-pop">
+                    <ul class="ui-row">
+                        <li v-for="sort in sortByList" @click="complexSort(sort)">
+                            {{sort.sortTypeDesc}}
+                            <i class="icon icon-correct" :class="{'show':sortType == sort.sortTypeCode}"></i>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!--筛选-->
+            <div class="ui-row-flex ui-whitespace bgf pdTB10" v-if="tabIndex==0">
+                <div class="ui-col ui-col text-center" @click="toShowAll()">
+                    <span class="f14" :class="{'theme':showCategory}">全部商品</span>
+                    <i class="icon icon-arrow-down" v-if="showCategory"></i>
+                </div>
+                <div class="ui-col ui-col text-center" :class="{'theme':sortMode}" @click="toComplexSort()" style="width:15%;">
+                    <span class="f14">{{complexText}}</span>
+                    <i class="icon" :class="{'icon-arrow-down':!sortType||sortType==1,'icon-arrow-up':sortType!=1}"></i>
+                </div>
+                <div class="ui-col ui-col text-center" @click="toFilter()">
+                    <span class="f14" :class="{c3:!showFilter,cb38a32:showFilter}">筛选 </span>
+                    <i class="icon icon-filter"></i>
+                </div>
+            </div>
+            <!--结果列表-->
+            <ul class="ui-tab-content" style="width:200%">
+                <li class="current">
+                    <!-- 商品列表 -->
+                    <!--无数据时-->
+                    <div class="ui-row-flex ui-whitespace" :class="{hide:showPop}" v-if="loaded&&merchList.length==0">
+                        <div class="ui-col ui-col text-center mgT10 mgB10">
+                            <i class="icons3  icons3-search-no"></i>
+                            <p class="f12 c6">暂无数据...</p>
+                        </div>
+                    </div>
+                    <ul class="ui-list mgT10"  :class="{hide:showPop}" v-else>
+                         <li class="ui-border-t" v-for="product in merchList">
+                            <div class="ui-avatar" v-link-to-item="product.mpId">
+                                <span class="w100pxh100px">
+                                    <img :src="product.picUrl">
+                                </span>
+                            </div>
+                            <div class="ui-list-info">
+                                <span class="f14 c3 ui-nowrap-multi baseL2" v-link-to-item="product.mpId">{{product.name}}</span>
+                                <ul class="ui-row mgT10">
+                                    <li class="ui-col ui-col-33" v-link-to-item="product.mpId">
+                                        <p class="f12 c6">价格：¥{{product.price}}</p>
+                                        <p class="f12 c6" v-if="product.rake">抽成：{{product.rake}}</p>
+                                        <p class="f12 c6" v-else>已售：{{product.volume4sale}}</p>
+                                    </li>
+                                    <li class="ui-col ui-col-33" v-link-to-item="product.mpId">
+                                        <p class="f12 c6">库存：{{product.stockNum}}</p>
+                                        <p class="f12 c6" v-if="product.rake">已售：{{product.volume4sale}}</p>
+                                        <!--<p class="f12 c6">浏览量：68</p>-->
+                                    </li>
+                                    <li class="ui-col ui-col-33">
+                                        <p v-if="product.isRecommend==1" class="f12 c6 goodPos" @click="cancelRecommend(product.mpId)"><i class="icons2 icons2-blank mgR5"></i><span class="f12 cb38a32 vkaM" >取消推荐</span></p>
+                                        <p v-else class="f12 c6 goodPos" @click="recommend(product.mpId)"><i class="icons2 icons2-good mgR5"></i><span class="f12 cb38a32 vkaM" >立即推荐</span></p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="text-center no-more hide" :class="{'show': showNoMore}">没有更多啦！</div>
+                </li>
+                <li>
+                    <!--筛选-->
+                    <!-- 已推荐商品列表 -->
+                    <!--无数据时-->
+                    <div class="ui-row-flex ui-whitespace" :class="{hide:showPop}"  v-if="recommendList.length==0">
+                        <div class="ui-col ui-col text-center mgT10 mgB10">
+                            <i class="icons3  icons3-search-no"></i>
+                            <p class="f12 c6">暂无数据...</p>
+                        </div>
+                    </div>
+                    <ul class="ui-list mgT10" :class="{hide:showPop}" v-else>
+                        <li class="ui-border-t" v-for="product in recommendList">
+                            <div class="ui-avatar" v-link-to-item="product.mpId">
+                                <span class="w100pxh100px">
+                                    <img :src="product.picUrl">
+                                </span>
+                            </div>
+                            <div class="ui-list-info">
+                                <span class="f14 c3 ui-nowrap-multi baseL2" v-link-to-item="product.mpId">{{product.name}}</span>
+                                <ul class="ui-row mgT10">
+                                    <li class="ui-col ui-col-33" v-link-to-item="product.mpId">
+                                        <p class="f12 c6">价格：¥{{product.price}}</p>
+                                        <p class="f12 c6" v-if="product.rake">抽成：{{product.rake}}</p>
+                                        <p class="f12 c6" v-else>已售：{{product.volume4sale}}</p>
+                                    </li>
+                                    <li class="ui-col ui-col-33" v-link-to-item="product.mpId">
+                                        <p class="f12 c6">库存：{{product.stockNum}}</p>
+                                        <p class="f12 c6" v-if="product.rake">已售：{{product.volume4sale}}</p>
+                                        <!--<p class="f12 c6">浏览量：68</p>-->
+                                    </li>
+                                    <li class="ui-col ui-col-33">
+                                        <p v-if="product.isRecommend==1" class="f12 c6 goodPos" @click="cancelRecommend(product.mpId)"><i class="icons2 icons2-blank mgR5"></i><span class="f12 cb38a32 vkaM" >取消推荐</span></p>
+                                        <p v-else class="f12 c6 goodPos" @click="recommend(product.mpId)"><i class="icons2 icons2-good mgR5"></i><span class="f12 cb38a32 vkaM" >立即推荐</span></p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="text-center no-more hide" :class="{'show': showNoMoreR}">没有更多啦！</div>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <!--综合排序弹层-->
+    <div class="ui-actionsheet sequence" :class="{'show': showSequencePop}" v-cloak>
+        <div class="ui-actionsheet-cnt ui-pop">
+            <ul class="ui-row">
+                <li v-for="sort in sortByList" @click="complexSort(sort)">
+                    {{sort.sortTypeDesc}}
+                    <i class="icon icon-correct" :class="{'show':sortType == sort.sortTypeCode}"></i>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!--商品分类弹出层-->
+    <section class="ui-container merch hAuto hide" :class="{show:showCategory}" v-cloak>
+        <div class="body-left">
+            <div class="body-left-rel">
+                <ul class="ui-tab-nav ui-border-b">
+                    <li class="ui-nowrap" :class="{current: cat.categoryId == currentCategoryId}"
+                        @click="getChildrenCategories(cat.categoryId,$event)"
+                        v-for="cat in categoryList" v-cloak >{{cat.categoryName}}</li>
+                </ul>
+            </div>
+        </div>
+        <div class="body-right">
+            <div class="body-right-rel">
+                <div v-for="cc in currentCategory">
+                    <div class="ui-card ui-card-bgnull">
+                        <h1 class="f14 c3 bold">{{cc.categoryName}}</h1>
+                    </div>
+                    <div class="ui-card sub-cats">
+                        <ul class="ui-row padT10 padB10">
+                            <li class="ui-col ui-col-33 cat-item" v-for="c in cc.children" v-link-to="'/my/merch-manage.html?categoryId=' + c.categoryId">
+                                <p class="ui-nowrap f12 c6 lineH25px">{{c.categoryName}}</p>
+                            </li>
+
+                        </ul>
+                    </div>
+                </div> <!-- end category-item -->
+            </div>
+        </div>
+    </section>
+
+    <!--筛选弹层-->
+    <div class="ui-sift-wrap hide" :class="{show:showFilter}">
+        <div class="ui-sift-close" @click="showFilter=false">
+            <!--点击这里的透明层隐藏删选条件-->
+        </div>
+        <div class="ui-sift">
+            <div class="ui-sift-rl">
+                <ul class="ui-list ui-list-text mgB45">
+                    <!--价格区间-->
+                    <li>
+                        <div class="ui-list-info">
+                            <h4 class="f14 c6">价格区间</h4>
+                        </div>
+                    </li>
+                    <li>
+                        <ul class="ui-row w100 mgL10">
+                            <li class="ui-col ui-col-33 mgT5">
+                                <input type="number" oninput="if(value.length>5)value=value.slice(0,8);if(value<0)value=0" v-model="prices.from" class="f12 c3 radiusAll4 ui-border ui-sift-lable bge text-center" placeholder="最低价">
+                                <span class="f18 c6">-</span>
+                            </li>
+                            <li class="ui-col ui-col-33 mgT5">
+                                <input type="number" oninput="if(value.length>5)value=value.slice(0,8);if(value<0)value=0" v-model="prices.to" class="f12 c3 radiusAll4 ui-border ui-sift-lable bge text-center" placeholder="最高价">
+                            </li>
+                        </ul>
+                    </li>
+                    <!--品牌-->
+                    <!--<li class="pdB0">-->
+                        <!--<div class="ui-list-info">-->
+                            <!--<h4 class="f14 c6">品牌</h4>-->
+                        <!--</div>-->
+                        <!--<div class="ui-list-action f14 c3 hide" :class="{show:brandList.length>2}"-->
+                             <!--@click="showAllBrands=!showAllBrands">{{showAllBrands?'收起':'展开'}}-->
+                            <!--<i class="icons2 icons2-arrow-t mgL5"-->
+                               <!--:class="{'icons2-arrow-b':!showAllBrands,'icons2-arrow-t':showAllBrands}"></i>-->
+                        <!--</div>-->
+                    <!--</li>-->
+                    <!--<li>-->
+                        <!--<ul class="ui-row w100">-->
+                            <!--<li class="ui-col ui-col-33 text-center mgT5 select-all">-->
+                                <!--<span id="b_0000" @click="selectAll('b_0000')"-->
+                                      <!--class="ui-nowrap f12 c3 radiusAll4 ui-border ui-sift-lable" :class="{'ui-sift-lable-active':selectedBrandIds.length==0}">全部</span>-->
+                            <!--</li>-->
+                            <!--<li class="ui-col ui-col-33 text-center mgT5 select-brand hide"-->
+                                <!--v-for="brand in brandList" :class="{show:$index<2||showAllBrands}">-->
+                                <!--<span id="{{'b_'+brand.id}}" @click="selectSingle('b_'+brand.id,'b_0000')"-->
+                                      <!--class="ui-nowrap f12 c3 radiusAll4 ui-border ui-sift-lable" :class="{'ui-sift-lable-active':brand.checked}">{{brand.name}}</span>-->
+                            <!--</li>-->
+                        <!--</ul>-->
+                    <!--</li>-->
+                    <!--类别-->
+                    <template v-for="prop in properties">
+                        <li class="pdB0">
+                            <div class="ui-list-info">
+                                <h4 class="f14 c6">{{prop.name}}</h4>
+                            </div>
+                            <div class="ui-list-action f14 c3 hide" :class="{show:prop.attributeValues.length>2}">
+                                <span class="open-desc" @click="dropdownProp($event,'p_'+prop.id)">展开</span><i class="icons2 icons2-arrow-b mgL5"></i></div>
+                        </li>
+                        <li class="prop-index">
+                            <ul class="ui-row w100">
+                                <li class="ui-col ui-col-33 text-center mgT5 select-all">
+                                    <span id="{{'p_'+prop.id}}" @click="selectAll('p_'+prop.id)"
+                                          class="ui-nowrap f12 c3 radiusAll4 ui-border ui-sift-lable" :class="{'ui-sift-lable-active':!prop.exist}">全部</span>
+                                </li>
+                                <li class="ui-col ui-col-33 text-center mgT5 select-prop hide"
+                                    v-for="attr in prop.attributeValues" :class="{show:$index<2,gt2:$index>=2}">
+                                    <span id="{{'p_'+prop.id+'_'+attr.id}}" @click="selectSingle('p_'+prop.id+'_'+attr.id,'p_'+prop.id)"
+                                          class="ui-nowrap f12 c3 radiusAll4 ui-border ui-sift-lable" :class="{'ui-sift-lable-active':attr.checked}">{{attr.value}}</span>
+                                </li>
+                            </ul>
+                        </li>
+                    </template>
+
+                </ul>
+                <!--操作按钮-->
+                <div class="ui-sift-btn ui-border-t" style="z-index:1000">
+                    <button class="bgf c6 f18" @click="resetAttrAndBrand()">重置</button>
+                    <button class="bgb38a32 cf f18" @click="submitAllSelection()">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="/cms/view/frontier_guide/h5/templateJS.json"></script>
+    <script src="/libs/frozenui/lib/zepto.min.js?v=1537883801478"></script>
+    <script src="/libs/frozenui/js/frozen.js?v=1537883801478"></script>
+    <script src="/libs/vendor.js?v=1537883801478"></script>
+    <script src="/common.js?v=1537883801478"></script>
+    <script src="/my/merch-manage.js?v=1537883801478"></script>
+
+</body>
+</html>

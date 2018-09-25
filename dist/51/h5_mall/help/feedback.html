@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="x5-orientation" content="portrait">
+    <meta name="msapplication-tap-highlight" content="no">
+    <title></title>
+    <link rel="stylesheet" href="/libs/frozenui/css/frozen.css?v=1537883801478">
+    <link rel="stylesheet" href="/common.css?v=1537883801478">
+    <link rel="stylesheet" href="/help/help.css?v=1537883801478">
+</head>
+<body  v-need-login>
+    <ui-header title="意见反馈"></ui-header>
+    <!-- main section -->
+    <section class="ui-container">
+        <!--<form action="#">-->
+        <div class="prompt">请留下您的宝贵意见，以帮助我们做的更好</div>
+        <div class="reply">
+            <textarea placeholder="请简要描述您遇到的问题，我们会尽快帮您解决。" v-model="content" required  maxlength="200"></textarea>
+            <span class="words">{{content.length}}/200</span>
+        </div>
+        <div class="submit-btn">
+            <button class="ui-btn ui-btn-primary" v-if="content.length>0" @click="feedSubmit()"  v-if="withdraw>0">提交</button>
+            <button class="btn-wq-lg bg9 " style="color: #fff" v-if="content.length==0">反馈内容为空，无法提交</button>
+        </div>
+            <!--</form>-->
+    </section>
+    <script type="text/javascript" src="/cms/view/frontier_guide/h5/templateJS.json"></script>
+    <script src="/libs/frozenui/lib/zepto.min.js?v=1537883801478"></script>
+    <script src="/libs/frozenui/js/frozen.js?v=1537883801478"></script>
+    <script src="/libs/vendor.js?v=1537883801478"></script>
+    <script src="/common.js?v=1537883801478"></script>
+    <script src="/help/feedback.js?v=1537883801478"></script>
+</body>
+</html>

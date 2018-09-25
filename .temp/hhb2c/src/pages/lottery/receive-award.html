@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="x5-orientation" content="portrait">
+    <meta name="msapplication-tap-highlight" content="no">
+    <title></title>
+    <link rel="stylesheet" href="${staticPath}/libs/frozenui/css/frozen.css?v=${version}">
+    <link rel="stylesheet" href="${staticPath}/common.css?v=${version}">
+    <link rel="stylesheet" href="${staticPath}/lottery/lottery.css?v=${version}">
+</head>
+
+<body v-need-login>
+    <ui-header title="收货地址选择"></ui-header>
+    <!-- main section -->
+    <section class="ui-container" v-cloak>
+        <div class="bgf text-center">
+            <img :src="receiveDetail.picUrl" alt="" class="mgT20">
+            <p class="c3 f18 mgT20">恭喜您获得 {{receiveDetail.awardsName}}</p>
+            <p class="f14 theme mgT10 pdB10">请提交您的收货地址信息</p>
+        </div>
+        <div class="ui-card2 address-inner ui-border-t ui-next" @click="selectAddress">
+            <p class="pdR15">
+                收货人：<span>{{receiver.receiverName}}</span>
+                <span class="fr">{{receiver.receiverMobile}}</span>
+            </p>
+            <p>收货地址：{{receiverAddress}}</p>
+            <i class="icons icons-next"></i>
+        </div>
+
+        <div class="mgT20 mgL15 mgR15">
+            <button class="btn btn-wq-lg cf text-center bgTheme btn-submit" @click="confirm">提交</button>
+        </div>
+        <!-- <ul class="ui-list ui-border-tb">
+            <li class="ui-border-b" @click="selectAddress">
+                <div class="ui-list-info" v-if="isLoaded && receiver.receiverId">
+                    <h4 class="ui-nowrap">{{receiver.receiverName}} <span>{{receiver.receiverMobile}}</span></h4>
+                    <p class="ui-nowrap">{{receiverAddress}}</p>
+                </div>
+                <div class="pdT10 pdB10 c6 hide" v-if="!receiver.receiverId" :class="{show:isLoaded}">
+                    <p>您还没有收货地址，赶快添加吧！</p>
+                </div>
+                <span class="ui-panel-title-tips f13 c808080 r10"><i class="f13 c9 icons2 icons2-arrow-r"></i></span>
+            </li>
+        </ul> -->
+        <!-- <div class="bgw padB10">
+            <ul class="ui-list ui-list-one ui-border-tb">
+                <li class="ui-border-t award-info">
+                    <div class="ui-list-thumb w63h63">
+                        <img :src="receiveDetail.picUrl" class="w63h63">
+                    </div>
+                    <div class="ui-list-info">
+                        <h4 class="theme ui-nowrap">恭喜您获得 {{receiveDetail.awardsName}}</h4>
+                    </div>
+                </li>
+            </ul>
+            <p class="pad10 c6 border-b">请确定您的收货地址</p>
+            <ul class="ui-list ui-border-tb">
+                <li class="ui-border-b" @click="selectAddress">
+                    <div class="ui-list-info" v-if="isLoaded && receiver.receiverId">
+                        <h4 class="ui-nowrap">{{receiver.receiverName}} <span>{{receiver.receiverMobile}}</span></h4>
+                        <p class="ui-nowrap">{{receiverAddress}}</p>
+                    </div>
+                    <div class="pdT10 pdB10 c6 hide" v-if="!receiver.receiverId" :class="{show:isLoaded}">
+                        <p>您还没有收货地址，赶快添加吧！</p>
+                    </div>
+                    <span class="ui-panel-title-tips f13 c808080 r10"><i class="f13 c9 icons2 icons2-arrow-r"></i></span>
+                </li>
+            </ul>
+            <div class="pad10 mgT5">
+                <button class="btn btn-wq-lg cf text-center bgff6900 btn-submit" @click="confirm">提交</button>
+            </div>
+        </div> -->
+    </section>
+
+    <script type="text/javascript" src="/cms/view/frontier_guide/h5/templateJS.json"></script>
+    <script src="${staticPath}/libs/frozenui/lib/zepto.min.js?v=${version}"></script>
+    <script src="${staticPath}/libs/frozenui/js/frozen.js?v=${version}"></script>
+    <script src="${staticPath}/libs/vendor.js?v=${version}"></script>
+    <script src="${staticPath}/common.js?v=${version}"></script>
+    <script src="${staticPath}/lottery/receive-award.js?v=${version}"></script>
+</body>
+
+</html>

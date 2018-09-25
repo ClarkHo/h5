@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="heimdall" content="申请售后页"> 
+    <title></title>
+    <link rel="stylesheet" href="/libs/frozenui/css/frozen.css?v=1537884480835">
+    <link rel="stylesheet" href="/libs/swiper/swiper.min.css?v=1537884480835">
+    <link rel="stylesheet" href="/common.css?v=1537884480835">
+    <link rel="stylesheet" href="/my/aftersale.css?v=1537884480835">
+</head>
+
+<body v-need-login>
+    <ui-header title="申请售后"></ui-header>
+    <section class="ui-container" v-cloak>
+        <div class="ui-card pad10">
+            <p class="f16 c6">
+                服务类型<span v-if="orderAfterSalesId" v-cloak>：{{afterSaleDetails.type | afterSaleType}}</span>
+            </p>
+            <label class="ui-checkbox-s marT10 marR10 f14 c3" v-for="st in afterSaleTypes">
+                <input type="radio" name="returnType" checked v-if="$index==0" @change="switchReturnType(st.operateType)">
+                <input type="radio" name="returnType" v-if="$index>0" @change="switchReturnType(st.operateType)">
+                {{st.operateName}}
+            </label>
+        </div>
+
+        <div class="ui-card pad0">
+            <ul class="ui-list ui-border-t">
+                <li class="ui-border-t marl10 pdt5b10 " v-for="product in productList">
+                    <label class="ui-checkbox-s marT50" v-if="!orderAfterSalesId">
+                        <input type="checkbox" :checked="product.checked" @change="checkReturnProduct(product)">
+                    </label>
+                    <div class="ui-list-thumb">
+                        <span :style="{'background-image':'url('+product.productPicPath+')'}"></span>
+                    </div>
+                    <div class="ui-list-info ui-flex-pack-start">
+                        <h4 class="name ui-nowrap-multi">{{product.chineseName}}</h4>
+                        <!--<p class="ui-nowrap subname">颜色：黑色</p>-->
+                        <ul class="jine">
+                            <li class="price" v-money="product.productPriceFinal"></li>
+                            <li class="option">
+                                <div class="opt-group">
+                                    <button type="button" class="jian" :disabled="orderAfterSalesId || product.returnProductItemNum<=1"
+                                            @click="minus(product)">
+                                        <!-- <i class="icon" :class="{'icon-sub': !(orderAfterSalesId || product.returnProductItemNum<=1), 'icon-sub-disabled': orderAfterSalesId || product.returnProductItemNum<=1}"></i> -->
+                                        <i class="icons icons-reduce"></i>
+                                    </button>
+                                    <input type="number" v-model="product.returnProductItemNum"  @blur="validReturnNum(product)" v-if="!orderAfterSalesId">
+                                    <input type="number" v-model="product.returnProductItemNum"  v-if="orderAfterSalesId">
+                                    <button type="button" class="jia" :disabled="orderAfterSalesId || product.returnProductItemNum>=product.mayReturnProductItemNum" @click="plus(product)">
+                                        <!-- <i class="icon" :class="{'icon-add': !(orderAfterSalesId || product.returnProductItemNum>=product.mayReturnProductItemNum), 'icon-add-disabled': orderAfterSalesId || product.returnProductItemNum>=product.mayReturnProductItemNum}"></i> -->
+                                        <i class="icons icons-add"></i>
+                                    </button>
+                                </div>
+                                <div class="limit">
+                                    最多选择{{product.mayReturnProductItemNum}}个
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <!-- 换货 -->
+        <div class="ui-card pad0" v-if="IsReplacement">
+            <p class="f16 c6 pad10" v-show="replacementProducts.length > 0">
+                选择更换商品
+            </p>
+            <div v-for="rp in replacementProducts">
+                <ul class="ui-list ui-border-t">
+                    <li class="ui-border-t marl10 pdtb5">
+                        <div class="ui-list-thumb">
+                            <span :style="{'background-image':'url('+rp.productUrl+')'}"></span>
+                        </div>
+                        <div class="ui-list-info ui-flex-pack-start">
+                            <h4 class="name ui-nowrap-multi">{{rp.chineseName}}</h4>
+                            <!--<p class="ui-nowrap subname">颜色：黑色</p>-->
+                            <ul class="jine">
+                                <li class="price">￥<span class="mainprice">{{rp.productPriceFinal}}</span></li>
+                                <li class="option ui-flex ui-flex-pack-end ui-flex-align-end">x{{replacementNumMap[rp.soItemId]}}</li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+                <!-- 系列属性商品-->
+                <ul class="ui-list ui-list-text ui-next" v-if="rp.isSerial == 1">
+                    <li class="ui-border-t" @click="openSerialsPop(rp)">
+                        <h4 class="ui-nowrap">{{getSelectedItemInfo(rp.map.attributes)}}</h4>
+                    </li>
+                    <i class="icons icons-next"></i>
+                </ul>
+            </div>
+        </div>
+
+        <div class="ui-card pad10">
+            <ul class="ui-list ui-list-text">
+                <li class="mar0 pad0" @click="openCauseList()">
+                    <h4 class="f16">
+                        <span class="c6 marR10" v-if="!IsReplacement">* 退货原因</span>
+                        <span class="c6 marR10" v-if="IsReplacement">* 换货原因</span>
+                        {{selectCauseObj.value}}
+                    </h4>
+                    <div class="ui-list-action"><i class="icon icon-arrow-down"></i></div>
+                </li>
+            </ul>
+        </div>
+
+        <div class="ui-card pad10">
+            <textarea placeholder="请输入退货说明" class="remark" v-model="returnRemark" maxlength="200"></textarea>
+            <div class="imgarr">
+                <div class="imgbox" v-for="img in imgarr" @click="delImg($index)">
+                    <i class="ui-icon-close-progress"></i>
+                    <img alt="" width="50" height="50" :src="img">
+                </div>
+                <div class="imgbox" v-if="enableUploadImage">
+                    <ui-file-upload :callback="uploadSuccess"></ui-file-upload>
+                    <img alt="" width="50" height="50" src="/images/camera.png?v=1537884480835">
+                </div>
+            </div>
+        </div>
+        <p class="imgtip">每张图不超过5M，支持JPG、BMP、PNG，最多上传3张</p>
+
+        <div class="submit-btn">
+            <button class="ui-btn-lg ui-btn-primary" :disabled = 'isLoading' @click="doReturnProduct()">确定</button>
+        </div>
+
+    </section>
+
+    <ui-actionsheet-pop :title="IsReplacement ? '换货原因' : '退货原因' " :show.sync="showReturnCause">
+        <ul class="ui-list return-list">
+            <li class="ui-border-t" v-for="cause in afterSaleCauseList">
+                <h4 class="ui-nowrap" @click="selectCause(cause)">{{cause.value}}</h4>
+            </li>
+        </ul>
+    </ui-actionsheet-pop>
+    <!--选择商品系列属性弹框-->
+    <ui-actionsheet-pop :show.sync="showSerialsPop">
+        <div class="item-info ui-border-b">
+            <div class="info-img">
+                <img :src="itemPreviewImage">
+            </div>
+            <div class="info-word">
+                <p>{{itemInfo.chineseName || itemInfo.name}}</p>
+                <div class="aid">¥<span class="f20">{{itemInfo.productPriceFinal || itemInfo.price}}</span></div>
+            </div>
+        </div>
+        <ul class="size-list">
+            <li class="ui-border-b" v-for="sa in serialAttributes">
+                <span>{{sa.name}}</span>
+                <div class="sort">
+                    <span v-for="v in sa.values" :class="{active: v.checked}" @click="selectAttributeValue(sa, v)">{{v.value}}</span>
+                </div>
+            </li>
+        </ul>
+    </ui-actionsheet-pop>
+    <script type="text/javascript" src="/cms/view/frontier_guide/h5/templateJS.json"></script>
+    <script src="/libs/frozenui/lib/zepto.min.js?v=1537884480835"></script>
+    <script src="/libs/swiper/swipe.js?v=1537884480835"></script>
+    <script src="/libs/frozenui/js/frozen.js?v=1537884480835"></script>
+    <script src="/libs/vendor.js?v=1537884480835"></script>
+    <script src="/libs/exif.js?v=1537884480835"></script>        
+    <script src="/common.js?v=1537884480835"></script>
+    <script src="/my/aftersale.js?v=1537884480835"></script>
+</body>
+</html>

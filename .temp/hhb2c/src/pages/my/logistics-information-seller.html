@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="x5-orientation" content="portrait">
+    <meta name="msapplication-tap-highlight" content="no">
+    <title>物流信息</title>
+    <link rel="stylesheet" href="${staticPath}/libs/frozenui/css/frozen.css?v=${version}">
+    <link rel="stylesheet" href="${staticPath}/common.css?v=${version}">
+    <link rel="stylesheet" href="${staticPath}/my/my.css?v=${version}">
+</head>
+<body>
+<ui-header title="物流信息"></ui-header>
+<!-- 定宽tab -->
+<div class="fixed-width-tabs">
+    <ul><!-- 需要重新计算宽度 -->
+        <li class=""  :class="{current: detailTab == $index+1}" @click="getNewOrderMessage(package.packageCode,$index+1)" v-for="package in packageList">包裹{{$index+1}}</li>
+    </ul>
+</div>
+<!-- main section -->
+<section class="ui-container" v-cloak>
+    <ul class="ui-list">
+        <!--<li v-for="orderInfo in orderList" v-if="detailTab==$index+1" >-->
+        <div class="logistics-info ui-flex">
+            <div class="ui-list-thumb" @click="showParcel = true">
+                <span style="display:block;"><img :src="orderInfo.productList[0].url160x160" width="100px" height="100px" /></span>
+                <div class="pic-bottom"v-if="orderInfo.mpCount>1" >共{{orderInfo.mpCount}}件商品</div>
+            </div>
+            <div class="courier">
+                <dl>
+                    <dt>订单状态:</dt>
+                    <dd :class="{'theme':orderInfo.packageStatus==2}"v-if="orderInfo.packageStatusName!=null">{{orderInfo.packageStatusName}} &nbsp;</dd><!-- 已签收 加颜色  别的不加 -->
+                    <dd v-if="orderInfo.packageStatusName==null">暂无 &nbsp;</dd>
+                </dl>
+                <dl>
+                    <dt>配送商:</dt>
+                    <dd class="ui-nowrap" v-if="orderInfo.distributors!=null">{{orderInfo.distributors}} &nbsp;</dd>
+                    <dd class="ui-nowrap" v-if="orderInfo.distributors==null"> 暂无&nbsp;</dd>
+                </dl>
+                <dl>
+                    <dt>运单编号:</dt>
+                    <dd class="ui-nowrap"v-if="orderInfo.trackingNumber!=null">{{orderInfo.trackingNumber}} &nbsp;</dd>
+                    <dd class="ui-nowrap"v-if="orderInfo.trackingNumber==null">暂无 &nbsp;</dd>
+                </dl>
+            </div>
+        </div>
+        <div class="logistics-tracking " style="border-bottom: 1px solid #ddd;">
+            物流跟踪
+        </div>
+        <div class="logistics-detail"  >
+            <div class="logistics-step" v-for="ld in orderMsg" >
+                <p class="logistics-step-end" v-if="$index<=0">配送成功</p>
+                <p v-if="$index==0">[订单配送成功]欢迎您的再次光临！</p>
+                <p v-if="$index > 0">{{ld.message}}</p>
+                <p>{{ld.createTime}}</p>
+                <i class="icon icon-toy-car" v-if="$index==0||$index==orderMsg.length-1"></i>
+                <i class="icon icon-radio-checked" v-if="$index==0"></i>
+            </div>
+        </div>
+    </ul>
+</section>
+<!--服务说明 弹框--><!-- v-if="orderInfo.mpCount>1&&showParcel=='true'"  :show.sync="showParcel"-->
+<ui-actionsheet-pop title="包裹商品" :show.sync="showParcel" v-if="orderInfo.mpCount>1">
+    <div class="parcel-inner" style="margin-bottom:50px;">
+        <div class="ui-row-flex ui-whitespace">
+            <div class="ui-col text-center"  v-for="product in productList">
+                <img class="orderInfo-img" :src="product.url100x100" alt="" >
+            </div>
+        </div>
+        <!--<img width="100" height="100" class="" >-->
+    </div>
+    <div class="btn" @click="showParcel = false">
+        <div class="ui-btn-lg ui-btn-primary no-radius">关闭</div>
+    </div>
+</ui-actionsheet-pop>
+<script type="text/javascript" src="/cms/view/frontier_guide/h5/templateJS.json"></script>
+<script src="${staticPath}/libs/frozenui/lib/zepto.min.js?v=${version}"></script>
+<script src="${staticPath}/libs/frozenui/js/frozen.js?v=${version}"></script>
+<script src="${staticPath}/libs/vendor.js?v=${version}"></script>
+<script src="${staticPath}/common.js?v=${version}"></script>
+<script src="${staticPath}/my/logistics-information-seller.js?v=${version}"></script>
+
+</body>
+</html>

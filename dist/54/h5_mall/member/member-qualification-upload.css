@@ -1,0 +1,51 @@
+.channelStep {
+  width: 244px;
+  margin: 10px auto;
+}
+.channelStep span {
+  display: inline-block;
+  color: #ccc;
+  width: 85px;
+}
+.channelStep span i {
+  width: 45px;
+  height: 45px;
+  background-color: #ddd;
+  display: block;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 45px;
+  color: #fff;
+  font-size: 24px;
+  margin: 0 auto;
+}
+.channelStep span.active {
+  color: #f23030;
+}
+.channelStep span.active i {
+  width: 45px;
+  height: 45px;
+  background-color: #f23030;
+}
+.channelStep em {
+  width: 64px;
+  display: inline-block;
+  position: relative;
+  top: -34px;
+}
+.qualiUpload {
+  text-align: center;
+}
+.qualiUpload span {
+  display: block;
+  border: 1px solid #e5e5e5;
+  width: 106px;
+  height: 106px;
+  margin: 5px auto;
+  text-align: center;
+  color: #b2b2b2;
+}
+.qualiUpload span i {
+  display: block;
+  margin: 35px auto 0 auto;
+}

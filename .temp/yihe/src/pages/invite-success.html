@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="x5-orientation" content="portrait">
+    <meta name="msapplication-tap-highlight" content="no">
+    <title></title>
+    <link rel="stylesheet" href="${staticPath}/libs/frozenui/css/frozen.css?v=${version}">
+    <!-- <link rel="stylesheet" href="${staticPath}/libs/swiper/swiper.min.css?v=${version}"> -->
+    <link rel="stylesheet" href="${staticPath}/common.css?v=${version}">
+    <link rel="stylesheet" href="${staticPath}/entrance.css?v=${version}">
+    <link rel="stylesheet" href="${staticPath}/invite-success.css?v=${version}">
+</head>
+<body class="nobg">
+	<ui-header title="欧普之家" class="top-title">
+		 <span class="goback" @click="goback"></span>
+	</ui-header>
+<!-- 亲友号有邀请名额的时候-->
+<div class="ui-form BGT" v-cloak>
+    <div class="memberBox">
+        <p class="pone">您好，亲爱的员工亲友，与您绑定的欧普员工如下:</p>
+        <p class="ptwo">用户名:{{username}}</p>
+    </div>
+    <div class="blank"></div>
+    <ul class="padL10 padB10 marT10">
+        <span class="disB fb">内购会员规则说明</span>
+        <li v-for="(index,item) in aboutData" v-if="aboutData.length>=1">
+            <!-- {{index+1}}.内购会员<span v-if="index==0">每年限购{{item}}件</span><span v-if="index==1">最多可购买{{item}}元</span>商品  -->
+            {{index+1}}:{{aboutData.tradeLimitDetail}}
+        </li>
+    </ul>
+</div>
+
+<script type="text/javascript" src="/cms/view/frontier_guide/h5/templateJS.json"></script>
+<script src="${staticPath}/libs/frozenui/lib/zepto.min.js?v=${version}"></script>
+<script src="${staticPath}/libs/swiper/swipe.js?v=${version}"></script>
+<script src="${staticPath}/libs/frozenui/js/frozen.js?v=${version}"></script>
+<script src="${staticPath}/libs/md5.js?v=${version}"></script>
+<script src="${staticPath}/libs/vendor.js?v=${version}"></script>
+<script src="${staticPath}/common.js?v=${version}"></script>
+<script src="${staticPath}/invite-success.js?v=${version}"></script>
+
+</body>
+</html>

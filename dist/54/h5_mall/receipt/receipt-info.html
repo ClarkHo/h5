@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="x5-orientation" content="portrait">
+    <meta name="msapplication-tap-highlight" content="no">
+    <title></title>
+    <link rel="stylesheet" href="/libs/frozenui/css/frozen.css?v=1537884480835">
+    <link rel="stylesheet" href="/common.css?v=1537884480835">
+    <link rel="stylesheet" href="/receipt/receipt.css?v=1537884480835">
+</head>
+
+<body>
+    <ui-header title="发票信息">
+        <a href="javascript:void(0)" class="handle f14" @click="showReceiptNotice = true">发票须知</a>
+    </ui-header>
+    <section class="ui-container">
+        <form action="#">
+            <div class="ui-card">
+                <div class="ui-form-item ui-form-item-switch">
+                    <p class="f14 c6">
+                        需要发票
+                    </p>
+                    <label class="ui-switch">
+                        <input type="checkbox" v-model="isNeed">
+                    </label>
+                </div>
+            </div>
+
+            <div v-if="isNeed" v-cloak>
+                <div class="ui-card pad10">
+                    <p class="f14 c6">
+                        发票类型
+                    </p>
+                    <label class="ui-checkbox-s marT10 f12 c3" >
+                        <input type="radio" name="a" v-model="invoice.invoiceType" :value="1" checked>普通发票
+                    </label>
+                    <label class="ui-checkbox-s marT10 f12 c3">
+                        <input type="radio" name="a" v-model="invoice.invoiceType" :value="2">增值税发票
+                    </label>
+                </div>
+
+                <!--<div class="ui-card pad10">-->
+                    <!--<p class="f14 c6">-->
+                        <!--开票方式-->
+                    <!--</p>-->
+                    <!--<label class="ui-checkbox-s marT10 f12 c3" >-->
+                        <!--<input type="radio" name="b" checked>纸质发票-->
+                    <!--</label>-->
+                    <!--<label class="ui-checkbox-s marT10 f12 c3">-->
+                        <!--<input type="radio" name="b" >电子发票-->
+                    <!--</label>-->
+                <!--</div>-->
+
+                <div class="ui-card pad10">
+                    <p class="f14 c6">
+                        发票抬头
+                    </p>
+                    <label class="ui-checkbox-s marT10 f12 c3 marB10" >
+                        <input type="radio" name="c" v-model="invoice.invoiceTitleType" :value="1" checked>个人
+                    </label>
+                    <label class="ui-checkbox-s marT10 f12 c3 marB10">
+                        <input type="radio" name="c" v-model="invoice.invoiceTitleType" :value="2">单位
+                    </label>
+                    <div class="ui-input radius4px bge" v-if="invoice.invoiceTitleType == 2">
+                        <input type="text" name="" value="" v-model="invoice.invoiceTitleContent" maxlength="30" placeholder="请填写单位名称">
+                    </div>
+                </div>
+
+                <div class="ui-card pad10">
+                    <p class="f14 c6">
+                        发票内容
+                    </p>
+                    <label class="ui-checkbox-s marT10 f12 c3 marB10">
+                        <input type="radio" name="d"  v-model="invoice.invoiceContent" :value="invoiceCont.detail" checked>明细
+                    </label>
+                    <br>
+                    <label class="ui-checkbox-s marT10 f12 c3 marB10">
+                        <input type="radio" name="d"  v-model="invoice.invoiceContent" :value="invoiceCont.computer">电脑配件
+                    </label>
+                    <br>
+                    <label class="ui-checkbox-s marT10 f12 c3 marB10">
+                        <input type="radio" name="d" v-model="invoice.invoiceContent" :value="invoiceCont.material">耗材
+                    </label>
+                    <br>
+                    <label class="ui-checkbox-s marT10 f12 c3 marB10">
+                        <input type="radio" name="d" v-model="invoice.invoiceContent" :value="invoiceCont.things">办公用品
+                    </label>
+                </div>
+            </div>
+            <div class="ui-card">
+                <button type="button" class="ui-btn-lg ui-btn-primary  marT30 marB30" @click="saveOrderInvoice()">确定</button>
+            </div>
+        </form>
+    </section>
+
+    <!--弹窗-发票须知-->
+    <div class="ui-dialog" :class="{'show':showReceiptNotice}">
+        <div class="ui-dialog-cnt">
+            <div class="ui-dialog-bd">
+                <h1 class="f18 c3 marT10 marB10">发票须知</h1>
+               <p class="f14 c6 marT10">1.发票须知发票须知发票须知发票须知发票须知发票须知发票须知发票须知。</p>
+               <p class="f14 c6 marT10">2.发票须知发票须知发票须知发票须知发票须。</p>
+               <p class="f14 c6 marT10">3.发票须知发票须知发票须知发票须知发票须知发票须知发票须知发票须知。</p>
+               <p class="f14 c6 marT10">4.发票须知发票须知发票须知发票须知发票须知发票须知发票须知发票须知票须知发票须知发票须知发票须知。</p>
+               <p class="f14 c6 marT10">5.发票须知发票须知发票须知发票须知发票须知发票须知发票须知发票须知。</p>
+            </div>
+            <div class="ui-dialog-ft ui-btn-group">
+                <button type="button" data-role="button"  class="select f14 link" @click="showReceiptNotice = false">我知道了</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="/cms/view/frontier_guide/h5/templateJS.json"></script>
+    <script src="/libs/frozenui/lib/zepto.min.js?v=1537884480835"></script>
+    <script src="/libs/swiper/swipe.js?v=1537884480835"></script>
+    <script src="/libs/frozenui/js/frozen.js?v=1537884480835"></script>
+    <script src="/libs/vendor.js?v=1537884480835"></script>
+    <script src="/common.js?v=1537884480835"></script>
+    <script src="/receipt/receiptInfo.js?v=1537884480835"></script>
+</body>
+</html>

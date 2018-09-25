@@ -1,0 +1,18 @@
+{
+    "code": 0,
+    "message": "操作成功",
+    "data": {
+        "attrs": [{
+            "id": 245,
+            "name": "wyy属性尺寸",
+            "sortValue": 0,
+            "attrs": null
+        }, {
+            "id": 243,
+            "name": "wyy属性面积",
+            "sortValue": 0,
+            "attrs": null
+        }],
+        "afterService": "哇噢，有任何问题请拨打10086"
+    }
+}

@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="x5-orientation" content="portrait">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="heimdall" content="个人中心页">            
+    <title>个人中心</title>
+    <link rel="stylesheet" href="/libs/frozenui/css/frozen.css?v=1537883801478">
+    <link rel="stylesheet" href="/common.css?v=1537883801478">
+    <link rel="stylesheet" href="/my/home.css?v=1537883801478">
+    <style>
+        .ui-badge{
+            border: none;
+            right: -5px;
+            top: -6px;
+            /*padding: 0 4px !important;*/
+            /*min-width: 11px;*/
+            background-color: #f74c31;
+            /*height: 19px;*/
+            /*line-height: 19px;*/
+            /*border-radius: 10px;*/
+            min-width: 7px;
+            position:absolute;
+            font-size:12px;
+            padding: 0 5px;
+        }
+        .pdTips{
+            padding: 0 6px;
+            height: 16px;
+            min-width: 11px;
+            line-height: 16px;
+        }
+        .r50{
+            border-radius: 50%;
+            -webkit-border-radius: 50%;
+        }
+        .ui-actionsheet-cnt button:first-child{
+            height: 60px;
+            line-height: 60px;
+        }
+        .ui-actionsheet-cnt button:nth-child(2){
+            padding-top: 10px;
+        }
+        .ui-actionsheet-cnt button:last-child{
+            margin: 0;
+            margin-bottom: 30px;
+        }
+        .ui-actionsheet-cnt button{
+            height: 50px;
+            line-height: 50px;
+        }
+        .icons2-redPacket{
+            width: 30px;
+            height: 30px;
+            background-position: -71px -246px;
+        }
+    </style>
+</head>
+<body>
+<!-- footer -->
+<ui-footer current="mine"></ui-footer>
+<!-- main section -->
+    <section class="ui-container" v-cloak style="margin-bottom: 20px">
+        <div class="my-info" :style="{'background':'url(' + pageConfig.common.bgImg + ') no-repeat'}">
+            <div class="login-status">
+                <div class="avatar">
+                    <div>
+                        <img :src="logonInfo.url120x120" width="68" height="68"
+                            v-link-to-userpage.literal="/setting/personal.html?from=home">
+                    </div>
+                </div>
+                <!-- <ul class="ui-list ui-list-pure BGT">
+                    <li style="margin-top: -5px">
+                        <span v-if="loggedIn" class="f15">{{logonInfo.nickname || logonInfo.mobile}}</span>
+                        <div v-if="!loggedIn">
+                            <span class="f14 cf" v-link-to-webapp="{web:'/login.html?from=/my/home.html', app:'op://login'}">登录</span>
+                            <span class="f14 cf">/</span>
+                            <span class="f14 cf" v-link-to-webapp="{web:'/regis.html?from=/my/home.html', app:'op://login'}">注册</span>
+                        </div>
+                    </li>
+                </ul> -->
+                <div class="no-login" v-if="!loggedIn">
+                    <span class="f14 cf" v-link-to-webapp="{web:'/login.html?from=/my/home.html', app:'op://login'}">登录</span>
+                    <span class="f14 cf">/</span>
+                    <span class="f14 cf" v-link-to-webapp="{web:'/regis.html?from=/my/home.html', app:'op://login'}">注册</span>
+                </div>
+                <div class="has-login" v-if="loggedIn">
+                    <div class="f15" style="height:28px;">Hi,{{logonInfo.nickname || logonInfo.mobile}}</div><br>
+                    <!-- <div class="fl text-center">
+                        <span class="level">{{memberInfo.memberTypeName}}</span>
+                    </div> -->
+                    <div class="fl text-center">
+                        <span class="level">{{memberInfo.memberLevelName}}</span>
+                    </div>
+                </div>
+            </div>
+            <i class= "icons icons-my-msg tool-msg" :class="{'topToolApp':isApp}"  v-link-to-userpage.literal="/message/message-center.html"></i>
+            <i class="icons icons-my-step  tool-set" :class="{'topToolApp':isApp}" v-link-to.literal="/setting/setting.html?from=home"></i>
+            <span class="sign" v-if="loggedIn && pageConfig.common.showSign" v-link-to-userpage.literal="/community/my-signIn.html">
+                <i class="icons icons-calendar" :class="{'topToolApp':isApp}"></i><span class="cf mgL5">签到</span>                 
+                <i class="icons icons-arrow-w"></i>
+            </span>
+            <!--<div class="tool-bill" v-link-to-userpage.literal="/my/bill.html"><i class="icons2 icons2-user-bill"></i><span class="f14 cf vkaM">账单</span></div>-->
+        </div>
+        <template v-if="pageConfig.order.show">
+            <div class="ui-panel ui-panel-simple special-title" v-link-to-userpage.literal="/my/my-order.html">
+                <h2 class=" ui-border-b " style="padding-left:0;">
+                    <i class="icons icons-my-orderAll mgL15 pdL10 mgT5"></i>
+                    <span class="f16 c0 mgT3">我的订单</span>
+                    <span class="ui-panel-title-tips f13 c808080 mgT3">全部订单 <i class="f13 c9 icons icons-next"></i></span>
+                </h2>
+            </div>
+            <ul class="ui-tiled bgf pdT10 pdB10">
+                <li class="posR" v-link-to-userpage.literal="/my/my-order.html?t=1"><i class="icons icons-noPaid"></i>
+                    <div><span class="f12 c3">待付款</span></div>
+                    <div class="ui-badge" :class="{'r50':orderSummaryState.unpay<10,'pdTips':9<orderSummaryState.unpay}" v-if="orderSummaryState.unpay!=0 && orderSummaryState.unpay!=null" style="top: -8px!important;right: 21%!important;">{{orderSummaryState.unpay>99?99+'+':orderSummaryState.unpay}}</div>
+                </li>
+                <li class="posR" v-link-to-userpage.literal="/my/my-order.html?t=2"><i class="icons icons-noSend"></i>
+                    <div><span class="f12 c3">待发货</span></div>
+                    <div class="ui-badge" :class="{'r50':orderSummaryState.undelivery<10,'pdTips':9<orderSummaryState.undelivery}" v-if="orderSummaryState.undelivery!=0 && orderSummaryState.undelivery!=null" style="top: -8px!important;right: 21%!important;">{{orderSummaryState.undelivery>99?99+'+':orderSummaryState.undelivery}}</div>
+                </li>
+                <li class="posR" v-link-to-userpage.literal="/my/my-order.html?t=3"><i class="icons icons-noCommit"></i>
+                    <div><span class="f12 c3">待收货</span></div>
+                    <div class="ui-badge" :class="{'r50':orderSummaryState.unreceive<10,'pdTips':9<orderSummaryState.unreceive}"  v-if="orderSummaryState.unreceive!=0 && orderSummaryState.unreceive!=null" style="top: -8px!important;right: 21%!important;">{{orderSummaryState.unreceive>99?99+'+':orderSummaryState.unreceive}}</div>
+                </li>
+                <li class="posR" v-link-to-userpage.literal="/my/my-order.html?t=4" style="position:relative;"><i
+                        class="icons icons-noEva"></i>
+                    <div><span class="f12 c3">待评价</span></div>
+                    <div class="ui-badge" :class="{'r50':orderSummaryState.unEvaluate<10,'pdTips':9<orderSummaryState.unEvaluate}" v-if="orderSummaryState.unEvaluate!=0 && orderSummaryState.unEvaluate!=null" style="top: -8px!important;right: 21%!important;">{{orderSummaryState.unEvaluate>99?99+'+':orderSummaryState.unEvaluate}}</div>
+                    <!--数量-->
+                    <!--<sup class="radius50 bgff4444 f10 cf">10</sup>-->
+                    <!--<div class="ui-badge">1</div>-->
+                </li>
+                <li class="posR" v-link-to-userpage.literal="/my/aftersale-list.html"><i class="icons icons-returnGood"></i>
+                    <div><span class="f12 c3">退换货</span></div>
+                    <div class="ui-badge" :class="{'r50':orderSummaryState.isAfter<10,'pdTips':9<orderSummaryState.isAfter}" v-if="orderSummaryState.isAfter!=0 && orderSummaryState.isAfter!=null" style="top: -8px!important;right: 21%!important;">{{orderSummaryState.isAfter>99?99+'+':orderSummaryState.isAfter}}</div>
+                </li>
+            </ul>
+        </template>   
+        <template v-if="pageConfig.wallet.show">
+            <ul class="ui-list ui-list-one mgT10 bgf">
+                <div class="ui-panel ui-panel-simple ">
+                    <h2 class="ui-border-b " style="padding-left:0;">
+                        <i class="icons icons-my-wallet mgL15 pdL10 mgT5"></i>
+                        <span class="f16 c0 mgT3">我的钱包</span>
+                        <!-- <span class="ui-panel-title-tips f13 c808080 mgT3">查看全部 <i class="f13 c9 icons icons-next"></i></span> -->
+                    </h2>
+                </div>
+                <div class="ui-row-flex ui-whitespace mgT10 bgf">
+                    <div class="ui-col ui-col text-center" v-link-to-userpage.literal="/my/coupons-list.html" v-if="pageConfig.wallet.showCoupon">
+                        <p class="theme" v-if="!loggedIn"><span class="f20">- -</span></p>
+                        <p class="theme ui-nowrap" v-if="loggedIn"><span class="f20">{{accountSummary_coupon}}</span></p>
+                    </div>
+                    <div class="ui-col ui-col text-center" v-link-to-userpage.literal="/my/commission.html" v-if="pageConfig.wallet.showCommission">
+                        <p class="theme" v-if="!loggedIn"><span class="f20">- -</span></p>
+                        <p class="theme ui-nowrap" v-if="loggedIn"><span class="f20">{{(this.amountBalance || 0) |currency ''}}</span></p>
+                    </div>
+                    <div class="ui-col ui-col text-center" v-link-to-userpage.literal="/my/integral.html" v-if="pageConfig.wallet.showPoint">
+                        <p class="theme" v-if="!loggedIn"><span class="f20">- -</span></p>
+                        <p class="theme ui-nowrap" v-if="loggedIn"><span class="f20">{{accountSummary_point}}</span></p>
+                    </div>
+                </div>
+                <div class="ui-row-flex ui-whitespace bgf pdB15">
+                    <div class="ui-col ui-col text-center" v-link-to-userpage.literal="/my/coupons-list.html" v-if="pageConfig.wallet.showCoupon">
+                        <p><span class="f12 c3">优惠券</span></p>
+                    </div>
+                    <div class="ui-col ui-col text-center" v-link-to-userpage.literal="/my/commission.html" v-if="pageConfig.wallet.showCommission">
+                        <p><span class="f12 c3">佣金</span></p>
+                    </div>
+                    <div class="ui-col ui-col text-center" v-link-to-userpage.literal="/my/integral.html" v-if="pageConfig.wallet.showPoint">
+                        <p><span class="f12 c3">积分 </span></p>
+                    </div>
+                </div>
+            </ul>
+        </template>
+
+        <div class="menu-box" v-if="pageConfig.commonFunc.show">
+            <div class="ui-panel ui-panel-simple">
+                <h2 class="" style="padding-left:0;">
+                    <i class="icons icons-my-used marL15 pdL10 mgT5"></i>
+                    <span class="f16 c0 mgT3">常用功能</span>
+                    <!-- <span class="ui-panel-title-tips f13 c808080 mgT3">全部订单 <i class="f13 c9 icons icons-next"></i></span> -->
+                </h2>
+            </div>
+            <div class="menu">
+                <div class="item" v-if="pageConfig.commonFunc.showAddress"  @click="gotoAddress()">
+                    <p><i class="icons icons-my-adress"></i></p>
+                    <p class="mgT5"><span class="f12 c3">收货地址</span></p>
+                </div>
+                <div class="item" v-if="pageConfig.commonFunc.showTicket"  @click="ckVAT()">
+                    <p><i class="icons icons-my-invoice"></i></p>
+                    <p class="mgT5"><span class="f12 c3">增票资质</span></p>
+                </div>
+                <div class="item" v-if="pageConfig.commonFunc.showCustomer.show"   @click="showTalk=true">
+                    <p><i class="icons icons-my-kefuPhone"></i></p>
+                    <p class="mgT5"><span class="f12 c3">客服热线</span></p>
+                </div>
+                <div class="item" v-if="pageConfig.commonFunc.showConsult"   v-link-to-userpage.literal="/my/my-consult.html">
+                    <p><i class="icons icons-my-ask"></i></p>
+                    <p class="mgT5"><span class="f12 c3">我的咨询</span></p>
+                </div>
+                <div class="item" v-if="pageConfig.commonFunc.showFavorites"   v-link-to-userpage.literal="/my/collect.html">
+                    <p><i class="icons icons-my-collect"></i></p>
+                    <p class="mgT5"><span class="f12 c3">我的收藏</span></p>
+                </div>
+                <div class="item" v-if="pageConfig.commonFunc.showComment"   v-link-to-userpage.literal="/evaluate/evaluate.html">
+                    <p><i class="icons icons-my-evaluate"></i></p>
+                    <p class="mgT5"><span class="f12 c3">我的评价</span></p>
+                </div>
+                <div class="item" v-if="pageConfig.commonFunc.showFootprint"  v-link-to-userpage.literal="/my/footprint.html">
+                    <p><i class="icons icons-my-track"></i></p>
+                    <p class="mgT5"><span class="f12 c3">浏览足迹</span></p>
+                </div>
+                <div class="item" v-if="pageConfig.commonFunc.showQA">
+                    <p><i class="icons icons-my-answer"  v-link-to-userpage.literal="/my/my-answer.html"></i></p>
+                    <p class="mgT5"><span class="f12 c3">我的问答</span></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="menu-box" v-if="pageConfig.specialFunc.show">
+            <div class="ui-panel ui-panel-simple">
+                <h2 class="" style="padding-left:0;">
+                    <i class="icons icons-my-feature marL15 pdL10 mgT5"></i>
+                    <span class="f16 c0 mgT3">特色功能</span>
+                    <!-- <span class="ui-panel-title-tips f13 c808080 mgT3">全部订单 <i class="f13 c9 icons icons-next"></i></span> -->
+                </h2>
+            </div>
+            <div class="menu">
+                <div class="item" v-if="pageConfig.specialFunc.showServiceList"   v-link-to-userpage.literal="/my/my-order.html?orderType=2">
+                    <p><i class="icons icons-my-serve"></i></p>
+                    <p class="mgT5"><span class="f12 c3">我的服务单</span></p>
+                </div>
+
+                <div class="item" v-if="pageConfig.specialFunc.showPriceList"  v-link-to.literal="/cut/my-bargain.html">
+                    <p><i class="icons icons-my-cut"></i></p>
+                    <p class="mgT5"><span class="f12 c3">我的砍价单</span></p>
+                </div>
+                <div class="item" v-if="pageConfig.specialFunc.showGroups"   v-link-to-userpage.literal="/group/my-group.html">
+                    <p><i class="icons icons-my-team"></i></p>
+                    <p class="mgT5"><span class="f12 c3">我的团</span></p>
+                </div>
+                <div class="item" v-if="pageConfig.specialFunc.showLuckDraw"  v-link-to-userpage.literal="/my/my-awards.html">
+                    <p><i class="icons icons-my-award"></i></p>
+                    <p class="mgT5"><span class="f12 c3">我的抽奖</span></p>
+                </div>
+                <div class="item" v-if="pageConfig.specialFunc.showRecommend"  v-link-to-userpage.literal="/recommendToBuy.html">
+                    <p><i class="icons icons-my-recommend"></i></p>
+                    <p class="mgT5"><span class="f12 c3">推荐购买</span></p>
+                </div>
+                <div class="item" v-if="pageConfig.specialFunc.showInvite"  v-link-to-userpage.literal="/inviting/share.html">
+                    <p><i class="icons icons-my-invite"></i></p>
+                    <p class="mgT5"><span class="f12 c3">邀请好友</span></p>
+                </div>
+                <div class="item" v-if="pageConfig.specialFunc.showDiscountCode"   v-link-to-userpage.literal="/my/my-proCode.html">
+                    <p><i class="icons icons-my-promotion"></i></p>
+                    <p class="mgT5"><span class="f12 c3">我的优惠码</span></p>
+                </div>
+                <div class="item" v-if="pageConfig.specialFunc.showTrialCenter">
+                    <p><i class="icons icons-my-try"></i></p>
+                    <p class="mgT5"><span class="f12 c3">试用中心</span></p>
+                </div>
+            </div>
+
+        </div>
+        <div class="menu-box" v-if="pageConfig.member.show">
+            <div class="ui-panel ui-panel-simple">
+                <h2 class="" style="padding-left:0;">
+                    <i class="icons icons-my-member marL15 pdL10 mgT5"></i>
+                    <span class="f16 c0 mgT3">会员专享</span>
+                    <!-- <span class="ui-panel-title-tips f13 c808080 mgT3">全部订单 <i class="f13 c9 icons icons-next"></i></span> -->
+                </h2>
+            </div>
+            <div class="menu">
+                <div v-if="pageConfig.member.showEnterpriseJoining && (identityTypeCode == 4 || identityTypeCode == 42)" class="item"   v-link-to-userpage.literal="/member/member-company-buy.html">
+                    <p><i class="icons icons-my-join"></i></p>
+                    <p class="mgT5"><span class="f12 c3">企业加盟</span></p>
+                </div>
+
+                <div v-if="pageConfig.member.showChannelQualifications && (identityTypeCode == 4 || identityTypeCode == 43)" class="item "  v-link-to.literal="/member/member-qualification-upload.html">
+                    <p><i class="icons icons-my-channel"></i></p>
+                    <p class="mgT5"><span class="f12 c3">渠道资质上传</span></p>
+                </div>
+                <div v-if="pageConfig.member.showHouse && (identityTypeCode == 4 || identityTypeCode == 41)" class="item "   v-link-to-userpage.literal="/member/member.html">
+                    <p><i class="icons icons-my-home"></i></p>
+                    <p class="mgT5"><span class="f12 c3">欧普之家</span></p>
+                </div>
+               <div v-if="pageConfig.member.showQuickOrder && (identityTypeCode == 43)" class="item"  v-link-to-userpage.literal="/member/quick-buy.html">
+                    <p><i class="icons icons-my-fastOrder"></i></p>
+                    <p class="mgT5"><span class="f12 c3">快速下单</span></p>
+                </div>
+            </div>
+        </div>
+
+
+    </section>
+<!-- 联系客服弹层-->
+<ui-actionsheet :show.sync="showTalk" v-if="pageConfig.commonFunc.showCustomer.show">
+    <button class="ui-actionsheet-del f16 c808080" v-if="pageConfig.commonFunc.showCustomer.workingHours">{{pageConfig.commonFunc.showCustomer.workingHours}}</button>
+    <button class="ui-actionsheet-tel f16" v-if="pageConfig.commonFunc.showCustomer.contact"><a :href="'tel:' + pageConfig.commonFunc.showCustomer.contact" class="cff6900 "><span>官方商城电话：{{pageConfig.commonFunc.showCustomer.contact}}<span></a></button>
+    <button class="ui-actionsheet-tel c808080 f16" v-if="pageConfig.commonFunc.showCustomer.contactExt">{{pageConfig.commonFunc.showCustomer.contactExt}}</button>
+</ui-actionsheet>
+<ui-message top="14" right="42" absolute="1"></ui-message>
+<ui-dialog :show.sync="showRoleDialog" :options.sync="roleDialog"></ui-dialog>
+<script type="text/javascript" src="/cms/view/frontier_guide/h5/templateJS.json"></script>
+<script src="/libs/frozenui/lib/zepto.min.js?v=1537883801478"></script>
+<script src="/libs/frozenui/js/frozen.js?v=1537883801478"></script>
+<script src="/libs/vendor.js?v=1537883801478"></script>
+<script src="/common.js?v=1537883801478"></script>
+<script src="/kf.js??v=1537883801478"></script>
+<script src="/my/home.js?v=1537883801478"></script>
+<!--
+<script type="text/javascript">
+    &lt;!&ndash; 小能客服 &ndash;&gt;
+    var NTKF_PARAM ={
+        "siteid":"kf_600021" /*网站siteid*/,
+        "settingid":"kf_600021_9999" /*代码ID*/,
+        "uid":"" /*会员ID*/,
+        "uname":""/*会员名*/,
+        "userlevel": "0"/*会员等级*/
+    }
+
+    function openChatWindow(id) {
+        NTKF.im_openInPageChat("kf_9979_1452750735837");
+        /*if(id != "") {
+         NTKF_PARAM.sellerid = "ss_"+id;
+         NTKF.im_openInPageChat && NTKF.im_openInPageChat("ss_"+id+"_9999");
+         }else{
+         NTKF.im_openInPageChat("kf_9979_1452750735837");
+         }*/
+    }
+</script>
+</script>-->
+</body>
+</html>

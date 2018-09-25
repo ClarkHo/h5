@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="x5-orientation" content="portrait">
+    <meta name="msapplication-tap-highlight" content="no">
+    <title></title>
+    <link rel="stylesheet" href="/libs/frozenui/css/frozen.css?v=1537883801478">
+    <link rel="stylesheet" href="/common.css?v=1537883801478">
+    <link rel="stylesheet" href="/serviceCenter/service-center.css?v=1537883801478">
+
+
+</head>
+
+<body>
+    <ui-header title="服务中心">
+    </ui-header>
+    <!--主体部分-->
+    <section class="ui-container" v-cloak>
+        <!--轮播-->
+        <!--<div class="ui-slider" style="height:60px">
+            <ul class="ui-slider-content">
+                <li v-for="pic in PicListDolp"  style="width: 300%" style="" >
+                    <a :href="pic.linkUrl">
+                    <span :style="'background-image:url('+pic.imageUrl+')'"></span>
+                    </a>
+                </li>
+            </ul>
+        </div>-->
+        <!--轮播-->
+        <div class="swipe" id="slider">
+            <div class="swipe-wrap">
+                <figure v-for="img in PicListDolp" v-link-to="img.linkUrl">
+                    <a href="{{img.linkUrl || 'javascript:void(0)'}}"><img width="100%" :src="img.imageUrl" alt=""></a>
+                </figure>
+            </div>
+            <ul class="swipe-point" v-if="PicListDolp.length > 1">
+                <li :class="{active: $index == 0}" v-for="li in PicListDolp"></li>
+            </ul>
+        </div>
+
+
+        <ul class="ui-list mgT10 bgf pdB10" v-if="serviceCenter_afterSales_adCode && serviceCenter_afterSales_adCode.length > 0">
+            <h2 class="f14 service-title marB10 c6">售后服务</h2>
+            <div class="ui-row-flex ui-whitespace">
+                <div class="ui-col text-center" v-link-to="item.linkUrl" v-for="item in serviceCenter_afterSales_adCode">
+                    <img :src="item.imageUrl" width="25" height="25" alt="">
+                    <!-- <i class="icons icons-share-InvoiceInquiry mgB5" v-link-to-userpage.literal="/serviceCenter/shipping-inquiries.html"></i> -->
+                    <p>{{item.name}}</p>
+                </div>
+            </div>
+        </ul>
+        <ul class="ui-list mgT10 bgf pdB10" v-if="serviceCenter_newBuy_adCode && serviceCenter_newBuy_adCode.length > 0">
+            <h2 class="f14 service-title marB10 c6">增值服务</h2>
+            <div class="ui-row-flex ui-whitespace">
+                <div class="ui-col text-center" v-link-to="item.linkUrl" v-for="item in serviceCenter_newBuy_adCode">
+                    <img :src="item.imageUrl" width="25" height="25" alt="">
+                    <!-- <i class="icons icons-share-InvoiceInquiry mgB5" v-link-to-userpage.literal="/serviceCenter/shipping-inquiries.html"></i> -->
+                    <p>{{item.name}}</p>
+                </div>
+            </div>
+        </ul>
+        <!-- <ul class="ui-list mgT10 bgf pdB10">
+            <h2 class="f14 service-title marB10">售后服务</h2>
+            <div class="ui-row-flex ui-whitespace">
+                <div class="ui-col text-center">
+                    <i class="icons icons-share-InvoiceInquiry mgB5" v-link-to-userpage.literal="/serviceCenter/shipping-inquiries.html"></i>
+                    <p>发货查询</p>
+                </div>
+                <div class="ui-col text-center">
+                    <i class="icons icons-share-ElectronicInvoice mgB5" v-link-to-userpage.literal="/serviceCenter/electronic-invoice.html"></i>
+                    <p>电子发票</p>
+                </div>
+                <div class="ui-col text-center" v-link-to-userpage.literal="/serviceCenter/repair.html">
+                    <i class="icons icons-share-saleMaintenance mgB5"></i>
+                    <p>售后维修</p>
+                </div>
+                <div class="ui-col text-center">
+                    <i class="icons icons-share-BuyAccessories mgB5" v-link-to-userpage.literal="/serviceCenter/buy-accessories.html"></i>
+                    <p>购买配件</p>
+                </div>
+            </div>
+        </ul> -->
+        <!-- <ul class="ui-list mgT10 bgf pdB10">
+            <h2 class="f14 service-title marB10">上门服务</h2>
+            <div class="ui-row-flex ui-whitespace">
+                <div class="ui-col text-center" v-link-to-userpage.literal="/serviceCenter/buy-accessories.html">
+                    <i class="icons icons-share-OrderInstallation mgB5"></i>
+                    <p>订单安装</p>
+                </div>
+                <div class="ui-col text-center" v-link-to-userpage.literal="/serviceCenter/Install-serviceList.html" >
+                    <i class="icons icons-share-NewInstallation mgB5"></i>
+                    <p>新安装</p>
+                </div>
+                <div class="ui-col text-center" >
+                    <i class="icons icons-share-Repair mgB5" v-link-to-userpage.literal="/serviceCenter/repair-list.html"></i>
+                    <p>维修</p>
+                </div>
+                <div class="ui-col text-center" v-link-to-userpage.literal="/serviceCenter/Install-serviceList.html">
+                    <i class="icons icons-share-measure mgB5"></i>
+                    <p>测量</p>
+                </div>
+            </div>
+        </ul> -->
+        <ul class="ui-list mgT10 bgf pdB44" v-if="ServicePictoCms && ServicePictoCms.length > 0">
+            <h2 class="f14 service-title c6">选购技巧</h2>
+            <div class="ui-row-flex ui-whitespace padL0 padR0">
+                <div class="ui-col text-center" v-for="ss in ServicePictoCms">
+                    <a :href="ss.linkUrl">
+                        <img class="disB" width="100%"  :src="ss.imageUrl">
+                    </a>
+                </div>
+            </div>
+        </ul>
+    </section>
+
+    <ui-footer current="serve"></ui-footer>
+    <script type="text/javascript" src="/cms/view/frontier_guide/h5/templateJS.json"></script>
+    <script src="/libs/frozenui/lib/zepto.min.js?v=1537883801478"></script>
+    <script src="/libs/swiper/swipe.js?v=1537883801478"></script>
+    <script src="/libs/frozenui/js/frozen.js?v=1537883801478"></script>
+    <script src="/libs/vendor.js?v=1537883801478"></script>
+    <script src="/common.js?v=1537883801478"></script>
+    <script src="/serviceCenter/service-center.js?v=1537883801478"></script>
+    <script src="/libs/swiper/swipe.js?v=1537883801478"></script>
+</body>
+</html>
+
+

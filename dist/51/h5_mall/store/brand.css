@@ -1,0 +1,202 @@
+.brand .marginTop127 {
+  margin-top: 127px;
+}
+.brand .marginTop84 {
+  margin-top: 84px;
+}
+.brand .pdT30 {
+  padding-top: 30px;
+}
+.brand .mgT60 {
+  margin-top: 60px;
+}
+.brand .mgT10 {
+  margin-top: 10px;
+}
+.brand .mgL10 {
+  margin-left: 10px;
+}
+.brand .col-90 {
+  width: 90%;
+}
+.brand .col-10 {
+  width: 10%;
+}
+.brand .mgL3 {
+  margin-left: 3px;
+}
+.brand .pd5 {
+  padding: 5px;
+}
+.brand .brand-title-img {
+  height: 38px;
+  margin-top: 3px;
+}
+.brand .icons-au-brand-category {
+  margin-top: 8px;
+}
+.brand .ui-tab-nav {
+  font-size: 14px!important;
+}
+.brand .ui-tab-nav li {
+  min-width: 10px;
+}
+.brand .brand-nav {
+  position: fixed;
+  top: 0px;
+  padding-left: 0;
+  padding-right: 0;
+  z-index: 99;
+}
+.brand .brand-nav div {
+  padding-top: 10px;
+  padding-bottom: 8px;
+}
+.brand .brand-nav .active {
+  border-bottom: 2px #b38a32 solid;
+  color: #b38a32;
+}
+.brand .brand-search {
+  top: 84px;
+  position: fixed;
+  padding-left: 0;
+  padding-right: 0;
+  z-index: 99;
+  border-top: 1px #ddd solid;
+}
+.brand .brand-search div {
+  padding: 8px 0;
+}
+.brand .brand-search .active {
+  color: #b38a32;
+}
+.brand .brand-list {
+  padding-left: 0;
+  padding-right: 0;
+}
+.brand .brand-list li:nth-child(even) {
+  margin-left: 5px;
+}
+.brand .brand-list .ui-col-50 {
+  width: 49%;
+}
+.brand .brand-list .good-info {
+  width: 100%;
+  height: 41px;
+}
+.brand .brand-list .good-tag {
+  width: 100%;
+  height: 21px;
+}
+.brand .brand-list .good-tag span {
+  font-size: 12px;
+  color: #fff;
+  padding: 0px 5px;
+  display: inline-block;
+  margin-right: 5px;
+  border-radius: 3px;
+  background: #ff4444;
+}
+.brand .brand-list .good-price {
+  width: 100%;
+  height: 30px;
+}
+.brand .brand-list .good-sale {
+  width: 100%;
+  height: 21px;
+}
+.brand .brand-list-horizon .ui-list-img {
+  width: 110px;
+  height: 110px;
+}
+.brand .brand-list-horizon .ui-list-info .good-info {
+  width: 100%;
+  height: 41px;
+}
+.brand .brand-list-horizon .ui-list-info .good-tag {
+  width: 100%;
+  height: 21px;
+}
+.brand .brand-list-horizon .ui-list-info .good-tag span {
+  font-size: 12px;
+  color: #fff;
+  padding: 0px 5px;
+  display: inline-block;
+  margin-right: 5px;
+  border-radius: 3px;
+  background: #ff4444;
+}
+.brand .brand-list-horizon .ui-list-info .good-price {
+  width: 100%;
+  height: 30px;
+}
+.brand .brand-list-horizon .ui-list-info .good-sale {
+  width: 100%;
+  height: 21px;
+}
+.brand .ui-actionsheet-price {
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.84);
+  position: fixed;
+  z-index: 99;
+  top: 122px;
+}
+.brand .ui-actionsheet-price .active {
+  color: #b38a32;
+}
+.brand .search-header {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 30px;
+  z-index: 99;
+}
+.brand .ui-searchbar-cancel {
+  color: #b38a32;
+}
+/*已售完*/
+.saleOut-mask {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+.saleOut-mask span {
+  position: absolute;
+  width: 48px;
+  height: 48px;
+  line-height: 48px;
+  text-align: center;
+  font-size: 12px;
+  color: #fff;
+  top: 50%;
+  left: 50%;
+  margin-top: -24px;
+  margin-left: -24px;
+  border: 2px solid #fff;
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
+}
+/*角标*/
+.sub-icon {
+  position: absolute;
+}
+.sub-icon.l-t {
+  top: 0;
+  left: 0;
+}
+.sub-icon.l-r {
+  top: 0;
+  right: 0;
+}
+.sub-icon.b-l {
+  bottom: 4px;
+  left: 0;
+}
+.sub-icon.b-r {
+  bottom: 4px;
+  right: 0;
+}

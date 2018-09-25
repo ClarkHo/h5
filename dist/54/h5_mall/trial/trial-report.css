@@ -1,0 +1,29 @@
+.trial-imgList {
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+.trial-imgList li {
+  float: left;
+  width: 33%;
+  margin-right: 0.5%;
+  margin-bottom: 0.5%;
+}
+.trial-imgList li:nth-child(3n) {
+  margin-right: 0;
+}
+.ui-footer .ui-tiled li {
+  height: 100%;
+  font-size: 0;
+}
+.ui-footer .ui-tiled li.active .blur {
+  display: none;
+}
+.ui-footer .ui-tiled li.active .focus {
+  display: block;
+}
+.ui-footer .ui-tiled li.active a {
+  color: #0085ed;
+}
+.ui-footer .ui-tiled li .focus {
+  display: none;
+}

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="x5-orientation" content="portrait">
+    <meta name="msapplication-tap-highlight" content="no">
+    <title></title>
+    <link rel="stylesheet" href="${staticPath}/libs/frozenui/css/frozen.css?v=${version}">
+    <link rel="stylesheet" href="${staticPath}/common.css?v=${version}">
+    <link rel="stylesheet" href="${staticPath}/community/community.css?v=${version}">
+    <style>
+        header {
+            border: 0 !important;
+        }
+
+        .rules {
+            position: fixed;
+            right: 15px;
+            font-size: 14px;
+        }
+
+        .yidouNum {
+            text-align: center;
+            position: absolute;
+            left: 5%;
+            top: 70px;
+        }
+
+        .totalSignNum {
+            text-align: center;
+            position: absolute;
+            right: 10%;
+            top: 70px;
+        }
+
+        .cc {
+            color: #ccc;
+        }
+
+        .ui-dialog-ft #dialogButton1 {
+            color: #f74c31 !important;
+        }
+    </style>
+</head>
+
+<body v-need-login>
+    <header class="ui-header ui-header-stable cf sign-header">
+        <i class="ui-icon-return cf" @click="back"></i>
+        <p class="text-center f18" v-cloak>
+            <span>{{num.isSigned>=1?"我的签到":"签到领积分"}}</span>
+            <span class="rules" v-link-to-userpage.literal="/community/sign-rules.html">签到规则</span>
+        </p>
+        <!--<i class="lyf-icons lyf-message flash-sales" v-link-to-userpage.literal="/message/message-center.html"></i>-->
+    </header>
+    <!-- main section -->
+    <section class="ui-container" v-cloak style="border-top:none">
+        <div class="yi-score posR">
+            <p class="text-center pdT50 posR">
+                <!--已签到-->
+                <img src="${staticPath}/images/isSign.png?v=${version}" class="w75h75" v-if="num.isSigned>=1" />
+                <!--签到-->
+                <img src="${staticPath}/images/noSign.png?v=${version}" class="w75h75" @click="sign()" v-if="num.isSigned==0" />
+                <!--<span class="f12 cf  pdR15 pdT5 pdB5 bgc16544 pdL10 radius15 chang-coupons" v-link-to-userpage.literal="/coupon/coupon-center.html">兑换优惠券</span>-->
+            </p>
+            <div class="yidouNum">
+                <p class="f12">当前积分</p>
+                <p class="f30 bold">{{pointNum}}</p>
+            </div>
+            <div class="totalSignNum">
+                <p class="f12">连续签到</p>
+                <p class="f30 bold">{{num.continueSignNum||0}}<span class="f12">天</span></p>
+            </div>
+            <!--<p class="f14 cf text-center mgT8" style="letter-spacing:1px;">连续签到{{num.continueSignNum||0}}天,累计签到{{num.totalSignNum||0}}天</p>-->
+        </div>
+        <p class="text-center bgf height40 lineH40px pdL15 pdR15">
+            <i class="ui-icon-prev disIB fl sign-arrow" @click="pickPre()"></i>
+            <span class="f14 c3 bold">{{currentYear}} 年 {{currentMonth+1}} 月</span>
+            <i class="ui-icon-next disIB fr sign-arrow" @click="pickNext()"></i>
+        </p>
+        <div class=" pdB15">
+            <ul class="ui-tiled">
+                <li class="signIn-value">
+                    <div class="c3 f15">日</div>
+                    <i></i></li>
+                <li class=" signIn-value">
+                    <div class="c3 f15">一</div>
+                    <i></i></li>
+                <li class=" signIn-value">
+                    <div class="c3 f15">二</div>
+                    <i></i></li>
+                <li class=" signIn-value">
+                    <div class="c3 f15">三</div>
+                    <i></i></li>
+                <li class=" signIn-value">
+                    <div class="c3 f15">四</div>
+                    <i></i></li>
+                <li class=" signIn-value">
+                    <div class="c3 f15">五</div>
+                    <i></i></li>
+                <li class=" signIn-value">
+                    <div class="c3 f15">六</div>
+                </li>
+            </ul>
+            <ul class="ui-row bgf">
+                <!--<li class="ui-col ui-col-14" v-for="day in days">{{day.getDate()}}</li>   :class="{icons4-signNot: day.}-->
+                <li class="ui-col ui-col-14  signIn-value border-l-b text-center" v-for="day in days" @click="surprise(day)" :style="{width:liWidth+'px'}"
+                    style="height:65px;padding-bottom:7px;">
+                    <div v-if="day.day" class="f12 c3 marB5">{{day.day}}</div>
+                    <i v-if="day.day" class="icons icons-sign" :class="{'icons-signNot': day.state == 0, 'icons-signOk': day.state == 1, 'icons-signs': day.state == 2, 'icons-signSuc': day.state == 3}"></i>
+                </li>
+            </ul>
+
+        </div>
+        <!--<div class="sign-message" v-if="signShow">
+        <img src="${staticPath}/images/sign-message.png?v=${version}" width="100%" class="all-none"/>
+    </div>-->
+    <div class="popup-mask" v-show="popupShow">
+            <div class="popup-wrapper text-center">
+                <div v-if="num.isSigned>=1">
+                    <i class="sign-suc-bg"></i>
+                    <p class="popup-title f18 c3">恭喜您签到成功！</p>
+                    <p class="popup-subtitle f18 c3 pdT5">获得{{signYiBean}}积分</p>
+                    <div class="ui-btn-wrap marT10">
+                        <button class="ui-btn-lg popup-btn cf height35 lineH35px f16 bold" v-link-to-webapp="{web:'/index.html', app:'${appSchema}://home'}">去首页逛逛</button>
+                    </div>
+                </div>
+                <div v-else class="sign-not-wrapper">
+                    <p class="popup-title f18">您今日还未签到</p>
+                    <p class="popup-subtitle">立即去签到</p>
+                    <div class="popup-btn-wrapper">
+                        <i class="outer" @click="sign()"></i>
+                    </div>
+                </div>
+                
+                <span class="popup-close" @click="popupShow=false"></span>
+            </div>
+        </div>
+    </section>
+    <script type="text/javascript" src="/cms/view/frontier_guide/h5/templateJS.json"></script>
+    <script src="${staticPath}/libs/frozenui/lib/zepto.min.js?v=${version}"></script>
+    <script src="${staticPath}/libs/frozenui/js/frozen.js?v=${version}"></script>
+    <script src="${staticPath}/libs/vendor.js?v=${version}"></script>
+    <script src="${staticPath}/common.js?v=${version}"></script>
+    <script src="${staticPath}/community/my-signIn.js?v=${version}"></script>
+</body>
+
+</html>

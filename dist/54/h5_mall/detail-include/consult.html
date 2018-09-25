@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="x5-orientation" content="portrait">
+    <meta name="msapplication-tap-highlight" content="no">
+    <title></title>
+    <link rel="stylesheet" href="/libs/frozenui/css/frozen.css?v=1537884480835">
+    <link rel="stylesheet" href="/common.css?v=1537884480835">
+    <link rel="stylesheet" href="/detail-include/consult.css?v=1537884480835">
+</head>
+
+<body v-cloak>
+    <ui-header title="购买咨询">
+    </ui-header>
+    <section class="ui-container">
+        <ul v-if="consultList.length > 0">
+            <li class="ask-list" v-for="item in consultList">
+                <div class="c9 f12 of">
+                    <span class=" fl" v-if="item.userName">{{item.userName}}</span>
+                    <span class=" fl" v-else>{{item.userTelephone | phoneFilter}}</span>
+                    <span class="fr">{{item.createTime | dateTime}}</span>
+                </div>
+                <div class="mgT10">
+                    <i class="icons icons-wen-l mgR5"></i>
+                    <span class="f16 c3 wb">{{item.content}}</span>
+                </div>
+                <div class="mgT10">
+                    <i class="icons icons-da-l mgR5"></i>
+                    <span class="f16 c6 wb" v-if="item.listObj && item.listObj.length > 0">{{item.listObj[0].content}}</span>
+                    <span class="f16 c6" v-else>暂无回复</span>
+                </div>
+            </li>
+        </ul>
+
+        <div class="push-consult" v-link-to="'/detail-include/push-consult.html?mpId=' + this.mpId">
+            <div class="text-center">
+                <i class="icons icons-pushConsult"></i>
+                <span class="f16 c3">发布咨询</span>
+            </div>
+        </div>
+        <div class="text-center mgT100" v-if="consultList.length == 0">
+            <img width="260" src="/images/noQuestion.png" alt="">
+            <p class="c3 f17 ">暂无咨询，发布一个吧~</p>
+        </div>
+    </section>
+
+
+    <script type="text/javascript" src="/cms/view/frontier_guide/h5/templateJS.json"></script>
+    <script>if(/MicroMessenger/i.test(navigator.userAgent)) document.write('<script src="//res.wx.qq.com/open/js/jweixin-1.1.0.js"><\/script>');</script>
+    <script src="/libs/frozenui/lib/zepto.min.js?v=1537884480835"></script>
+    <script src="/libs/frozenui/js/frozen.js?v=1537884480835"></script>
+    <script src="/libs/vendor.js?v=1537884480835"></script>
+    <script src="/common.js?v=1537884480835"></script>
+    <script src="/detail-include/consult.js?v=1537884480835"></script>
+</body>
+</html>

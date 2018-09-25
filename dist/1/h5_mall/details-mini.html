@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="x5-orientation" content="portrait">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="heimdall" content="商品详情页">
+    <title></title>
+    <link rel="stylesheet" href="/libs/frozenui/css/frozen.css?v=1537885372784">
+    <link rel="stylesheet" href="/common.css?v=1537885372784">
+    <link rel="stylesheet" href="/details-mini.css?v=1537885372784">
+    <link rel="stylesheet" href="/libs/mob-share.css?v=1537885372784"> 
+</head>
+<style>
+      
+</style>
+
+<body :style="{overflow:fixBody?'hidden':'auto'}">
+    <section :class="['ui-actionsheet',{show:isDisplay}]">
+        <div class="box">
+            <div class="close" @click="hideActionsheet">×</div>
+            <div class="current">
+                <img src="http://cdn.oudianyun.com/1504072955990_77.0397943819211_aa88b049-7884-4df8-ac6b-d09ea90c34ca.jpg@base@tag=imgScale&amp;h=800&amp;w=800&amp;q=90">
+            </div>
+            <div class="pro-info">
+                <div class="name ui-nowrap-multi">
+                    <span class="c3">商品名称商品名称</span>
+                </div>
+                <div class="price clearfix">
+                    <span class="f14 ce91111 fb fl money">¥64.5</span>
+                    <span class="huiyuan f12 text-center fl">会员价</span>
+                    <span class="f12 cb2  mgL6 fl">原价:
+                        <span class="line-through">¥899.00</span>
+                    </span>
+                    <a class="detail fr f12 c9" href="#">查看详情</a>
+                </div>
+                <ul class="ui-row-flex c808080  ui-border-b pdT10">
+                    <li class="tips">满减</li>
+                    <li class="tips">满赠</li>
+                    <li class="tips">满赠</li>
+                    <li class="tips">满赠</li>
+                    <li class="tips">满赠</li>
+                    <li class="tips">满赠</li>
+                </ul>
+                <div slot="cart-num" class=" clearfix buy-num" v-cloak>
+                    <div class="left f14">
+                        购买数量
+                        <span class="c9">（每人限购X件）</span>
+                    </div>
+                    <div class="chose-num">
+                        <span class="reduce"  @click="plusAmount(-1)"><i class="icons" :class="{'icons-reduce': itemAmount>1, 'icon-sub-disabled': itemAmount<=1||itemInfo.stockNum<=0||itemInfo.disabled==1}"></i></span>
+                        <input type="tel" class="num" v-model="itemAmount">
+                        <span class="plus" @click="plusAmount(1)"><i class="icons" style="position: relative;top: -2px;" :class="{'icons-add': itemInfo.stockNum>itemAmount, 'icon-add-disabled': itemInfo.stockNum<=itemAmount||itemInfo.stockNum<=0||itemInfo.disabled==1}"></i></span>
+                    </div>
+                </div>
+            </div>     
+        </div>
+        <div class="foot-btn">
+            <a class="buy f18  car">立即购买</a>
+            <a class="add f18 car">加入购物车</a>
+        </div>
+    </section>
+    <script>if (/MicroMessenger/i.test(navigator.userAgent)) document.write('<script src="//res.wx.qq.com/open/js/jweixin-1.1.0.js"><\/script>');</script>
+    <script type="text/javascript" src="/cms/view/frontier_guide/h5/templateJS.json"></script>
+    <script src="/libs/frozenui/lib/zepto.min.js?v=1537885372784"></script>
+    <script src="/libs/frozenui/js/frozen.js?v=1537885372784"></script>
+    <script src="/libs/vendor.js?v=1537885372784"></script>
+    <script src="/libs/swiper/swipe.js?v=1537885372784"></script>
+    <script src="/libs/mob-share.js?v=1537885372784" async></script>
+    <script src="/common.js?v=1537885372784"></script>
+    <script src="/details-mini.js?v=1537885372784"></script>
+    <script src="/libs/lazyload.min.js?v=1537885372784" async></script>
+    <script src="/kf.js?v=1537885372784"></script>
+</body>
+
+</html>

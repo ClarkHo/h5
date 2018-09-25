@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="x5-orientation" content="portrait">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="heimdall" content="注册页">
+    <title></title>
+    <link rel="stylesheet" href="${staticPath}/libs/frozenui/css/frozen.css?v=${version}">
+    <link rel="stylesheet" href="${staticPath}/common.css?v=${version}">
+    <link rel="stylesheet" href="${staticPath}/regis.css?v=${version}">
+    <!--       -->
+</head>
+<style type="text/css">
+	.ui-container .tip{
+		text-align: center;
+		color:@fontColor;
+		font-size: 18px;
+		margin-top: 20px;
+	}
+	[v-cloak]{
+		display:none;
+	}
+</style>
+
+<body class="nobg">
+    <!--头部 @click="setPassword" -->
+ <ui-header :title="title">
+    </ui-header>
+    
+    <!--主体部分-->
+    <section class="ui-container" :class="{hide: step == 1}">
+        <div class="img-map mgL10 mgR10 mgT20 mgB20" v-if="invitingPage==1" v-cloak>
+            <img class="disB" width="100%" src="${staticPath}/images/land-img.png" style="margin-bottom: 0px;">
+        </div>
+        <p class="tip" v-cloak v-if="getShareName">注册成为{{getShareName}}的亲友号</p>
+        <div class="ui-form">
+            <div class="ui-form-item ui-form-item-show ui-border-b long-label bgf">
+                <label for="#">手机号</label>
+                <input type="tel" v-model="user.mobile" maxlength="11" placeholder="请输入手机号">
+                <a href="javascript:void(0)" class="ui-icon-close" v-show="user.mobile" @click="user.mobile = ''"></a>
+            </div>
+            <div class="ui-form-item ui-form-item-show has-sms ui-border-b long-label bgf">
+                <label for="#">验证码</label>
+                <input type="number" v-model="user.captchas" maxlength="6" placeholder="请输入短信验证码">
+                <button type="button" class="ui-border-l sms-btn" :disabled="smsBtnDisabled" @click="checkViCode"><span v-cloak>{{smsBtn}}</span></button>
+                <a href="javascript:void(0)" class="ui-icon-close" v-show="user.captchas" @click="user.captchas=''"></a>
+            </div>
+            <div class="ui-form-item submit-btn">
+                <button type="button" class="ui-btn ui-btn-primary" :disabled="sbmDisabled||(user.mobile == '' || user.captchas == '')" @click="nextStep">下一步</button>
+            </div>
+        </div>
+        <div class="agreement">
+            <p>
+               <span class="fl" v-link-to="reg_protocol"> 注册则代表同意<span class="cor0046aa">&nbsp;《用户协议》</span></span>
+                <!-- <span class="fr"  @click="showTalk=true"> 联系客服</span> -->
+                <span class="fr" v-if="invitingPage==1" v-link-to="'/login.html'"> 已有账号</span>
+            </p>
+        </div>
+        <!-- 联系客服弹层-->
+        <div class="ui-actionsheet" :class="{'show': showTalk}">
+            <div class="ui-actionsheet-cnt">
+                <button class="ui-actionsheet-del f18 c808080">客服工作时间：每日8:00-21:00</button>
+                <a href="tel:400-8819777">
+                    <button class="ui-actionsheet-del cff6900 f18">400-8819777</button>
+                </a>
+                <button @click="showTalk=false">取消</button>
+            </div>
+        </div>
+    </section>
+    <section class="ui-container hide" :class="{show: step == 1}">
+        <div class="ui-form">
+            <div class="ui-form-item ui-form-item-show has-icon ui-border-b long-label bgf">
+                <label for="#">密&nbsp;&nbsp;&nbsp;码</label>
+                <input type="{{spypasswd}}" v-model="user.password" maxlength="18" placeholder="请设置密码（6-16个字符）">
+                <a href="javascript:void(0)" class="ui-icon-close" v-show="user.password" @click="user.password=''"></a>
+                <i class="icons icons-eyes-close" v-if="spypasswd == 'password'" @click="spypasswd = 'text'"></i>
+                <i class="icons icons-eyes" v-if="spypasswd == 'text'" @click="spypasswd = 'password'"></i>
+            </div>
+            <div class="ui-form-item ui-form-item-show has-icon ui-border-b  long-label bgf">
+                <label for="#">确认密码</label>
+                <input type="{{spyconfirmPassword}}" v-model="user.confirmPassword" maxlength="18" placeholder="请再次输入密码">
+                <a href="javascript:void(0)" class="ui-icon-close" v-show="user.confirmPassword" @click="user.confirmPassword=''"></a>
+                <i class="icons icons-eyes-close" v-if="spyconfirmPassword == 'password'" @click="spyconfirmPassword = 'text'"></i>
+                <i class="icons icons-eyes" v-if="spyconfirmPassword == 'text'" @click="spyconfirmPassword = 'password'"></i>
+            </div>
+            <!-- <div class="ui-form-item ui-form-item-show has-icon ui-border-b  long-label bgf">
+                <label for="#">邀请人</label>
+                <input type="tel" v-model="user.inviteMobile" :class="{cb:inviteFlag}" maxlength="11" placeholder="请输入邀请人手机号( 非必填 )" :readonly="inviteFlag">
+                <a href="javascript:void(0)" class="ui-icon-close" v-show="!inviteFlag&&user.inviteMobile!=''" @click="user.inviteMobile=''"></a>
+            </div> -->
+            <div class="ui-form-item submit-btn">
+                <button type="button" class="ui-btn ui-btn-primary" heimdall_eventName="signUp" :disabled="sbmDisabled||(user.password == '' || user.confirmPassword == '')" @click="judgeRegis">完成</button>
+            </div>
+        </div>
+    </section>
+
+    <div class="ui-dialog" :class="{show: startImgCode}" v-if="startImgCode"  style="z-index:100 !important;">
+        <div class="ui-dialog-cnt">
+            <div class="ui-dialog-bd">
+                <h4>请输入图片验证码</h4>
+                <div>
+                    <div class="ui-form-item ui-form-item-show has-imgcode ui-border-b  long-label bgf mgT20 show">
+                        <input type="text" v-model="checkImageCode" placeholder="请输入验证码" style="padding-left: 10px!important;">
+                        <a href="javascript:void(0)" class="ui-icon-close" @click="checkImageCode = ''" v-show="checkImageCode"></a>
+                        <span class="imgcode" :style="{backgroundImage: 'url(data:image/png;base64,'+image+')' }" @click="updImgCode"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="ui-dialog-ft">
+                <button type="button" data-role="button" @click="cancel()">取消</button>
+                <button type="button" data-role="button" @click="overLimitSmsSend()">确认</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="/cms/view/frontier_guide/h5/templateJS.json"></script>
+    <script src="${staticPath}/libs/frozenui/lib/zepto.min.js?v=${version}"></script>
+    <script src="${staticPath}/libs/swiper/swipe.js?v=${version}"></script>
+    <script src="${staticPath}/libs/frozenui/js/frozen.js?v=${version}"></script>
+    <script src="${staticPath}/libs/md5.js?v=${version}"></script>
+    <script src="${staticPath}/libs/vendor.js?v=${version}"></script>
+    <script src="${staticPath}/common.js?v=${version}"></script>
+    <script src="${staticPath}/regis.js?v=${version}"></script>
+</body>
+</html>

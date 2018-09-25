@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="x5-orientation" content="portrait">
+    <meta name="msapplication-tap-highlight" content="no">
+    <title></title>
+    <link rel="stylesheet" href="${staticPath}/libs/frozenui/css/frozen.css?v=${version}">
+    <link rel="stylesheet" href="${staticPath}/common.css?v=${version}">
+    <link rel="stylesheet" href="${staticPath}/evaluate/evaluate.css?v=${version}">
+</head>
+<style>
+    .evaluate textarea{
+        width: 96%;
+        height: 80px;
+        border: none;
+        padding: 2%;
+    }
+    .ui-icon-checked-s{
+        font-family: iconfont!important;
+        font-size: 32px;
+        line-height: 44px;
+        font-style: normal;
+        -webkit-font-smoothing: antialiased;
+        -webkit-text-stroke-width: .2px;
+        display: block;
+        color: rgba(0,0,0,.5);
+    }
+    .cb48b32{
+        color: #b48b32!important;
+    }
+</style>
+<style>
+    .ui-list .ui-list-img{
+        width: 60px;
+        height: 60px;
+    }
+    .theme{
+        color: #ff6900!important;
+    }
+</style>
+<body class="publish-evaluate" v-cloak>
+
+<ui-header title="发表评价">
+    <a class="f14 c6 posA t0r0 mgR10" href="/evaluate/rules.html">评价规则</a>
+</ui-header>
+
+<section v-cloak class="mgT43 mgB80">
+    <div class="ui-row-flex ui-whitespace bgffe1cd pdT10 pdB10" v-if="false">
+        <div class="ui-col ui-col">
+            <span class="f12 cff6900">发表好评+晒单，有机会获得16积分！</span>
+        </div>
+    </div>
+
+    <ul class="ui-list" v-for="item in evaluateInit">
+        <div v-if="item.commentType == 0">
+            <li class="ui-border-t">
+                <div class="ui-list-img">
+                    <span :style="{'background-image':'url('+item.mpPicPath+')'}"></span>
+                </div>
+                <div class="ui-list-info">
+                    <h4 class="ui-nowrap"><span class="f12 c3">{{item.mpName}}</span></h4>
+                    <p class="ui-nowrap mgT10" >
+                        <i  class="icons icons-eva-18px" :class="{'icons icons-eva-18px':item.rate>=1,'icons icons-eva-18px-gray':item.rate<1}"  @click="item.rate=1" @dblclick="item.rate=0"></i>
+                        <i  class="icons icons-eva-18px" :class="{'icons icons-eva-18px':item.rate>=2,'icons icons-eva-18px-gray':item.rate<2}" @click="item.rate=2"></i>
+                        <i  class="icons icons-eva-18px" :class="{'icons icons-eva-18px':item.rate>=3,'icons icons-eva-18px-gray':item.rate<3}" @click="item.rate=3"></i>
+                        <i  class="icons icons-eva-18px" :class="{'icons icons-eva-18px':item.rate>=4,'icons icons-eva-18px-gray':item.rate<4}" @click="item.rate=4"></i>
+                        <i  class="icons icons-eva-18px" :class="{'icons icons-eva-18px':item.rate>=5,'icons icons-eva-18px-gray':item.rate<5}" @click="item.rate=5"></i>
+                    </p>
+                </div>
+            </li>
+            <li class="posR">
+                <textarea name="" id="" cols="100" rows="10" class="evaluate-textarea" v-model="item.content" maxlength="200" placeholder="请输入商品评价（5-200字）"></textarea>
+            </li>
+            <li class="pdB10">
+                <p class="w100"><span class="f14 cb2b2b2 fr mgR10">/200</span><span class="f14 cff6900 fr">{{item.content==null?'0':item.content.length}}</span></p>
+            </li>
+            <li>
+                <div class="imgarr">
+                    <div class="imgbox" v-for="img in item.mpcPicList" @click="delImg($parent.$index, $index)">
+                        <i class="ui-icon-close-progress"></i>
+                        <img :src="img" alt=""  width="50" height="50">
+                    </div>
+                    <div class="imgbox" v-if="item.mpcPicList.length <= 4">
+                        <img alt=""  width="50" height="50" src="${staticPath}/images/camera.png?v=${version}">
+                        <ui-file-upload :callback="uploadSuccess" :index="$index"></ui-file-upload>
+                    </div>
+                </div>
+
+            </li>
+            <li class="pdB10">
+                <p class="f12 cb2b2b2">上传图片晒单，最多上传5张</p>
+            </li>
+        </div>
+    </ul>
+    <ul class="ui-list mgT20">
+        <div v-for="q in evaluateInit">
+            <div class="marT27 f13 C3" v-if="q.commentType==1">店铺评分
+                <span class="marL15" >
+                        <i  class="icons icons-eva-18px" :class="{'icons icons-eva-18px':q.rate>=1,'icons icons-eva-18px-gray':q.rate<1}"  @click="q.rate=1" @dblclick="item.rate=0"></i>
+                        <i  class="icons icons-eva-18px" :class="{'icons icons-eva-18px':q.rate>=2,'icons icons-eva-18px-gray':q.rate<2}" @click="q.rate=2"></i>
+                        <i  class="icons icons-eva-18px" :class="{'icons icons-eva-18px':q.rate>=3,'icons icons-eva-18px-gray':q.rate<3}" @click="q.rate=3"></i>
+                        <i  class="icons icons-eva-18px" :class="{'icons icons-eva-18px':q.rate>=4,'icons icons-eva-18px-gray':q.rate<4}" @click="q.rate=4"></i>
+                        <i  class="icons icons-eva-18px" :class="{'icons icons-eva-18px':q.rate>=5,'icons icons-eva-18px-gray':q.rate<5}" @click="q.rate=5"></i>       </span>
+            </div>
+
+            <div class="marT27 f13 C3" v-if="q.commentType==2">物流评分
+                <span class="marL15" >
+                        <i  class="icons icons-eva-18px" :class="{'icons icons-eva-18px':q.rate>=1,'icons icons-eva-18px-gray':q.rate<1}"  @click="q.rate=1" @dblclick="item.rate=0"></i>
+                        <i  class="icons icons-eva-18px" :class="{'icons icons-eva-18px':q.rate>=2,'icons icons-eva-18px-gray':q.rate<2}" @click="q.rate=2"></i>
+                        <i  class="icons icons-eva-18px" :class="{'icons icons-eva-18px':q.rate>=3,'icons icons-eva-18px-gray':q.rate<3}" @click="q.rate=3"></i>
+                        <i  class="icons icons-eva-18px" :class="{'icons icons-eva-18px':q.rate>=4,'icons icons-eva-18px-gray':q.rate<4}" @click="q.rate=4"></i>
+                        <i  class="icons icons-eva-18px" :class="{'icons icons-eva-18px':q.rate>=5,'icons icons-eva-18px-gray':q.rate<5}" @click="q.rate=5"></i>       </span>
+            </div>
+
+
+        </div>
+    </ul>
+
+</section>
+
+<div class="ui-notice-btn pd0">
+    <button class="ui-btn-primary ui-btn-lg mg0" @click="save()">发表评论</button>
+</div>
+
+<script type="text/javascript" src="/cms/view/frontier_guide/h5/templateJS.json"></script>
+<script src="${staticPath}/libs/frozenui/lib/zepto.min.js?v=${version}"></script>
+<script src="${staticPath}/libs/frozenui/js/frozen.js?v=${version}"></script>
+<script src="${staticPath}/libs/vendor.js?v=${version}"></script>
+<script src="${staticPath}/libs/exif.js?v=${version}"></script>    
+<script src="${staticPath}/common.js?v=${version}"></script>
+<script src="${staticPath}/evaluate/publish-evaluate.js?v=${version}"></script>
+
+</body>
+</html>

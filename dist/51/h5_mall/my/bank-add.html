@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="x5-orientation" content="portrait">
+    <meta name="msapplication-tap-highlight" content="no">
+    <title></title>
+    <link rel="stylesheet" href="/libs/frozenui/css/frozen.css?v=1537883801478">
+    <link rel="stylesheet" href="/common.css?v=1537883801478">
+    <link rel="stylesheet" href="/my/my.css?v=1537883801478">
+    <link rel="stylesheet" href="/my/cash-out.css?v=1537883801478">
+</head>
+<body ontouchstart="" class="fans" v-need-login>
+    <ui-header title="添加银行卡"></ui-header>
+    <!-- main section -->
+    <section v-cloak class="mgT43">
+
+        <div class="ui-form ui-border-t ">
+            <div class="ui-form-item ui-form-item-show ui-form-item-link ui-border-b" @click="hideChooseBank = true">
+                <p><label class="f14 c6">开户银行</label><span class="f14 c3 fr mgR20"  v-cloak>{{bankInfo.bankName}}</span> </p>
+            </div>
+            <div class="ui-form-item ui-form-item-show ui-form-item-link ui-border-b" @click="showArea = true">
+                <!--<p><label class="f14 c6" style="width: 100px">开户支行地区</label><span class="f14 c3 fr mgR20">上海市 上海市 浦东新区</span></p>-->
+                <p><label class="f14 c6" style="width: 100px">开户支行地区</label><span class="f14 c3 fr mgR20" v-cloak>{{bankInfo.branchBankProvince}} {{bankInfo.branchBankCity}} {{bankInfo.branchBankRegion}}</span></p>
+            </div>
+            <div class="ui-form-item ui-form-item-show ui-border-b">
+                <input type="text"  placeholder="请输入开户支行" style="padding-left: 0" v-model="bankInfo.branchBankName">
+            </div>
+            <div class="ui-form-item ui-form-item-show ui-border-b">
+                <input type="text"  placeholder="请输入银行账号" style="padding-left: 0" v-model="bankInfo.cardNo" maxlength="19">
+            </div>
+            <div class="ui-form-item ui-form-item-show ui-border-b">
+                <input type="text"  placeholder="请确认银行账号" style="padding-left: 0" v-model="bankInfo.cardNoConfirm"  maxlength="19">
+            </div>
+            <div class="ui-form-item ui-form-item-show ui-border-b">
+                <input type="text"  placeholder="持卡人姓名" style="padding-left: 0" v-model="bankInfo.cardholderName">
+            </div>
+
+            <div class="ui-form-item mgT20" style="padding-right: 10px;padding-bottom: 15px;">
+                <button class="btn-wq-lg bgTf4cc53Tb48b32 " @click="addBankInfo">添加银行卡信息</button>
+            </div>
+        </div>
+
+    </section>
+    <!--省市区选择-->
+    <ui-location :show.sync="showArea" :callback="chooseArea"></ui-location>
+    <!--银行选择-->
+    <div class="ui-actionsheet chooseBank" :class="{show: hideChooseBank}">
+        <div class="ui-actionsheet-cnt">
+            <h4>选择开户银行</h4>
+            <div class="chooseBankList">
+                <p class="text-center f14 c6 mgT50" v-if="bankList.length==0">系统异常,请稍后重试...</p>
+                <ul v-if="bankList.length>0">
+                    <li class="tex-center" v-for="q in bankList" @click="bankInfo.bankName = q.bankName,bankInfo.bankId = q.bankId,hideChooseBank=!hideChooseBank">
+                        <span class="f14 c6">{{q.bankName}}</span>
+                    </li>
+                </ul>
+            </div>
+            <button @click="hideChooseBank=!hideChooseBank">取消</button>
+        </div>
+    </div>
+    <script type="text/javascript" src="/cms/view/frontier_guide/h5/templateJS.json"></script>
+    <script src="/libs/frozenui/lib/zepto.min.js?v=1537883801478"></script>
+    <script src="/libs/frozenui/js/frozen.js?v=1537883801478"></script>
+    <script src="/libs/vendor.js?v=1537883801478"></script>
+    <script src="/common.js?v=1537883801478"></script>
+    <script src="/my/bank-add.js?v=1537883801478"></script>
+
+
+
+</body>
+</html>

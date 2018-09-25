@@ -1,0 +1,19 @@
+.ui-list-img img {
+  display: block;
+  width: 40px;
+}
+.ui-badge-pos {
+  position: absolute;
+  right: -2px;
+  top: -5px;
+}
+.whiteBlock {
+  width: 96%;
+  margin-left: 2%;
+}
+.span-tip {
+  background: #b2b2b2;
+  color: #fff;
+  padding: 3px 6px;
+  border-radius: 4px;
+}

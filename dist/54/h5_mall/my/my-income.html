@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="x5-orientation" content="portrait">
+    <meta name="msapplication-tap-highlight" content="no">
+    <title></title>
+    <link rel="stylesheet" href="/libs/frozenui/css/frozen.css?v=1537884480835">
+    <link rel="stylesheet" href="/common.css?v=1537884480835">
+    <link rel="stylesheet" href="/my/my.css?v=1537884480835">
+</head>
+<body ontouchstart="" class="fans" v-need-login>
+    <ui-header title="我的收益" app-back="true">
+        <!--<span class="f14 c3 header-right-text">查看明细</span>-->
+        <span class="f14 c3 header-right-text" v-link-to.literal="/my/my-income-detail.html">查看明细</span>
+    </ui-header>
+    <!-- main section -->
+    <section v-cloak class="mgT43">
+
+        <ul class="ui-row bgTf59393Tf16666">
+            <li class="ui-col text-center posR">
+                <p class="f12 cf mgT25">总收益</p>
+                <!--<p class="mgT10 mgB35"><span class="f30 cf">22578.</span><span class="f14 cf">00</span></p>-->
+                <p class="mgT10 mgB35"><span class="f30 cf">{{incomeOverview.totalIncome}}</span></p>
+                <img src="../../images/my-income-img-1.png" alt="" class="my-income-img-1">
+            </li>
+        </ul>
+
+        <ul class="ui-list ui-list-text ui-list-link mgT10">
+            <li class="ui-border-t" v-link-to.literal="/my/sales-commission.html">
+                <h4 class="f14 c3">自销佣金</h4>
+                <!--<div class="ui-txt-info f14 c3">2541.20</div>-->
+                <div class="ui-txt-info f14 c3">{{incomeOverview.paidPredictSelfCommission}}</div>
+            </li>
+            <li class="ui-border-t" v-link-to.literal="/my/shopInShop-commission.html">
+                <h4 class="f14 c3">子店佣金</h4>
+                <!--<div class="ui-txt-info f14 c3">2541.20</div>-->
+                <div class="ui-txt-info f14 c3">{{incomeOverview.paidPredictSubCommission}}</div>
+            </li>
+        </ul>
+
+        <!-- <ul class="ui-list ui-list-text ui-list-link mgT10">
+            <li class="ui-border-t" v-link-to="'/my/predict-SelfCommission.html?predictType='+1">
+                <h4 class="f14 c3">已付款自销预计佣金</h4>
+                <div class="ui-txt-info f14 c3">{{incomeOverview.paidPredictSelfCommission}}</div>
+            </li>
+            <li class="ui-border-t" v-link-to="'/my/predict-subCommission.html?predictType='+1">
+                <h4 class="f14 c3">已付款子店预计佣金</h4>
+                <div class="ui-txt-info f14 c3">{{incomeOverview.paidPredictSubCommission}}</div>
+            </li>
+        </ul>
+
+        <ul class="ui-list ui-list-text ui-list-link  mgT10">
+            <li class="ui-border-t" v-link-to="'/my/predict-SelfCommission.html?predictType='+2">
+                <h4 class="f14 c3">未付款自销预计佣金</h4>
+                <div class="ui-txt-info f14 c3">{{incomeOverview.notPaidPredictSelfCommission}}</div>
+            </li>
+            <li class="ui-border-t" v-link-to="'/my/predict-subCommission.html?predictType='+2">
+                <h4 class="f14 c3">未付款子店预计佣金</h4>
+                <div class="ui-txt-info f14 c3">{{incomeOverview.notPaidPredictSubCommission}}</div>
+            </li>
+        </ul> -->
+
+        <button class=" ui-btn-lg f16 c5c471a mg0Auto mgT20 w90 bgTf4cc53Tb48b32" style="" v-link-to.literal="/my/cash-out.html" v-if="incomeOverview.totalIncome>0">我要提现(¥{{incomeOverview.withdrawAmount}})</button>
+        <button class=" ui-btn-lg f16 c5c471a mg0Auto mgT20 w90 bg9" style="color: #fff" v-if="incomeOverview.totalIncome==0">暂无提现金额</button>
+
+    </section>
+
+    <script type="text/javascript" src="/cms/view/frontier_guide/h5/templateJS.json"></script>
+    <script src="/libs/frozenui/lib/zepto.min.js?v=1537884480835"></script>
+    <script src="/libs/frozenui/js/frozen.js?v=1537884480835"></script>
+    <script src="/libs/vendor.js?v=1537884480835"></script>
+    <script src="/common.js?v=1537884480835"></script>
+    <script src="/my/my-income.js?v=1537884480835"></script>
+
+</body>
+</html>

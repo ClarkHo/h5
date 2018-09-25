@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="x5-orientation" content="portrait">
+    <meta name="msapplication-tap-highlight" content="no">
+    <title></title>
+    <link rel="stylesheet" href="${staticPath}/libs/frozenui/css/frozen.css?v=${version}">
+    <link rel="stylesheet" href="${staticPath}/common.css?v=${version}">
+    <link rel="stylesheet" href="${staticPath}/my/order-detail.css?v=${version}">
+    <style>
+        @media screen and (max-width: 330px) {
+                         .ui-btn{
+                                padding:0 3px!important;
+                            }
+
+        }
+        .icons-au-arr{
+            position: absolute;
+            top: 50%;
+            right: 5px;
+            width: 26px;
+            height: 30px;
+            transform: translateY(-50%);
+            -webkit-transform: translateY(-50%);
+            background-position: -24px 9px;
+        }
+    </style>
+
+</head>
+
+<body ontouchstart="" v-need-login>
+    <ui-header :title="title" :back-event="goback">
+        <a href="javascript:void(0)" class="handle h-nav icon" :class="{'active':rightNavFlag}" @click="rightNavFlag = !rightNavFlag"></a>
+        <div class="nav">
+            <i class="arrow"></i>
+            <a v-link-to-webapp="{web:'/index.html', app:'${appSchema}://home'}"><i class="icon icon-home-sm"></i>首页</a>
+            <a style="border:0!important;" v-link-to-webapp="{web:'/my/home.html', app:'${appSchema}://goback'}"><i class="icon icon-user-sm"></i>&nbsp;&nbsp;我&nbsp;&nbsp;</a>
+        </div>
+    </ui-header>
+    <section class="ui-container order-content" v-cloak :class="{hide:error}">
+        <div v-if="orderListType == 0 && order.sysSource=='ody' || order.sysSource=='INTEGRAL_MALL'" class="posR">
+            <div class="icons-au icons-au-arr" v-show="order.orderStatus==3 ||order.orderStatus == 4 || order.orderStatus == 8" v-link-to="'/my/logistics-information.html?orderCode='+ order.orderCode"></div>
+            <div class="order-status fail" v-if="order.orderStatus==1">
+                <p class="f18">{{order.orderStatusName}}</p>
+                <p v-if="!order.presell.status || order.presell.status == 30">您的订单已提交，请在{{cancleTimeStr}}完成支付，超时订单自动取消</p>
+                <p v-if="order.presell && order.presell.status == 10">您的订单已提交，请在{{cancleTimeStr}}完成定金支付，超时订单自动取消</p>
+                <p v-if="order.presell && order.presell.status == 20">您的订单已提交，请在{{order.presell.endTime | datetime 'MM月dd日hh:mm:ss'}}&nbsp;前支付尾款，超时订单自动取消</p>
+                <p v-if="order.presell && order.presell.status == 25">您的订单已提交，请在{{cancleTimeStr}}完成尾款支付，超时订单自动取消</p>
+            </div>
+            <div class="order-status fail" v-if="order.orderStatus==2 && !order.orderRefund">
+                <p class="f18">{{order.orderStatusName}}</p>
+                <p v-if="order.rderType2!=2">您的订单已付款，等待卖家发货</p>
+            </div>
+            <div class="order-status fail" v-if="order.orderStatus==2 && order.orderRefund">
+                <p class="f18">{{order.orderRefund.refundStatusName}}</p>
+                <p v-if="order.rderType2!=2">退款处理中</p>
+            </div>
+            <div class="order-status  fail" v-if="order.orderStatus==3"
+                 v-link-to="'/my/logistics-information.html?orderCode=' + order.orderCode">
+                <p class="f18">{{order.orderStatusName}}</p>
+                <p v-if="order.rderType2!=2">订单已发出，等待买家收货，{{order.signDescribe}}</p>
+                <p v-if="order.confirmReceiveTime">距离自动确认收货还剩：<ui-count-down :show="showCountDown" date='1'  :end="order.confirmReceiveTime * 1000" :current="0"></ui-count-down></p>   
+            </div>
+            <div class="order-status  fail" v-if="order.orderStatus==4"
+                 v-link-to="'/my/evaluate.html'">
+                <p class="f18">{{order.orderStatusName}}</p>
+                <p v-if="order.rderType2!=2">您已收货，给个评价吧</p>
+            </div>
+            <div class="order-status fail" v-if="order.orderStatus==10">
+                <p class="f18">{{order.orderStatusName}}</p>
+                <p v-if="order.orderCanceOperateTypeContext">取消原因：{{order.orderCanceOperateTypeContext}}</p>
+            </div>
+            <div class="order-status  fail" v-if="order.orderStatus==8"
+                 v-link-to="'/my/logistics-information.html?orderCode=' + order.orderCode">
+                <p class="f18">{{order.orderStatusName}}</p>
+                <p v-if="order.rderType2!=2">订单交易成功，感谢您的购买</p>
+                <!--<p>用户已签收,签收人：张三</p>-->
+            </div>
+        </div>
+        <div v-if="orderListType == 1 && order.sysSource != 'op'">
+            <div class="order-status fail" v-if="order.orderStatus==1">
+                <p class="f18">{{order.orderStatusName}}</p>
+                <p v-if="order.rderType2!=2">等待买家付款</p>
+            </div>
+            <div class="order-status fail" v-if="order.orderStatus==2">
+                <p class="f18">{{order.orderStatusName}}</p>
+                <p v-if="order.rderType2!=2">请尽快审核，为买家打包发货</p>
+            </div>
+            <div class="order-status ui-arrowlink fail" v-if="order.orderStatus==3"
+                 v-link-to="'/my/logistics-information.html?orderCode=' + order.orderCode">
+                <p class="f18">{{order.orderStatusName}}</p>
+                <p v-if="order.orderType2!=2">订单已发出，等待买家收货</p>
+            </div>
+            <div class="order-status ui-arrowlink fail" v-if="order.orderStatus==8"
+                 v-link-to="'/my/logistics-information.html?orderCode=' + order.orderCode">
+                <p class="f18">{{order.orderStatusName}}</p>
+                <p v-if="order.rderType2!=2">买家已确认收货</p>
+            </div>
+        </div>
+        <!--<div class="ui-flex ui-flex-pack-center" style="background-color: #fff">-->
+        <!--<button class="ui-btn marT10 marB10 f14">订单详情</button>-->
+        <!--</div>-->
+
+        <!--送货地址-->
+        <div class="ui-card bgImg" v-if="order.receiver">
+            <div class="ui-flex ui-flex-pack-start">
+                <div class="icons icons-address-red mgT15  marR10"></div>
+                <div class="placeholder" v-show="order">
+                    <p>{{order.receiver.receiverName}} {{order.receiver.receiverMobile}}</p>
+                    <p class="c6 f12 mgT5">
+                        {{order.receiver.provinceName}}{{order.receiver.cityName}}{{order.receiver.areaName}}{{order.receiver.detailAddress}}</p>
+                </div>
+            </div>
+        </div>
+        <!-- 限服务订单 安装进度状态 -->
+        <div class="ui-card logistics-wrap" v-if="order.orderType2 == 2">
+            <div :class="['logistics-detail',{'auto':!unfold}]">
+                <div class="logistics-step" v-for="ld in orderMsg">
+                    <p class="aid" :class="{hasReceipted:$index == orderMsg.length-1}">{{ld.operateContent}}</p>
+                    <p class="aid">{{ld.operateDate | dateformat 'yyyy-MM-dd hh:mm:ss'}}</p>
+                    <i class="icons icons-radio-checked" v-if="$index == orderMsg.length-1"></i>
+                </div>
+            </div>
+            <div class="ui-row-flex pdT24px">
+                <div class=" ui-col ui-col-4">
+                    <p class="desc" @click="unfold = !unfold">查看更多<i :class="['ui-icon-unfold',{'fold':!unfold}]"></i></p>
+                </div>
+            </div>
+        </div>
+        <div class="ui-card pad0 mgT5" v-for="cl in order.childOrderList">
+
+
+            <!--<h4  class="ui-nowrap bgfafafa pdL15 f14 c3 line-height40"><i class="icons4 order-homeDefault mgR5"></i>第三方商家</h4>-->
+            <ul class="ui-list ui-list-text">
+                <h4  class="ui-nowrap bgfafafa pdL15 f14 c3 line-height40" v-if="cl.merchantName"><i class="icons4 order-home mgR5 mgT-5"></i>{{order.orderCode}}</h4>
+                <!--<li>-->
+
+                <!--&lt;!&ndash;<h4 class="ui-nowrap">订单{{$index+1}}</h4>&ndash;&gt;-->
+                <!--</li>-->
+            </ul>
+            <div>
+                <!-- <ul class="ui-list ui-list-text" v-if="cl.packageList.length > 1">
+                    <li class="ui-border-b">
+                        <h4 class="ui-nowrap">包裹{{$index+1}}</h4>
+                    </li>
+                </ul> -->
+                <ul class="ui-list ui-list-customize ui-border-b mgL15 widAuto">
+                    <li class="" v-for="product in cl.orderProductList" @click="gotoDetail(product.seriesParentId||product.mpId)">
+                        <div class="ui-list-thumb">
+                            <img :src="product.url120x120" width="60" height="60" class="ui-border">
+                        </div>
+                        <div class="ui-list-info">
+                            <p class="ui-nowrap">{{product.name}} {{product.standard}}</p>
+                            <p class="ui-nowrap ">
+                                <span class="c9" v-for="item in product.propertyTags">
+                                    {{item.name}}：{{item.value}}&nbsp;
+                                </span>
+
+                                <!-- <span v-for="s in product.securityList" class="f12 c6 marR10">
+                                     <i class="icons2 icons2-sure-{{$index+1}}" v-if="s.url==null"></i>
+                                     <img v-if="s.url" style="vertical-align: middle" width="14" height="14" :src="s.url" alt="">
+                                    {{s.title}}</span> -->
+                            </p>
+                            <ul class="ui-row-flex price">
+                                <li v-if="order.sysSourceName!='积分商城'" class="ui-col ui-flex ui-flex-pack-start"><span v-if="order.groupBuyLimitNum" class="c6 f12 mgR10">{{order.groupBuyLimitNum}}人团</span><span class="theme">{{product.price | currency '¥'}}</span></li>
+                                <li v-if="order.sysSourceName=='积分商城'" class="ui-col ui-flex ui-flex-pack-start"><span class="theme"><span v-if="product.price>0">{{product.price | currency '¥'}}</span><span v-if="product.price>0">+</span><span>{{product.pointPrice}}积分</span></span></li>
+                                <li class="ui-col ui-flex ui-flex-pack-end c9 pdR15">x{{product.num}}</li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="ui-flex ui-flex-pack-end">
+                        <button class="ui-btn marT10 marR10 mgB10 f14" v-link-to="'/group/group-detail.html?instId=' + order.groupBuyOrderCode" v-if="order.orderPromotionType == 1 && order.orderStatus != 1">查看团详情</button>
+                    </li>
+                </ul>
+            </div>
+            <ul class="ui-list ui-list-text mgT10" v-if="order.orderType2!=2">
+                <li class="boxStart">
+                    <div class="ui-list-info">
+                        <h4 class="ui-nowrap">配送信息</h4>
+                    </div>
+                    <div class="ui-list-info  pdR5">
+                        <p class="text-right">
+                            <span class="c6 disIB" :class="{'mgR15':cl.isTakeTheir==0 && cl.promiseDate}" v-if="cl.isTakeTheir==0">{{cl.deliveryModeName}}</span>
+                            <span class="c3" v-if="cl.isTakeTheir==0 && cl.promiseDate">预计{{cl.promiseDate||date}}到达</span>
+                            <span class="c6 disIB mgR15" v-if="cl.isTakeTheir==1">{{cl.deliveryModeName}}</span>
+                        </p>
+                        <p class="ui-nowrap">{{cl.pickAddress}}</p>
+                        <p class="text-right c3">
+                            <!--<span>预计{{cl.promiseDate||date}}到达</span>-->
+                            运费：{{cl.orderDeliveryFeeAccounting| currency '¥'}}</p>
+                    </div>
+                </li>
+            </ul>
+            <!--订单备注-->
+            <ul class="ui-row marT10 remark bgf pdT10 pdL10 ui-border-t"  v-if="cl.remark">
+                <li class="ui-col ui-col-20 pdL5">订单备注</li>
+                <li class="ui-col ui-col-80 pdR5">
+                    <p class="f14 padR10" >{{cl.remark}}</p>
+                </li>
+            </ul>
+            <!--商家备注-->
+            <ul class="ui-row marT10 remark bgf pdT10 pdL10" v-if="cl.remarkMerchant2user">
+                <li class="ui-col ui-col-20 pdL5">商家备注</li>
+                <li class="ui-col ui-col-80 pdR5">
+                    <p class=" f14">{{cl.remarkMerchant2user}}</p>
+                </li>
+            </ul>
+        </div>
+        <ul class="ui-list ui-list-text marT10" v-if="invoiceContentState">
+            <li>
+                <div class="ui-list-info pdL5">
+                    <h4 class="ui-nowrap">发票</h4>
+                </div>
+                <div class="ui-list-action invoice-limit c6 ui-nowrap pdR5">
+                    {{order.invoice.invoiceTitleContent}}
+                </div>
+                <!--交易成功 发票下载-->
+                <!--<div class="ui-list-action c6" v-if="order.orderStatus==8">-->
+                <!--抬头<a class="blue pdL5">下载</a>-->
+                <!--</div>-->
+            </li>
+        </ul>
+        <!-- 预售 待支付定金 -->
+        <div class="ui-card2 marT10 presell" v-if="order.presell && (order.presell.status > 10) && order.presell.status < 25">
+            <ul class="ui-list ui-list-text">
+                <li>
+                    <h4 class="ui-nowrap f15" v-if="order.presell.status == 10 || order.presell.status > 60">待支付定金</h4>
+                    <h4 class="ui-nowrap f15" v-else>已支付定金</h4>
+                    <div class="ui-txt-info"><span class="theme f14">{{order.presell.downPrice|currency '¥'}}</span>&nbsp;&nbsp;<span class="red-mark f12">抵扣&nbsp;{{order.presell.offsetPrice|currency '¥'}}</span></div>
+                </li>
+                <li class="">
+                    <h4 class="ui-nowrap f12">{{order.presell.startTime|datetime 'MM月dd日hh:mm:ss'}}开始支付尾款</h4>
+                    <div class="ui-txt-info theme f14">{{order.presell.finalPayment|currency '¥'}}</div>
+                </li>
+                <li class="c9 f12"><div>付款当日我们会以消息的方式提示您</div></li>
+            </ul>
+        </div>
+
+        <ul class="ui-list ui-list-text marT10">
+            <li>
+                <div class="ui-list-info pdL5">
+                    <h4 class="ui-nowrap">支付方式</h4>
+                </div>
+                <!-- 如已付款 显示 支付方式 -->
+                <div class="ui-list-action c6 pdR5">{{order.payMethod}}</div>
+            </li>
+        </ul>
+        <!-- 预售 -->
+        <ul class="ui-list ui-list-text marT10" v-if="order.presell && order.presell.status != null && order.presell.status <= 25 ">
+            <li>
+                <div class="ui-list-info pdL5">
+                    <h4 class="ui-nowrap">商品定金</h4>
+                </div>
+                <div class="ui-list-action c8 f12 pdR5">{{order.presell.downPrice | currency '￥'}}</div>
+            </li>
+            <li class="ui-border-t">
+                <div class="ui-list-info pdL5">
+                    <h4 class="ui-nowrap">应付定金</h4>
+                </div>
+                <div class="ui-list-action theme f14 pdR5">{{order.presell.downPrice | currency '￥'}}</div>
+            </li>
+        </ul>
+        <ul class="ui-list ui-list-text marT10" v-else>
+            <li class="ui-border-b">
+                <div class="ui-list-info c3 pdL5">
+                    <h4 class="ui-nowrap">商品总价</h4>
+                </div>
+                <div class="ui-list-action pdR5">{{order.productAmount | currency '¥'}}</div>
+            </li>
+            <li class="" v-if="order.orderType2!=2">
+                <div class="ui-list-info c9 pdL5">
+                    <h4 class="ui-nowrap">运费</h4>
+                </div>
+
+                <div class="ui-list-action pdR5">{{order.orderDeliveryFeeAccounting|currency '¥'}}</div>
+            </li>
+        </ul>
+        <div class="ui-card marB0" style="margin-top:0px;" v-if="(order.promotionAmount||order.orderVipDiscount||order.orderPaidByCommission||order.orderPaidByCard||order.orderPaidByCoupon||order.orderPaidByPoint||order.orderPaidByUcard || order.orderPaidByReferralCode)&&order.presell&&(order.presell.status > 25 || order.presell.status == null)">
+            <!-- <ul class="ui-row-flex mgT15 ui-border-b">
+                 <li class="ui-col ui-flex ui-flex-pack-start c9">商品总额</li>
+                 <li class="ui-col ui-flex ui-flex-pack-end theme">{{order.productAmount | currency '¥'}}</li>
+             </ul>
+             <ul class="ui-row-flex mgT15 ui-border-b">
+                 <li class="ui-col ui-flex ui-flex-pack-start c9">运费</li>
+                 <li class="ui-col ui-flex ui-flex-pack-end theme">+{{order.orderDeliveryFeeAccounting|currency '¥'}}</li>
+             </ul>-->
+            <ul class="ui-row-flex mgL5" v-if="order.presell.status > 25">
+                <li class="ui-col ui-flex ui-flex-pack-start c9">
+                    <!-- <img src="${staticPath}/images/hui.png" width="18px" height="18px" class="mgR5 vkaM"/> -->
+                    定金抵扣
+                </li>
+                <li class="ui-col ui-flex ui-flex-pack-end theme pdR10">{{-order.presell.offsetPrice|currency '¥'}}</li>
+            </ul>
+            <ul class="ui-row-flex mgL5" v-if="order.promotionAmount&&order.orderType != 3">
+                <li class="ui-col ui-flex ui-flex-pack-start c9">
+                    <img src="${staticPath}/images/hui.png" width="18px" height="18px" class="mgR5 vkaM"/>
+                    促销优惠
+                </li>
+                <li class="ui-col ui-flex ui-flex-pack-end theme pdR10">{{-order.promotionAmount|currency '¥'}}</li>
+            </ul>
+            <ul class="ui-row-flex mgL5" v-if="order.orderVipDiscount">
+                <li class="ui-col ui-flex ui-flex-pack-start c9 f13">
+                    <img src="${staticPath}/images/zhe.png" width="18px" height="18px" class="mgR5 vkaM"/>
+                    会员折扣
+                </li>
+                <li class="ui-col ui-flex ui-flex-pack-end theme pdR10">-{{order.orderVipDiscount|currency '¥'}}</li>
+            </ul>
+            <ul class="ui-row-flex mgL5" v-if="order.orderPaidByCommission">
+                <li class="ui-col ui-flex ui-flex-pack-start c9">
+                    <img src="${staticPath}/images/di.png" width="18px" height="18px" class="mgR5 vkaM"/>
+                    佣金
+                </li>
+                <li class="ui-col ui-flex ui-flex-pack-end theme pdR10">-{{order.orderPaidByCommission|currency '¥'}}</li>
+            </ul>
+            <ul class="ui-row-flex mgL5" v-if="order.orderPaidByUcard">
+                <li class="ui-col ui-flex ui-flex-pack-start c9">
+                    <img src="${staticPath}/images/di.png" width="18px" height="18px" class="mgR5 vkaM"/>
+                    悠点卡
+                </li>
+                <li class="ui-col ui-flex ui-flex-pack-end theme pdR10">-{{order.orderPaidByUcard|currency '¥'}}</li>
+            </ul>
+            <ul class="ui-row-flex mgL5" v-if="order.orderPaidByCard">
+                <li class="ui-col ui-flex ui-flex-pack-start c9">
+                    <img src="${staticPath}/images/di.png" width="18px" height="18px" class="mgR5 vkaM"/>
+                    伊点卡
+                </li>
+                <li class="ui-col ui-flex ui-flex-pack-end theme pdR10">-{{order.orderPaidByCard|currency '¥'}}</li>
+            </ul>
+            <ul class="ui-row-flex mgL5"  v-if="order.orderPaidByCoupon">
+                <li class="ui-col ui-flex ui-flex-pack-start c9">
+                    <img src="${staticPath}/images/jian.png" width="18px" height="18px" class="mgR5 vkaM"/>
+                    优惠券
+                </li>
+                <li class="ui-col ui-flex ui-flex-pack-end theme pdR10">{{-order.orderPaidByCoupon|currency '¥'}}</li>
+            </ul>
+            <ul class="ui-row-flex mgL5" v-if="order.orderPaidByPoint">
+                <li class="ui-col ui-flex ui-flex-pack-start c9">
+                    <img src="${staticPath}/images/ji.png" width="18px" height="18px" class="mgR5 vkaM"/>
+                    积分
+                </li>
+                <li class="ui-col ui-flex ui-flex-pack-end theme pdR10">{{-order.orderPaidByPoint | currency '¥'}}</li>
+            </ul>
+            <ul class="ui-row-flex mgL5" v-if="order.orderPaidByReferralCode">
+                <li class="ui-col ui-flex ui-flex-pack-start c9">
+                    <img src="${staticPath}/images/jian.png" width="18px" height="18px" class="mgR5 vkaM"/>
+                    优惠码
+                </li>
+                <li class="ui-col ui-flex ui-flex-pack-end theme pdR10">{{-order.orderPaidByReferralCode | currency '¥'}}</li>
+            </ul>
+        </div>
+        <!-- <ul class="ui-list ui-list-text ui-border-t">
+             <li>
+                 <div class="ui-list-info">
+                     <h4 class="ui-nowrap">&nbsp;</h4>
+                 </div>
+                 <div class="ui-list-action">实付款 (含运费)：<span class="theme">¥{{order.amount}}</span></div>
+             </li>
+         </ul>-->
+        <ul class="ui-list ui-list-text" v-if="order.orderStatus == 1 && order.presell&&(order.presell.status > 25 || order.presell.status == null)">
+            <li class="ui-border-t" >
+                <div class="ui-list-info" v-if="order.presell.status == null">
+                    <h4 class="ui-nowrap pdL5 c3 f16">应付款 <span v-if="order.orderType2!=2">(含运费)</span>：</h4>
+                </div>
+                <div class="ui-list-info" v-else>
+                    <h4 class="ui-nowrap pdL5 c6 f12 text-right">应付尾款 <span v-if="order.orderType2!=2">(含运费)</span>：</h4>
+                </div>
+                <div class="ui-list-action theme f15 pdR5">{{order.paymentAmount|currency '¥'}}</div>
+            </li>
+        </ul>
+        <ul class="ui-list ui-list-text" v-if="order.orderStatus != 1 && order.presell&&(order.presell.status > 25 || order.presell.status == null)">
+            <li class="ui-border-t">
+                <div class="ui-list-info" v-if="order.presell.status == null">
+                    <h4 class="ui-nowrap pdL5 c3 f16">实付款 <span v-if="order.orderType2!=2">(含运费)</span>：</h4>
+                </div>
+                <div class="ui-list-info" v-else>
+                    <h4 class="ui-nowrap pdL5 c6 f12 text-right">实付尾款 <span v-if="order.orderType2!=2">(含运费)</span>：</h4>
+                </div>
+                <div class="ui-list-action theme f15 pdR5">{{order.paymentAmount|currency '¥'}}</div>
+            </li>
+        </ul>
+        <div class="ui-card" v-cloak>
+            <!-- 订单状态 显示不同信息 核对prd -->
+            <ul class="ui-row c9 pdL5 pdT2 pdB2">
+                <li class="" v-if="order.sysSource=='ody' || order.sysSource=='INTEGRAL_MALL'">订单编号：{{order.orderCode}}</li>
+                <li class="" v-if="order.sysSource!='ody' && order.sysSource!='INTEGRAL_MALL'">第三方订单编号：{{order.outOrderCode}}</li>
+                <li  class="pdT5" v-if="order.orderStatus!=1 && order.parentOrderCode">父单编号：{{order.parentOrderCode}}</li>
+                <li class="pdT5">创建时间：{{order.orderCreateTimeStr}}</li>
+                <li class="pdT5" v-if="order.orderStatus!=1 && order.paymentTimeStr">付款时间：{{order.paymentTimeStr}}</li>
+                <li  class="pdT5"v-if="order.orderStatus!=1 && order.orderStatus!=2 && order.orderStatus != 10 && order.shipTimeStr">
+                    <span v-if="order.orderType2!=2">发货时间：{{order.shipTimeStr}}</span>
+                </li>
+                <li v-if="order.orderStatus == 8">成交时间：{{order.receiveTimeStr}}</li>
+            </ul>
+        </div>
+        <ui-guess-like v-if="order.orderPromotionType == 1 && order.orderStatus != 1" :data="recoList" :title="'猜你喜欢'" :icons="'icons icons-guessLike'"></ui-guess-like>
+    </section>
+    <!--尾部-->
+    <footer class="ui-footer ui-footer-stable" style="height:auto" v-cloak>
+        <!-- 买家订单详情底部按钮 -->
+        <ui-order-btn :order="order" :order-list-type="orderListType" :refresh="loadOrderDetail"></ui-order-btn>
+    </footer>
+    <ui-actionsheet-pop title="退货原因" :show.sync="showReturnCause">
+        <ul class="ui-list return-list">
+            <li class="ui-border-t" v-for="cause in afterSaleCauseList">
+                <h4 class="ui-nowrap" @click="selectCause(cause)">{{cause.value}}</h4>
+            </li>
+        </ul>
+    </ui-actionsheet-pop>
+    <!--再次购买-->
+    <div class="ui-dialog" :class="{show: diaShow}">
+        <div class="ui-dialog-cnt bgw" style="width: 300px;">
+            <div class="ui-dialog-bd">
+                <div class="text-center">
+                    <h4 class="c6">确认将以下商品加入购物车吗？</h4>
+                    <div class="marT15">
+                        <ul class="ui-list">
+                            <li :class="{'ui-border-b':$index<availableProductList.length-1}" v-for="prod in availableProductList" style="margin-left: 0">
+                                <div class="ui-list-thumb">
+                                    <span :style="'background-image:url('+prod.picUrl+')'"></span>
+                                </div>
+                                <div class="ui-list-info text-left">
+                                    <h4 class="ui-nowrap">{{prod.name}}</h4>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="ui-dialog-ft ui-btn-group">
+                <button type="button" data-role="button" class="select" id="dialogButton0" @click="noSave">取消</button>
+                <button type="button" data-role="button" id="dialogButton1" @click="addMyCar">加入购物车</button>
+            </div>
+        </div>
+    </div>
+    <!-- 联系客服弹层-->
+    <ui-actionsheet :show.sync="showTalk">
+        <button class="ui-actionsheet-del f18 c808080">客服工作时间：每日8:00-21:00</button>
+        <button><a href="tel:400-8819777" class="cff6900 f18">400-8819777</a></button>
+    </ui-actionsheet>
+    <!--返回顶部-->
+    <ui-scroll-top v-ref:scrollTop :community="community"></ui-scroll-top>
+    <script type="text/javascript" src="/cms/view/frontier_guide/h5/templateJS.json"></script>
+    <script src="${staticPath}/libs/frozenui/lib/zepto.min.js?v=${version}"></script>
+    <script src="${staticPath}/libs/swiper/swipe.js?v=${version}"></script>
+    <script src="${staticPath}/libs/frozenui/js/frozen.js?v=${version}"></script>
+    <script src="${staticPath}/libs/vendor.js?v=${version}"></script>
+    <script src="${staticPath}/common.js?v=${version}"></script>
+    <script src="${staticPath}/my/order-detail.js?v=${version}"></script>
+</body>
+</html>

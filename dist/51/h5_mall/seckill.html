@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="x5-orientation" content="portrait">
+    <meta name="msapplication-tap-highlight" content="no">
+    <title>秒杀</title>
+    <link rel="stylesheet" href="/libs/frozenui/css/frozen.css?v=1537883801478">
+    <link rel="stylesheet" href="/common.css?v=1537883801478">
+    <link rel="stylesheet" href="/seckill.css?v=1537883801478">
+    <link rel="stylesheet" href="/libs/mob-share.css?v=1537883801478">
+</head>
+<body v-cloak>
+<ui-header title="秒杀" class="seckill-header">
+    <i class="lyf-icons lyf-msg-theme" style="right: 10px; position: absolute;top: 11px;" v-link-to-userpage.literal="/message/message-center.html"></i>
+</ui-header>
+
+<section class="ui-container">
+    <!--时间-->
+    <div class="seckill-time" v-if="timeList.length>0" :class="{weixin:isApp || weixin,themeBor:status == 2 || status ==3,goingBor:status == 1}" style="top: 44px">
+        <ul :style="{width: 80*selectedDate.times.length+'px'}">
+            <li v-for="time in selectedDate.times"
+                :class="{active:time.monthOrDay==selectedTime.monthOrDay&&time.timeStr==selectedTime.timeStr,goingBack:time.status == 1}"
+                @click="selectedTime=time,userSelectedTime=true,showCurrTime(),status=time.status">
+                <p>{{time.timeStr}}</p>
+                <p v-if="time.status == 1">即将开抢</p>
+                <p v-if="time.status == 2">正在进行</p>
+                <p v-if="time.status == 3">已结束</p>
+            </li>
+        </ul>
+    </div>
+    <ui-drop-down :on-pull-down="dropDown" :stop.sync="stopDropDown" :top="'-37'" v-if="timeList.length>0">
+        <!--列表-->
+        <ul class="ui-list mgT10" v-if="timeList.length>0">
+            <li class="posR" v-for="prod in killProducts.merchantProducts" :class="{'borderNone':$index == killProducts.merchantProducts.length-1}" @click="gotoDetail(prod)">
+                <div class="ui-list-img" >
+                    <span v-lazy:background-image="prod.picUrl"></span>
+                </div>
+                <div class="ui-list-info ui-border-b">
+                    <p class="ui-nowrap-multi h42px"><span class="f14 c3">{{prod.name}}</span></p>
+                    <p style="padding: 3px 0;margin-top:25px;">
+                        <div class="f18 theme marT10">{{prod.promotionPrice|currency '¥'}}</div>
+                        <div class="f10 bgb2b2 line-through">{{prod.originalPrice|currency '¥'}}</div>
+                        <i class="lyf-icons lyf-question" v-link-to.literal="/priceCaption.html"></i>
+                    </p>
+                    <div v-if="is_tixing">
+                        <div class="rush-buy theme" @click="ifNotLogin(prod)" v-if="prod.status == 1 && prod.noticeStatus == 0">开启提醒</div>
+                        <div class="rush-buy disabled" v-if="prod.status == 1 && prod.noticeStatus == 1">开启提醒</div>
+                    </div>
+                    <div v-if="not_tixing">
+                        <div class="rush-buy going" v-if="prod.status == 1">即将开抢</div>
+                    </div>
+                    <div class="rush-buy" v-if="prod.status == 2">立即疯抢</div>
+                    <div class="c6 f12 pro" v-if="prod.status == 2 || prod.status == 3">
+                        已售<span class="theme">{{prod.salePercent}}</span>
+                         <div class="ui-progress">
+                            <span v-if="prod.status == 1" style="width:0px"></span> 
+                            <span v-if="prod.status == 2" :style="{'width':prod.salePercent}"></span>
+                            <span v-if="prod.status == 3" style="width:100%"></span>
+                        </div> 
+                    </div>
+                    <div class="rush-buy disabled" v-if="prod.status == 3">活动结束</div>
+                    <div class="rush-buy disabled" v-if="prod.status == 2 && !prod.canAreaSold">暂不销售</div>
+                </div>
+            </li>
+        </ul>
+        <!--加载完成后-->
+        <div class="ui-loading-wrap" v-if="timeList.length>0&&dtLoaded">
+            <div class="no-more mgT10 mgB10" v-if="(killProducts.merchantProducts||[]).length>0&&isEnd&&scrollflage">
+                <p class="text-center"><i class="lyf-icons lyf-icons-seckill-nomore"></i></p>
+                <p class="f12 fb2 text-center" style="line-height: 180%">看看下个时段还有什么惊喜！</p>
+            </div>
+            <p class="f12" v-if="(killProducts.merchantProducts||[]).length==0">暂无商品</p>
+        </div>
+        <!--加载中-->
+        <div class="ui-loading-wrap" v-show="timeList.length>0&&!dtLoaded">
+            <p>正在加载中...</p>
+            <i class="ui-loading"></i>
+        </div>
+    </ui-drop-down>
+</section>
+
+<div class="ui-dialog">
+    <div class="ui-dialog-cnt">
+        <div class="ui-dialog-bd">
+            <div>
+            <h4>温馨提示</h4>
+            <div style="text-align: center;">此商品已设置提醒功能</div></div>
+        </div>
+        <div class="ui-dialog-ft ui-btn-group">
+            <button type="button" data-role="button" class="select" id="dialogButton<%=i%>">关闭</button> 
+        </div>
+    </div>        
+</div>
+
+<!--暂无活动-->
+<div class="ui-notice hide" :class="{'show':!timeList || timeList.length==0}">
+    <img src="/images/search-empty.png" width="142"/>
+    <p>很抱歉，暂无活动！</p>
+</div>
+
+<!--返回顶部-->
+<ui-scroll-top v-ref:scrollTop height="0"></ui-scroll-top>
+<!-- 分享 -->
+<ui-share :show.sync="showShare" :config.sync="shareConfig"></ui-share>
+<script type="text/javascript" src="/cms/view/frontier_guide/h5/templateJS.json"></script>
+<script>if(!/MicroMessenger/i.test(navigator.userAgent)) document.write('<script src="https://g.alicdn.com/aliww/h5.openim.sdk/1.0.6/scripts/wsdk.js"><\/script>');</script>
+<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script src="/libs/frozenui/lib/zepto.min.js?v=1537883801478"></script>
+<script src="/libs/frozenui/js/frozen.js?v=1537883801478"></script>
+<script src="/libs/swiper/swipe.js?v=1537883801478"></script>
+<script src="/libs/vendor.js?v=1537883801478"></script>
+<script id="-mob-share" src="/libs/mob-share.js?v=1537883801478"></script>
+<script src="/common.js?v=1537883801478"></script>
+<script src="/seckill.js?v=1537883801478"></script>
+</body>
+</html>

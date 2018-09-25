@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="x5-orientation" content="portrait">
+    <meta name="msapplication-tap-highlight" content="no">
+    <title></title>
+    <link rel="stylesheet" href="${staticPath}/libs/frozenui/css/frozen.css?v=${version}">
+    <link rel="stylesheet" href="${staticPath}/common.css?v=${version}">
+    <link rel="stylesheet" href="${staticPath}/my/my.css?v=${version}">
+    <link rel="stylesheet" href="${staticPath}/my/cash-out.css?v=${version}">
+</head>
+<body class="fans" v-need-login>
+    <ui-header :title="chooseBank ? '选择银行' : '申请提现'" :back-event="backStep">
+        <a href="/my/cash-out-record.html" class="handle">提现记录</a>
+    </ui-header>
+    <!-- 申请提现 -->
+    <section class="ui-container" :class="{hide: chooseBank}" v-cloak>
+        <div class="ui-form ui-border-t">
+            <!--选择银行-->
+            <div class="ui-form-item ui-form-item-show ui-form-item-link ui-border-b" @click="chooseBank = true" v-if="!cardNo">
+                <label class="f14 c3">添加银行卡</label>
+            </div>
+            <!--选择后显示-->
+            <div class="ui-form-item ui-form-item-show ui-form-item-link ui-border-b" @click="chooseBank = true" v-if="cardNo">
+                <label class="f14 c3">提现至</label>
+                <span class="f14 c6 fr mgR15">{{cardNo}}</span>
+            </div>
+            <div class="ui-form-item ui-form-item-show ui-border-b">
+                <input type="text" placeholder="请输入金额(必须大于0)，目前最多可以提现 {{usableWithdrawAmount}} 元" style="padding-left: 0" debounce="500" v-model="inputWithdrawAmount">
+            </div>
+            <div class="ui-form-item ui-form-item-show ui-border-b ui-form-text-m">
+                <p class="f12 c6">手续费（个人所得税及管理费）：¥{{withdrawFee}}</p>
+                <p class="f12 c6">实际收款金额：¥{{actualWithdrawAmount}}</p>
+            </div>
+            <div class="ui-form-item mgT20" style="padding-right: 10px">
+                <button class="btn-wq-lg bgTf4cc53Tb48b32 " @click="ApplyWithdraw()" v-if="usableWithdrawAmount > 0" :disabled="cashOutDisabled">{{applyWords}}</button>
+                <button class="btn-wq-lg bg9 " style="color: #fff" v-if="usableWithdrawAmount == 0">可提现金额为0，无法提现</button>
+            </div>
+            <div class="ui-form-item ui-form-item-show ui-border-b ui-form-text-m" v-for="x in regulation_regulationDescs">
+                <p class="f12 cff0000">{{$index+1}}、{{regulation_regulationDescs[$index]}}</p>
+            </div>
+            <!--vue.js 计算属性-->
+            <div style="display: none">{{testAmount}}</div>
+        </div>
+    </section>
+    <!-- 选择银行卡 -->
+    <section class="ui-container hide" :class="{show: chooseBank}" v-cloak>
+        <ul class="ui-list ui-list-one mgT10" v-for="c in cardList">
+            <li class="ui-border-t" @click="selectCard(c)">
+                <div class="ui-list-thumb">
+                    <span :style="{'background-image':'url('+c.bankIconUrl+')'}" class="radius50"></span>
+                </div>
+                <div class="ui-list-info">
+                    <h4 class="ui-nowrap f14 c3">{{c.bankName}}</h4>
+                </div>
+            </li>
+        </ul>
+    </section>
+
+    <script type="text/javascript" src="/cms/view/frontier_guide/h5/templateJS.json"></script>
+    <script src="${staticPath}/libs/frozenui/lib/zepto.min.js?v=${version}"></script>
+    <script src="${staticPath}/libs/frozenui/js/frozen.js?v=${version}"></script>
+    <script src="${staticPath}/libs/vendor.js?v=${version}"></script>
+    <script src="${staticPath}/common.js?v=${version}"></script>
+    <script src="${staticPath}/my/cash-out.js?v=${version}"></script>
+
+</body>
+</html>

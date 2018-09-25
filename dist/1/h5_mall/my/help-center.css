@@ -1,0 +1,6 @@
+.ui-avatar {
+  width: 100px;
+  height: 100px;
+  -webkit-border-radius: 0px;
+  overflow: hidden;
+}

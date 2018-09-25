@@ -1,0 +1,30 @@
+.jianbian {
+  background: linear-gradient(top, #f23030, #f23030);
+  background: -webkit-linear-gradient(top, #f23030, #f23030);
+  background: -moz-linear-gradient(top, #f23030, #f23030);
+  color: #fff!important;
+}
+.detail-content {
+  background-color: #fff;
+}
+.detail-content img {
+  width: 100%;
+}
+.detail-content .spec-info {
+  margin-left: 12px;
+  padding-right: 12px;
+  padding-bottom: 15px;
+}
+.detail-content .spec-info .spec-title {
+  font-size: 14px;
+  color: #333;
+  padding: 15px 0;
+}
+.detail-content .spec-info .spec-item {
+  font-size: 13px;
+  color: #666;
+  padding: 2px 0;
+}
+.detail-content .after-sale {
+  padding: 15px 12px;
+}

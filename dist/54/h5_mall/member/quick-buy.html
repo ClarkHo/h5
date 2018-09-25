@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="x5-orientation" content="portrait">
+    <meta name="msapplication-tap-highlight" content="no">
+    <title></title>
+    <link rel="stylesheet" href="/libs/frozenui/css/frozen.css?v=1537884480835">
+    <link rel="stylesheet" href="/common.css?v=1537884480835">
+    <link rel="stylesheet" href="/member/quick-buy.css?v=1537884480835">
+</head>
+<body>
+    <ui-header title="快速下单">
+    </ui-header>
+    <!-- <footer class="ui-footer text-center">
+        <ul class="ui-row ui-tiled-btn">
+            <li class="cart ui-col ui-col-2">
+                <label>
+                    <div style="margin-top: 3px;">
+                        <i class="icons icons-cart"><div class="ui-badge-cornernum bottom-cart">1</div></i>
+                        <p class="f12 c3">购物车</p>
+                    </div>
+                </label>
+            </li>
+            <li class="ui-col ui-col buy bgTheme cf">去购物车结算</li>
+        </ul>
+    </footer> -->
+    <footer class="ui-footer" v-cloak>
+        <div class="price">
+            <span class="f12 c4">合计：</span>
+            <span class="theme f19">{{ amount | currency '¥'}}</span>
+        </div>
+        <div class="handle cf w55">
+            <div class="addCart bgAid w50 text-center" @click="addToCart()">加入购物车</div>
+            <div class="buy bgTheme w50 text-center" @click="buy()">立即购买</div>
+        </div>
+    </footer>
+    <!-- section -->
+    <section class="ui-container" v-cloak>
+        <!-- <div class="ui-searchbar-wrap">
+            <div class="ui-searchbar">
+                <i class="ui-icon-search"></i>
+                <div class="ui-searchbar-text">请输入订单编号或商品名称</div>
+                <div class="ui-searchbar-input"><input value="" v-model="searchWord" type="tel" placeholder="请输入订单编号或商品名称" autocapitalize="off"></div>
+                <i class="ui-icon-close"></i>
+            </div>
+            <button class="ui-searchbar-cancel" @click="getSearchList">搜索</button>
+        </div> -->
+        <div class="category">
+            <div class="category-tab">
+                <ul>
+                    <li class="ui-nowrap ui-border-b"  v-for="parent in parentCategories" @click="getChildrenCategories(parent.categoryId,true),switchFlag">
+                        <div class="cnt " :class="{current: parent.categoryId == currentCategoryId}">
+                            <p class="ui-nowrap">{{parent.categoryName}}</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="category-content bgf" id="product-wrappers">
+                <!--推荐-->
+                <div class="category-content-wrapper" id="product-wrapper">
+                    <ul class="ui-list repair-list">
+                        <li class="ui-border-b" v-for="item in childrenCategories">
+                            <div class="ui-list-img">
+                                <span :style="{'background-image':'url('+ item.url60x60 +')'}"></span>
+                            </div>
+                            <div class="ui-list-info padR0 posR">
+                                <p class="ui-nowrap">{{item.name}}</p>
+                                <p class="mgT5">
+                                    <span class="disIB fl c9 f12 mgT5"><em class="f14 cf23030">{{item.availablePrice | currency '¥'}}</em></span>
+                                </p>
+                                <div class="number">
+                                    <span class="ui-border-r"><i class="icons icons-reduce" @click="changeNum(item,flase)"></i></span>
+                                    <!-- <span class="ui-border-r text-center">{{item.num}}</i></span> -->
+                                    <input type="tel" class="input" @blur="checkNum(item)" v-model="item.num">
+                                    <span class="ui-border-l"><i class="icons icons-add" @click="changeNum(item,true)"></i></span>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script type="text/javascript" src="/cms/view/frontier_guide/h5/templateJS.json"></script>
+    <script src="/libs/swiper/swipe.js?v=1537884480835"></script>
+    <script src="/libs/frozenui/lib/zepto.min.js?v=1537884480835"></script>
+    <script src="/libs/frozenui/js/frozen.js?v=1537884480835"></script>
+    <script src="/libs/vendor.js?v=1537884480835"></script>
+    <script src="/common.js?v=1537884480835"></script>
+    <script src="/member/quick-buy.js?v=1537884480835"></script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+hello, this is ${name}.
+i am ${age}.
+
+glad to meet you.
+
+thanks,
+${name}
+
+========================
+published on ${date}

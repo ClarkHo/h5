@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="x5-orientation" content="portrait">
+    <meta name="msapplication-tap-highlight" content="no">
+    <title></title>
+    <link rel="stylesheet" href="/libs/frozenui/css/frozen.css?v=1537885372784">
+    <link rel="stylesheet" href="/common.css?v=1537885372784">
+    <link rel="stylesheet" href="/setting/setting.css?v=1537885372784">
+</head>
+<body>
+<ui-header title="关于我们"></ui-header>
+<!-- main section -->
+<section class="ui-container" v-cloak>
+
+    <div class="ui-row-flex ">
+        <div class="ui-col ui-col text-center mgT10 mgB10 pdT30 bgf pdB40 ui-border-b">
+            <i class="oupu-about-us"></i>
+            <p class="f14 c6 pdT10" v-if="appVersion">V{{appVersion}}</p>
+            <p class="f14 c6 pdT10">Copyright@2010-2017</p>
+            <p class="f14 c6 mgT5">  欧普照明官网商城 All Right Reserved</p>
+        </div>
+    </div>
+    <ul class="ui-list ui-list-text ui-border-tb marT10">
+        <li class="ui-border-t" v-link-to="'/setting/license-agreement.html'">
+            <h4 class="ui-nowrap f15 c3">软件使用许可协议</h4>
+            <span class="ui-panel-title-tips f13 c808080 marT3 r10"><i class="f13 c9 icons2 icons2-arrow-r"></i></span>
+        </li>
+        <li class="ui-border-t" v-link-to="'/setting/specialNote.html'">
+            <h4 class="ui-nowrap  f15 c3">特别说明</h4>
+            <span class="ui-panel-title-tips f13 c808080 marT3 r10"><i class="f13 c9 icons2 icons2-arrow-r"></i></span>
+        </li>
+        </ul>
+</section>
+<script type="text/javascript" src="/cms/view/frontier_guide/h5/templateJS.json"></script>
+<script src="/libs/frozenui/lib/zepto.min.js?v=1537885372784"></script>
+<script src="/libs/frozenui/js/frozen.js?v=1537885372784"></script>
+<script src="/libs/vendor.js?v=1537885372784"></script>
+<script src="/common.js?v=1537885372784"></script>
+<script src="/setting/about-us.js?v=1537885372784"></script>
+</body>
+</html>

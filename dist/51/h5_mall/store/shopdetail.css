@@ -1,0 +1,69 @@
+.mall-item {
+  margin: 10px auto;
+  width: 100%;
+  display: -webkit-box;
+  display: flex;
+  box-sizing: border-box;
+  -webkit-box-align: center;
+  align-items: center;
+}
+.mall-item .pic {
+  -webkit-box-flex: 0;
+  flex: 0 0 60px;
+  width: 60px;
+  padding-right: 20px;
+}
+.mall-item .pic .img {
+  display: block;
+  width: 100%;
+}
+.mall-item .mall-right {
+  position: absolute;
+  top: 13px;
+  right: 0;
+  display: -webkit-box;
+  display: flex;
+  box-sizing: border-box;
+  -webkit-box-align: center;
+  align-items: center;
+}
+.mall-item .mall-se {
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  flex-direction: column;
+  -webkit-box-pack: center;
+  justify-content: center;
+  -webkit-box-flex: 1;
+  flex: 1;
+}
+.mall-item .about {
+  -webkit-box-flex: 0;
+  flex: 0 0 60px;
+  width: 60px;
+  padding-right: 10px;
+}
+.mall-item .collect {
+  -webkit-box-flex: 0;
+  flex: 0 0 56px;
+  width: 56px;
+}
+.brandlist .img {
+  display: block;
+  width: 100%;
+}
+.pl75 {
+  padding-left: 75px;
+}
+.mall {
+  line-height: 1.5;
+}
+.shop-phone {
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+  display: block;
+  font-size: 16px;
+  margin-bottom: 10px;
+}

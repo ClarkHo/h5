@@ -1,0 +1,393 @@
+@import url(../../common/variables.less);
+
+
+.ui-grid-halve-img{
+  img{
+    height: 160px;
+  }
+}
+.h12{
+  height: 12px;
+}
+.h36{
+  height: 36px;
+}
+.ui-list-thumb-s{
+  span{
+    background-size: 100% 100%;
+  }
+}
+.f6ff00{
+  color: #f6ff00;
+}
+.bgff6900{
+  background-color: #f74c31;
+}
+.bg333333{
+  background-color: #333333;
+}
+/*detail*/
+.ui-txt-center{
+  text-align: center;
+}
+.img-wrap{
+  background-color: #fff;
+  width: 100%;
+  min-height: 250px;
+  overflow: hidden;
+  font-size: 0;
+}
+.prod-info{
+  background-color: #fff;
+  padding: 12px;
+
+  h2{
+    font-size: 15px;
+    padding-bottom: 6px;
+  }
+}
+.act-detail{
+  padding: 12px 12px 0 12px;
+  background-color: #fff;
+  margin-bottom: 10px;
+
+  p{
+    padding-bottom: 5px;
+  }
+
+  button{
+    line-height: 35px;
+    height: 35px;
+
+    &.ui-btn-primary{
+      color: #fff;
+    }
+  }
+
+  .fri-list{
+    margin-left: -12px;
+    margin-right: -12px;
+    padding-top: 10px;
+
+    li{
+      line-height: 30px;
+    }
+
+    >li{
+      &:nth-child(2n+1){
+        &:first-child{
+          background-color: #fef7ea;
+          font-weight: bold;
+        }
+        background-color: @mainBackColor;
+      }
+
+      &:last-child{
+        line-height: 38px;
+        text-align: center;
+        background-color: @mainBackColor;
+      }
+    }
+  }
+}
+.prod-mod{
+  background-color: #fff;
+  margin-bottom: 10px;
+
+  h2{
+    font-size: 15px;
+    line-height: 43px;
+    padding-left: 12px;
+  }
+
+  .cnt{
+    padding: 12px;
+    overflow: hidden;
+
+    p{
+      font-size: 13px;
+      padding-bottom: 5px;
+    }
+    img{
+      display: block;
+      width: 100% !important;
+      height: auto !important;
+    }
+    table{
+      width: 100% !important;
+      font-size: @fontSize !important;
+      td {
+        font-size: @fontSize !important;
+      }
+    }
+  }
+}
+.ui-footer{
+  &.f-d{
+    box-sizing: border-box;
+    padding-left: 12px;
+    line-height: 20px;
+    font-size: 12px;
+
+    button{
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 90px;
+      height: 100%;
+      border-radius: 0;
+      line-height: 49px;
+
+      &.right{
+        color: #fff;
+        right: 104px;
+        border: none;
+      }
+    }
+  }
+}
+.arrow-down{
+  &:before{
+    margin-top: -22px;
+    margin-right: -40px;
+    font-size: 26px;
+    -webkit-transform: rotate(90deg);
+    transform: rotate(90deg);
+  }
+}
+.arrow-top{
+  &:before{
+    margin-top: -22px;
+    margin-right: -40px;
+    font-size: 26px;
+    -webkit-transform: rotate(-90deg);
+    transform: rotate(-90deg);
+  }
+}
+/*滑动条*/
+.scroll-bar {
+  position: relative;
+  width: 90%;
+  height: 3px;
+  margin: 70px auto 0 auto;
+
+  .scroll-line{
+    height: 2px;
+    background: #ccc;
+
+    &:before,&:after{
+      content: "";
+      position: absolute;
+      display: block;
+      top: -2px;
+      left: -5px;
+      width: 2px;
+      height: 2px;
+      background-color: #fff;
+      border-radius: 50%;
+      border: 2px solid #ccc;
+    }
+    &.active-one:before{
+      border: 2px solid @themeColor;
+    }
+    &.active-two:after{
+      border: 2px solid @themeColor;
+    }
+    &:after{
+      left: auto;
+      right: -5px;
+    }
+  }
+  .scroll-track {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 30px;
+    height: 2px;
+    background-color: @themeColor;
+    -webkit-border-radius: 3px;
+    border-radius: 2px;
+    z-index: 1;
+
+    transition: width 2s;
+    -webkit-transition: width 2s;
+  }
+  .cur-price{
+    position: absolute;
+    left: 0;
+    display: inline-block;
+    background: @themeColor;
+    height: 20px;
+    line-height: 20px;
+    padding: 0 5px;
+    border-radius: 3px;
+    color: #fff;
+    top: -30px;
+    transform: translateX(-50%);
+    &:before{
+      content: "";
+      position: absolute;
+      display: block;
+      width: 0;
+      height: 0;
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-top: 5px solid @themeColor;
+      bottom: -5px;
+      left: 50%;
+      transform: translateX(-73%);
+    }
+    &:after{
+      content: "";
+      position: absolute;
+      display: block;
+      left: -5px;
+      width: 2px;
+      height: 2px;
+      background-color: #fff;
+      border-radius: 50%;
+      border: 2px solid @themeColor;
+      bottom: -14px;
+      left: 50%;
+      transform: translateX(-78%);
+    }
+  }
+  .scroll-point{
+    position: absolute;
+    top: -15px;
+    left: 0;
+    width: 23px;
+    height: 30px;
+    margin-left: -11px;
+    transition: left 2s;
+    -webkit-transition: left 2s;
+    z-index: 10;
+
+    img{
+      width: 23px;
+      height: 23px;
+      animation: fly 1s linear alternate infinite;
+      -webkit-animation: fly 1s linear alternate infinite;
+    }
+  }
+}
+@keyframes fly {
+  from {transform: translate(0, 0);}
+  to {transform: translate(0, 7px);}
+}
+@-webkit-keyframes fly {
+  from {transform: translate(0, 0);}
+  to {transform: translate(0, 7px);}
+}
+.scroll-text{
+  position: relative;
+  width: 100%;
+  margin-top: 5px;
+  overflow: hidden;
+  font-size: 12px;
+  color: #999;
+
+  span:first-child{
+    float: left;
+  }
+
+  span:nth-child(2){
+    float: right;
+  }
+
+}
+.bgfebf14{
+  background: #febf14 !important;
+}
+
+.big-btn{
+  width: 100%;
+  height: 100%;
+  border-radius: 0;
+}
+
+.select-btn{
+  width: 100%;
+  height: 49px;
+  line-height: 49px;
+  font-size: 16px;
+  border-radius: 0;
+}
+
+
+/* 活动信息 */
+.cut-focus{
+  position: relative;
+  height: 30px;
+  line-height: 30px;
+  background: @themeColor;
+  padding: 0 10px;
+  font-size: 12px;
+  color: #fff;
+  .time{
+    i{
+      display: inline-block;
+      background: #333;
+      height: 20px;
+      line-height: 20px;
+      padding: 0 5px;
+      border-radius: 3px;
+      margin: 0 2px;
+    }
+  }
+
+}
+@media screen and (min-width: 414px) {
+  
+}
+
+.lyf-dialog{
+
+  .ui-dialog-cnt{
+    background-color: #fff;
+  }
+  .header{
+    width: 300px;
+    height: 122px;
+    margin: -122px 0 0 -15px;
+  }
+  .lyf-dialog-btn{
+    width: 250px;
+    height: 40px;
+    margin-left: 10px;
+    margin-bottom: 10px;
+  }
+  .ui-dialog-bd{
+    text-align: center;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,29 @@
+{
+    "code": "0",
+    "message": "处理成功!",
+    "errMsg": null,
+    "data": {
+        "data": [
+            {
+                "nickName": "测试",
+                "typeName": "我的粉丝",
+                "registerDateStr": "2016-12-12 12:12:12",
+                "registerDate": null,
+                "remarks": "xxxx",
+                "imgUrl": "http://img3.imgtn.bdimg.com/it/u=2521774120,2417344887&fm=21&gp=0.jpg"
+            },
+            {
+                "nickName": "测试",
+                "typeName": "我的粉丝",
+                "registerDateStr": "2016-12-12 12:12:12",
+                "registerDate": null,
+                "remarks": "xxxx",
+                "imgUrl": "http://img3.imgtn.bdimg.com/it/u=2521774120,2417344887&fm=21&gp=0.jpg"
+            }
+        ],
+        "totalCount": 2,
+        "pageSize": 1,
+        "totalPage": 2
+    },
+    "trace": "46!$6#@16%&172!$,null,61737785551059026472752"
+}

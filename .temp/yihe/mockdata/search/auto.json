@@ -1,0 +1,18 @@
+{
+    "code": "0",
+    "message": "操作成功!",
+    "errMsg": null,
+    "data": [
+        {
+            "keyword": "苹果",
+            "count": 100,
+            "attachedInfo": null
+        },
+        {
+            "keyword": "富士苹果",
+            "count": 56,
+            "attachedInfo": null
+        }
+    ],
+    "trace": "23!$6#@16%&172!$,null,61722611276088408332367"
+}

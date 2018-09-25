@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="x5-orientation" content="portrait">
+    <meta name="msapplication-tap-highlight" content="no">
+    <title></title>
+    <link rel="stylesheet" href="${staticPath}/libs/frozenui/css/frozen.css?v=${version}">
+    <link rel="stylesheet" href="${staticPath}/libs/swiper/swiper.min.css?v=${version}">
+    <link rel="stylesheet" href="${staticPath}/common.css?v=${version}">
+    <link rel="stylesheet" href="${staticPath}/my/trace.css?v=${version}">
+</head>
+<body>
+    <ui-header title="浏览纪录">
+        <a href="javascript:void(0)" class="handle f14" v-if="hasViewHistory" @click="clearHistory()">清空</a>
+    </ui-header>
+
+    <section class="ui-container" v-cloak>
+        <div class="ui-notice" v-if="!hasViewHistory">
+            <i></i>
+            <p>暂无浏览纪录</p>
+            <div class="ui-notice-btn">
+                <button class="ui-btn-primary ui-btn" v-link-to.literal="/index.html">去逛逛</button>
+            </div>
+        </div>
+    
+        <ul class="ui-list ui-border-b marT10 ui-list-text" v-if="hasViewHistory">
+            <li class="ui-border-t" v-for="iv in itemViewHistory">
+                <div class="ui-list-thumb">
+                    <img class="thumb-img" :src="iv.pic"  v-link-to-item="iv.mpId">
+                </div>
+                <div class="ui-list-info">
+                    <h4 class="ui-nowrap-multi f14 c3" v-link-to-item="iv.mpId">{{iv.name}}</h4>
+                    <h4 class="ui-nowrap f20 aid">¥{{iv.price}}</h4>
+                </div>
+            </li>
+        </ul>
+    </section>
+    <script type="text/javascript" src="/cms/view/frontier_guide/h5/templateJS.json"></script>
+    <script src="${staticPath}/libs/frozenui/lib/zepto.min.js?v=${version}"></script>
+    <script src="${staticPath}/libs/swiper/swipe.js?v=${version}"></script>
+    <script src="${staticPath}/libs/frozenui/js/frozen.js?v=${version}"></script>
+    <script src="${staticPath}/libs/vendor.js?v=${version}"></script>
+    <script src="${staticPath}/common.js?v=${version}"></script>
+    <script src="${staticPath}/my/trace.js?v=${version}"></script>
+    
+</body>
+</html>

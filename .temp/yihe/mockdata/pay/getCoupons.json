@@ -1,0 +1,71 @@
+{
+    "code": "0",
+    "message": "请求成功",
+    "data": {
+        "coupons": [
+            {
+                "couponId": 1085,
+                "couponCode": "ceskZ5UA6RK4T54L8C",
+                "themeTitle": "测试优惠券",
+                "startTime": 1454063820000,
+                "startTimeStr": null,
+                "endTime": 1454753880000,
+                "endTimeStr": null,
+                "couponValue": 10.0000,
+                "useLimit": 20.1000,
+                "individualLimit": 5,
+                "userPayLimit": [
+                    1
+                ],
+                "limitExplain": null,
+                "refDescription": "适用支付方式：网上支付 \n每个帐号限用数量:5\n适用区域：上海市 \n",
+                "moneyRule": "满20.1减10.0",
+                "selected": 1,
+                "isAvailable": 1,
+                "unavailableReason": ""
+            },
+            {
+                "couponId": 1084,
+                "couponCode": "cesk1EHMU7E0B28UC9",
+                "themeTitle": "测试优惠券",
+                "startTime": 1454063820000,
+                "startTimeStr": null,
+                "endTime": 1454753880000,
+                "endTimeStr": null,
+                "couponValue": 10.0000,
+                "useLimit": 20.1000,
+                "individualLimit": 5,
+                "userPayLimit": [
+                    1
+                ],
+                "limitExplain": null,
+                "refDescription": "适用支付方式：网上支付 \n每个帐号限用数量:5\n适用区域：上海市 \n",
+                "moneyRule": "满20.1减10.0",
+                "selected": 0,
+                "isAvailable": 1,
+                "unavailableReason": ""
+            },
+            {
+                "couponId": 1083,
+                "couponCode": "cesk1EHMU7E0B28UC9",
+                "themeTitle": "测试优惠券",
+                "startTime": 1454063820000,
+                "startTimeStr": null,
+                "endTime": 1454753880000,
+                "endTimeStr": null,
+                "couponValue": 1000.0000,
+                "useLimit": 20.1000,
+                "individualLimit": 5,
+                "userPayLimit": [
+                    1
+                ],
+                "limitExplain": null,
+                "refDescription": "适用支付方式：网上支付 \n每个帐号限用数量:5\n适用区域：上海市 \n",
+                "moneyRule": "满20.1减10.0",
+                "selected": 0,
+                "isAvailable": 0,
+                "unavailableReason": ""
+            }
+        ]
+    }
+}

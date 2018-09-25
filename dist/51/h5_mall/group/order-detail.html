@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <title>拼团</title>
+    <link rel="stylesheet" href="/libs/frozenui/css/frozen.css?v=1537883801478">
+    <link rel="stylesheet" href="/common.css?v=1537883801478">
+    <link rel="stylesheet" href="/group/style-w.css?v=1537883801478">
+</head>
+<body v-need-login>
+<ui-header title="订单详情" v-if="!weixin"></ui-header>
+<!-- main section -->
+<section class="ui-container" v-cloak>
+    <div class="order-status statusY" :class="{'statusY':order.orderStatus == 1,'statusY':order.orderStatus == 2||order.orderStatus == 3||order.orderStatus == 13,'statusY':order.orderStatus == 10||order.orderStatus == 8}">
+
+                <p v-if="order.orderStatus == 1">等待买家支付</p>
+                <p v-if="order.orderStatus == 1" class="f14">您的订单已提交，请在{{cancleTimeStr}}完成支付，超时订单自动取消</p>
+
+                <p v-if="order.orderStatus == 2">卖家待发货</p>
+                <p v-if="order.orderStatus == 2" class="f14">您的订单已付款，等待卖家发货</p>
+                <p v-if="order.orderStatus == 13">买家已付款</p>
+                <div class="delivery" v-if="order.orderStatus == 3">
+                    <!--<i class="icon"></i>-->
+                    <p>您的订单正在由配送员进行配送，<br>请注意查收！</p>
+                </div>
+                <div class="success" v-if="order.orderStatus == 8">
+                    <!--<i class="icon"></i>-->
+                    <p>交易成功</p>
+                    <!--<p class="f14">  买家确认收货</p>-->
+                </div>
+                <p v-if="order.orderStatus == 10">订单已取消</p>
+                <p v-if="order.orderCanceOperateTypeContext&&order.orderStatus == 10" class="f14">取消原因：{{order.orderCanceOperateTypeContext}}</p>
+            </div>
+            <div class="order-address">
+                <ul class="ui-list ui-list-text">
+                    <li>
+                        <i class="ui-icon-pin"></i>
+                        <p class="ui-nowrap" v-if="order.receiver">
+                            {{order.receiver.receiverName}} {{order.receiver.receiverMobile}}<br>
+                            <span class="c6">{{order.receiver.provinceName}}{{order.receiver.cityName}}{{order.receiver.areaName}}{{order.receiver.detailAddress}}</span>
+                        </p>
+                    </li>
+                </ul>
+            </div>
+            <ul class="order-list">
+                <li>
+                    <div class="h-tip ui-border-b clearfix">
+                        <span class="time">费用明细</span>
+                        <span class="pay-status" :class="{'pay-status-active':order.orderStatus==1||order.orderStatus==2||order.orderStatus==3}">{{order.orderStatusName}}</span>
+                    </div>
+                    <div class="b-info clearfix" v-for="prod in order.productList">
+                        <img :src="prod.url100x100" width="60" height="60">
+                <div class="txt">
+                    <p class="name ui-nowrap">{{prod.name}}</p>
+                    <p class="size-num clearfix">
+                        <span class="fl c9"><span v-for="attr in prod.propertyTags">{{attr.value}}&nbsp;&nbsp;&nbsp;</span></span>
+                        <span class="fr">X{{prod.num}}</span>
+                    </p>
+                    <p class="group-info" style="margin-top: 0;">
+                        <span class="num">{{order.groupBuyLimitNum}}人团</span>
+                        <a class="ui-btn fr ui-btn-primary-1" style="margin-top: 10px;" v-if="order.orderStatus != 1 && order.orderStatus != 10" href="/group/group-detail.html?instId={{order.groupBuyOrderCode}}">查看团详情</a>
+                    </p>
+                </div>
+            </div>
+            <div class="f-desc ui-border-t text-right clearfix">
+                <span class="amount price" v-money="order.productList && order.productList.length > 0 ? order.productList[0].originalPrice : 0"></span><span class="f12">/件</span>
+                <span class="amount">{{order.orderDeliveryFeeAccounting>0 ? "运费：¥"+order.orderDeliveryFeeAccounting : "(免运费)"}}</span>
+            </div>
+        </li>
+    </ul>
+    <!-- 待支付, 待发货，已取消订单 -->
+    <div class="order-desc" v-if="order.orderStatus == 1 || order.orderStatus == 10">
+        <p class="clearfix"><span class="fl">订单号</span><span class="fr">{{order.orderCode}}</span></p>
+        <!--<p class="clearfix"><span class="fl">支付方式</span><span class="fr">{{order.payMethod}}</span></p>-->
+        <p class="clearfix"><span class="fl">下单时间</span><span class="fr">{{order.orderCreateTimeStr}}</span></p>
+    </div>
+    <!-- 已发货，待评价，已完成订单 -->
+    <div class="order-desc" v-if="order.orderStatus == 3 || order.orderStatus == 8|| order.orderStatus == 2||order.orderStatus == 13 ">
+        <p class="clearfix"><span class="fl">订单号</span><span class="fr">{{order.orderCode}}</span></p>
+        <!--<p class="clearfix"><span class="fl">支付方式</span><span class="fr">{{order.payMethod}}</span></p>-->
+        <p class="clearfix"><span class="fl">创建时间</span><span class="fr">{{order.orderCreateTimeStr}}</span></p>
+        <p class="clearfix"><span class="fl">成团时间</span><span class="fr">{{order.groupCreateTime}}</span></p>
+        <p class="clearfix"><span class="fl">发货时间</span><span class="fr">{{order.shipTimeStr}}</span></p>
+        <!--<p class="clearfix"><span class="fl">快递方式</span><span class="fr">{{order.deliveryModeName}}</span></p>-->
+        <!--<p class="clearfix"><span class="fl">运单编号</span><span class="fr">{{order.deliveryExpressNbr}}</span></p>-->
+    </div>
+
+</section><!-- end main section -->
+
+<!-- 待支付订单 -->
+<div class="ui-footer ui-footer-stable ui-btn-group ui-border-t" v-if="order.orderStatus == 1" v-cloak>
+    <button class="ui-btn-lg red-border red" style="background-image: none" href="javascript:void(0)" v-if="order.canCancel==1" heimdall_eventName="cancelOrder" :heimdall_orderTotalPrice="order.paymentAmount" :heimdall_shipPrice="order.orderDeliveryFeeAccounting" :heimdall_orderid="order.orderCode" @click="cancelOrder()">取消订单</button>
+    <button class="ui-btn-lg ui-btn-primary" @click="goPayWay(order.orderCode, order.groupBuyOrderCode)">去支付</button>
+</div>
+
+<!-- 待收货订单 -->
+<div class="ui-footer ui-footer-stable ui-btn-group ui-border-t" v-if="order.orderStatus == 3" v-cloak>
+    <button class="ui-btn-lg ui-btn-primary ui-btn-primary-2" style="background-image: none" v-link-to="'/my/logistics-information.html?orderCode=' + order.orderCode">查看物流</button>
+    <button class="ui-btn-lg ui-btn-primary ui-btn-primary-1" @click="confirmReceived(order)">确认收货</button>
+</div>
+
+<!-- 待评论订单 -->
+<!--<div class="ui-footer ui-footer-stable ui-btn-group ui-border-t" v-if="order.orderStatus == 8">-->
+<!--<button class="ui-btn-lg red-border red" style="background-image: none" v-link-to="'/group/logistics-information.html?orderCode=' + order.orderCode">查看物流</button>-->
+<!--<button class="ui-btn-lg ui-btn-primary">评价</button>-->
+<!--</div>-->
+
+
+<script type="text/javascript" src="/cms/view/frontier_guide/h5/templateJS.json"></script>
+<script>if(/MicroMessenger/i.test(navigator.userAgent)) document.write('<script src="//res.wx.qq.com/open/js/jweixin-1.1.0.js"><\/script>');</script>
+<script src="/libs/frozenui/lib/zepto.min.js?v=1537883801478"></script>
+<script src="/libs/frozenui/js/frozen.js?v=1537883801478"></script>
+<script src="/libs/vendor.js?v=1537883801478"></script>
+<script src="/common.js?v=1537883801478"></script>
+<script src="/group/order-detail.js?v=1537883801478"></script>
+</body>
+</html>

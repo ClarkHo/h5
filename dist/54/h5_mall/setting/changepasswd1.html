@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="x5-orientation" content="portrait">
+    <meta name="msapplication-tap-highlight" content="no">
+    <title></title>
+    <link rel="stylesheet" href="/libs/frozenui/css/frozen.css?v=1537884480835">
+    <link rel="stylesheet" href="/common.css?v=1537884480835">
+    <link rel="stylesheet" href="/setting/setting.css?v=1537884480835">
+    <style>
+        .ui-form {
+            background: none !important;
+            margin-right: 20px;
+            margin-left: 20px;
+        }
+        .ui-form   label{
+            text-align:center!important;
+            width:65px!important;
+        }
+
+        .ui-form-item{
+            margin-left:0!important;
+        }
+        .submit-btn {
+            padding-right: 0 !important;
+            margin:25px 0px 0px 0px;
+
+        }
+        .sms-btn{
+            border-radius:2px;
+            border-color:#f74c31;
+            padding-top:3px;
+            padding-bottom:3px;
+        }
+    </style>
+</head>
+
+<body v-need-login>
+    <ui-header title="修改密码"></ui-header>
+    <section class="ui-container" :class="{hide: step == 1}">
+        <div class="ui-form">
+            <form novalidate>
+                <div class="ui-form-item ui-form-item-show ui-border mgT35 bgf">
+                    <label for="#">手机号</label>
+                    <input type="tel" v-model="user.mobile" maxlength="11" placeholder="请输入手机号" :readonly="readOnly">
+                    <a href="javascript:void(0)" class="ui-icon-close" v-show="user.mobile && !readOnly" @click="user.mobile = ''"></a>
+                </div>
+                <div class="ui-form-item ui-form-item-show has-sms ui-border mgT20 bgf">
+                    <label for="#">验证码</label>
+                    <input type="number" v-model="user.captchas" maxlength="6" placeholder="请输入短信验证码">
+                    <button type="button" class="ui-border-l sms-btn" :disabled="smsBtnDisabled" @click="checkViCode"><span v-cloak>{{smsBtn}}</span></button>
+                    <a href="javascript:void(0)" class="ui-icon-close" v-show="user.captchas" @click="user.captchas=''"></a>
+                </div>
+            </form>
+            <div class="ui-form-item submit-btn">
+                <button type="button" class="ui-btn ui-btn-primary" :disabled="sbmDisabled" @click="nextStep">下一步</button>
+            </div>
+                <!--<p>
+                    <span class="fr mgT5"  @click="showTalk=true" style="padding-right:17px;"> 联系客服</span>
+                </p>-->
+        </div>
+        <!-- 联系客服弹层-->
+        <div class="ui-actionsheet" :class="{'show': showTalk}">
+            <div class="ui-actionsheet-cnt">
+                <button class="ui-actionsheet-del f18 c808080">客服工作时间：每日8:00-21:00</button>
+                <a href="tel:400-8819777">
+                    <button class="ui-actionsheet-del cff6900 f18">400-8819777</button>
+                </a>
+                <button @click="showTalk=false">取消</button>
+            </div>
+        </div>
+        <!--图形验证码-->
+        <div class="ui-dialog" :class="{show: startImgCode}" v-if="startImgCode" style="z-index:100 !important;">
+            <div class="ui-dialog-cnt">
+                <div class="ui-dialog-bd">
+                    <h4>请输入图片验证码</h4>
+                    <div>
+                        <div class="ui-form-item ui-form-item-show has-imgcode ui-border-b  long-label bgf mgT20 show">
+                            <input type="text" v-model="checkImageCode" placeholder="请输入验证码" style="padding-left: 10px!important;">
+                            <a href="javascript:void(0)" class="ui-icon-close" @click="checkImageCode = ''" v-show="checkImageCode"></a>
+                            <span class="imgcode" :style="{backgroundImage: 'url(data:image/png;base64,'+image+')' }" @click="updImgCode"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="ui-dialog-ft">
+                    <button type="button" data-role="button" @click="cancel()">取消</button>
+                    <button type="button" data-role="button" @click="overLimitSmsSend()">确认</button>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="ui-container hide"  :class="{show: step == 1}">
+        <div class="ui-form">
+            <form novalidate>
+                <!--<div class="ui-form-item ui-form-item-show has-icon ui-border  mgT35 bgf ">-->
+                    <!--<label for="#">旧密码</label>-->
+                    <!--<input type="{{spypassword}}" v-model="user.password" placeholder="请输入旧密码">-->
+                    <!--<a href="javascript:void(0)" class="ui-icon-close" v-show="user.password" @click="user.password=''"></a>-->
+                    <!--<i class="icon icon-eyes-close" v-if="spypassword == 'password'" @click="spypassword = 'text'"></i>-->
+                    <!--<i class="icon icon-eyes" v-if="spypassword == 'text'" @click="spypassword = 'password'"></i>-->
+                <!--</div>-->
+                <div class="ui-form-item ui-form-item-show has-icon ui-border bgf long-label mgT35">
+                    <label for="#" class="ui-border-r">新密码</i></label>
+                    <input type="{{spypasswd}}" v-model="user.password1" maxlength="18" placeholder="请输入密码(6-18个字符)">
+                    <a href="javascript:void(0)" class="ui-icon-close" v-show="user.password1" @click="user.password1=''"></a>
+                    <i class="icons icons-eyes-close" v-if="spypasswd == 'password'" @click="spypasswd = 'text'"></i>
+                    <i class="icons icons-eyes" v-if="spypasswd == 'text'" @click="spypasswd = 'password'"></i>
+                </div>
+                <div class="ui-form-item ui-form-item-show has-icon ui-border bgf mgT20 long-label">
+                    <label for="#"  class="ui-border-r">确认密码</i></label>
+                    <input type="{{spyconfirmPassword}}" v-model="user.password2" maxlength="18" placeholder="请再次输入密码">
+                    <a href="javascript:void(0)" class="ui-icon-close" v-show="user.password2" @click="user.password2=''"></a>
+                    <i class="icons icons-eyes-close" v-if="spyconfirmPassword == 'password'" @click="spyconfirmPassword = 'text'"></i>
+                    <i class="icons icons-eyes" v-if="spyconfirmPassword == 'text'" @click="spyconfirmPassword = 'password'"></i>
+                </div>
+            </form>
+            <div class="ui-form-item submit-btn">
+                <button type="button" class="ui-btn ui-btn-primary" :disabled="sbmDisabled" @click="modifyPassword">确认提交</button>
+            </div>
+        </div>
+        
+    </section>
+    <script type="text/javascript" src="/cms/view/frontier_guide/h5/templateJS.json"></script>
+    <script src="/libs/frozenui/lib/zepto.min.js?v=1537884480835"></script>
+    <script src="/libs/swiper/swipe.js?v=1537884480835"></script>
+    <script src="/libs/frozenui/js/frozen.js?v=1537884480835"></script>
+    <script src="/libs/vendor.js?v=1537884480835"></script>
+    <script src="/common.js?v=1537884480835"></script>
+    <script src="/setting/changepasswd1.js?v=1537884480835"></script>
+</body>
+</html>

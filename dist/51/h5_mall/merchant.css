@@ -1,0 +1,60 @@
+.jianbian {
+  background: linear-gradient(top, #f23030, #f23030);
+  background: -webkit-linear-gradient(top, #f23030, #f23030);
+  background: -moz-linear-gradient(top, #f23030, #f23030);
+  color: #fff!important;
+}
+.main {
+  position: fixed;
+  top: 44px;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-image: url('images/m-bg.png?v=1537883801478');
+  background-size: 100% 100%;
+}
+.main .qrcode {
+  display: block;
+  width: 135px;
+  height: 135px;
+  padding: 5px;
+  margin: 50px auto 24px;
+  background-color: #fff;
+}
+.main p {
+  padding: 0 12px;
+  color: #fff;
+  font-size: 15px;
+  text-align: center;
+}
+.main .userinfo {
+  margin: 50px 50px 0;
+  color: #fff;
+  line-height: 1;
+}
+.main .userinfo img {
+  width: 60px;
+  height: 60px;
+  border-radius: 40px;
+  border: 3px solid #c2ab78;
+}
+.main .userinfo h3 {
+  font-size: 14px;
+}
+.main .userinfo h5 {
+  margin-top: 6px;
+  font-size: 10px;
+}
+.main .wel {
+  display: block;
+  margin: 68px auto 0;
+}
+@media screen and (max-width: 320px) {
+  .main .qrcode {
+    margin: 30px auto 14px;
+    background-color: #fff;
+  }
+  .main .wel {
+    margin: 38px auto 0;
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "code": "0",
+  "message": "操作成功",
+  "data": {
+    "subDistributorLevel": 1,
+    "distributorId": 12345,
+    "distributorName": "徐蛋",
+    "distributorMobile": "150****8888",
+    "orderAmount": 12345,
+    "commission": 12345,
+    "orderCount":5
+  }
+}

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="x5-orientation" content="portrait">
+    <meta name="msapplication-tap-highlight" content="no">
+    <title></title>
+    <link rel="stylesheet" href="${staticPath}/libs/frozenui/css/frozen.css?v=${version}">
+    <link rel="stylesheet" href="${staticPath}/common.css?v=${version}">
+    <link rel="stylesheet" href="${staticPath}/evaluate/evaluate.css?v=${version}">
+    <style>
+        .ui-list li{
+            margin-left:15px;
+            padding-right:15px;
+        }
+        .ui-list-img{
+            margin-top:12px;
+        }
+        .ui-list-thumb{
+            margin-right:12px;
+           /* margin-bottom:0px;*/
+        }
+        .mT2 {
+            margin-top: 2px;
+        }
+    </style>
+</head>
+<body ontouchstart="" class="evaluate" v-cloak>
+
+<ui-header title="我的评价"></ui-header>
+
+    <section v-cloak>
+        <ul class="ui-tiled nav-tabs bgf evaluate-nav">
+            <li class="text-center" :class="{ active: evaluateStatus==0 }" @click="switchTab(0)"><span>全部</span></li>
+            <li class="text-center" :class="{ active: evaluateStatus==1 }" @click="switchTab(1)"><span>已评价</span></li>
+            <li class="text-center" :class="{ active: evaluateStatus==2 }" @click="switchTab(2)"><span>未评价</span></li>
+             <!-- <li class="text-center" :class="{ active: evaluateStatus==3 }" @click="switchTab(3)"><span>可修改</span></li> -->
+        </ul>
+        <ui-drop-down :on-pull-down="dropDown" :stop.sync="stopDropDown" :top="'0'" v-if="!noData">
+            <ul class="ui-list ui-list-text mgT10 pdB10" v-for="item in commentList">
+                <li class="ui-border-b" style="margin-left:0px">
+                    <h4 class="ui-nowrap  pdL15"><span class="f14 c80">{{item.commentTimeStr}}</span></h4>
+                    <div class="ui-txt-info">
+                        <span class="f14 c3" v-if="item.isComment==1">已评价</span>
+                        <span class="f14 c3" v-if="item.isComment==0">未评价</span>
+                    </div>
+                </li>
+                <li class="pdTB0">
+                    <div class="ui-list-thumb w50h50">
+                        <span :style="{'background-image':'url('+item.picUrl+')'}"></span>
+                    </div>
+                    <div class="pro-info pdR0" :class="{'pdB10':item.isComment==0}">
+                        <h4 class="ui-nowrap"><span class="f14 c3">{{item.name}}</span></h4>
+                        <p class="ui-nowrap mgT10" style="height:25px;" >
+                            <button class="ui-lyf-btn fr" v-show="item.isComment==0" v-link-to="'/evaluate/publish-evaluate.html?mpId='+item.orderCode + '&soItemId=' + item.soItemId">去评价</button>
+                            <button class="ui-lyf-btn fr add" v-show="item.itemType==3 && item.canEdit == 0" v-link-to="'/my/evaluate-add.html?mpId='+item.orderCode + '&soItemId=' + item.soItemId">写追评</button>
+                            <button class="ui-lyf-btn fr" v-show="item.canEdit==1" v-link-to="'/evaluate/update-evaluate.html?mpId='+item.orderCode + '&soItemId=' + item.soItemId+'&id='+item.id">去修改</button>
+                        </p>
+                    </div>
+                </li>
+                <li class=" pdTB0" style="margin-top:-10px" v-if="item.rate">
+                    <p class="ui-nowrap" v-if="item.rate==1">
+                        <i class="icons icons-star"></i>
+                        <i class="icons icons-star-gray"></i>
+                        <i class="icons icons-star-gray"></i>
+                        <i class="icons icons-star-gray"></i>
+                        <i class="icons icons-star-gray"></i>
+                    </p>
+                    <p class="ui-nowrap" v-if="item.rate==2">
+                        <i class="icons icons-star"></i>
+                        <i class="icons icons-star"></i>
+                        <i class="icons icons-star-gray"></i>
+                        <i class="icons icons-star-gray"></i>
+                        <i class="icons icons-star-gray"></i>
+                    </p>
+                    <p class="ui-nowrap" v-if="item.rate==3">
+                        <i class="icons icons-star"></i>
+                        <i class="icons icons-star"></i>
+                        <i class="icons icons-star"></i>
+                        <i class="icons icons-star-gray"></i>
+                        <i class="icons icons-star-gray"></i>
+                    </p>
+                    <p class="ui-nowrap" v-if="item.rate==4">
+                        <i class="icons icons-star"></i>
+                        <i class="icons icons-star"></i>
+                        <i class="icons icons-star"></i>
+                        <i class="icons icons-star"></i>
+                        <i class="icons icons-star-gray"></i>
+                    </p>
+                    <p class="ui-nowrap" v-if="item.rate==5">
+                        <i class="icons icons-star"></i>
+                        <i class="icons icons-star"></i>
+                        <i class="icons icons-star"></i>
+                        <i class="icons icons-star"></i>
+                        <i class="icons icons-star"></i>
+                    </p>
+                    <!--<div class="ui-txt-info"><span class="f12 c9">欧阳**89</span></div>-->
+                </li>
+                <li class="pdT0 pdTB0" v-if="item.content">
+                   <p class="f14 c3">{{item.content}}</p>
+                </li>
+                <li  v-if="item.commentPicUrlList" class="pdT0">
+                    <div class="evaluate-img" :class="{'pdT5':picList.length>0}">
+                        <div class="fl mgR5" v-for="ele in item.commentPicUrlList" style="width:75px;">
+                            <img :src="ele" alt="" class="mgR5" height="75px" width="75px">
+                        </div>
+                    </div>
+                </li>
+                
+                <div class="replyContent" v-if="item.replyContent">
+                    <span class="title">
+                            回复：
+                    </span>
+                    <span class="content">
+                            {{item.replyContent}}
+                    </span>
+                </div>
+                <div class="replyContent" v-if="item.addContent">
+                    <span class="title">追评 :</span>
+                    <span class="content">
+                            {{item.addContent}}
+                            <p class="mgT10">
+                                <img :src="img" alt="" v-for="img in item.addcommentPicUrlList" track-by="$index" class="w60h60bor1 mgR5">
+                            </p>
+                    </span>
+                </div>
+                <div class="replyContent" v-if="item.replyAddContent">
+                    <span class="title">
+                        回复：
+                    </span>
+                    <span class="content">
+                            {{item.replyAddContent}}
+                    </span>
+                </div>
+            </ul>
+            <!--到底-->
+            <div class="ui-row-flex ui-whitespace" v-if="isEnd">
+                <div class="ui-col ui-col text-center mgT30 mgB30">
+                    <span class="f12 c6">没有更多了哦~</span>
+                </div>
+            </div>
+
+    </ui-drop-down>
+    <!--无数据-->
+    <div class="ui-row-flex ui-whitespace marT150" v-if="noData">
+        <div class="ui-col ui-col text-center mgT10 mgB10">
+            <i class="icons4  icons4-noGoods"></i>
+            <p class="f12 c6">暂无数据...</p>
+        </div>
+    </div>
+
+</section>
+
+<script type="text/javascript" src="/cms/view/frontier_guide/h5/templateJS.json"></script>
+<script src="${staticPath}/libs/frozenui/lib/zepto.min.js?v=${version}"></script>
+<script src="${staticPath}/libs/frozenui/js/frozen.js?v=${version}"></script>
+<script src="${staticPath}/libs/vendor.js?v=${version}"></script>
+<script src="${staticPath}/common.js?v=${version}"></script>
+<script src="${staticPath}/evaluate/evaluate.js?v=${version}"></script>
+
+</body>
+</html>

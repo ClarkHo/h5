@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="x5-orientation" content="portrait">
+    <meta name="msapplication-tap-highlight" content="no">
+    <title></title>
+    <link rel="stylesheet" href="/libs/frozenui/css/frozen.css?v=1537883801478">
+    <link rel="stylesheet" href="/common.css?v=1537883801478">
+    <link rel="stylesheet" href="/specialFun/specialFun.css?v=1537883801478">
+</head>
+<body ontouchstart="">
+
+    <ui-header title="消息中心" :back-event="goBack"></ui-header>
+
+    <section v-cloak class="mgT53">
+        <template  v-if="msgList.length>0">
+        <div v-for="msg in msgList"  @click="goLink(msg)">
+            <div class="ui-flex ui-flex-pack-center mgT10 mgB10">
+                <span class="f12 span-tip">{{msg.sendTimeStr}}</span>
+            </div>
+            <div class="whiteBlock">
+                <ul class="ui-list borderR4">
+                    <li class="pdT10">
+                        <span class="f14">{{msg.msgTitle}}</span>
+                    </li>
+                    <li>
+                        <div class="ui-list-img posR marT17" style="width: 50px;height: 50px" v-show="msg.coverUrl">
+                            <img :src="msg.coverUrl" alt="" width="100%">
+                        </div>
+                        <div class="ui-list-info">
+                            <h4 class=""><span class="f14 c6">{{{msg.msgContent}}}</span></h4>
+                            <!-- <p class="ui-nowrap"><span class="f12 c6">运单编号：{{msg.orderCode}}</span></p> -->
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        </template>
+        <!--无数据时-->
+        <div class="ui-row-flex ui-whitespace" v-if="msgList.length==0">
+            <div class="ui-col ui-col text-center mgT10 mgB10">
+                <i class="specailFunIcons  specailFunIcons-noMessage"></i>
+                <p class="f12 c6">还没有消息哦~</p>
+            </div>
+        </div>
+        <!--isEnd-->
+        <div class="ui-row-flex ui-whitespace mgT30" v-if="isEnd">
+            <div class="ui-col ui-col text-center">
+                <span class="f12 c6">没有更多了哦 看看别的吧~</span>
+            </div>
+        </div>
+    </section>
+
+    <script type="text/javascript" src="/cms/view/frontier_guide/h5/templateJS.json"></script>
+    <script src="/libs/frozenui/lib/zepto.min.js?v=1537883801478"></script>
+    <script src="/libs/frozenui/js/frozen.js?v=1537883801478"></script>
+    <script src="/libs/vendor.js?v=1537883801478"></script>
+    <script src="/common.js?v=1537883801478"></script>
+    <script src="/message/message-stream.js?v=1537883801478"></script>
+
+</body>
+</html>

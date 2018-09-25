@@ -1,0 +1,32 @@
+.ui-card-pay {
+  background-image: -webkit-linear-gradient(to left, #f23030, #ff5400);
+  background-image: linear-gradient(to left, #f23030, #ff5400);
+}
+.pay-infor p {
+  padding: 10px 0 0 0;
+}
+.pay-infor p em {
+  width: 74px;
+  position: absolute;
+  text-align: left;
+  color: #666;
+}
+.pay-infor p span {
+  width: 100%;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  padding-left: 74px;
+  display: block;
+}
+.modify-btn {
+  width: 120px;
+  height: 40px;
+  border: 1px solid #e5e5e5;
+  font-weight: bold;
+  font-size: 14px;
+  color: #333;
+}
+.modify-btn:not(.disabled):not(:disabled):active {
+  background: #fff;
+  color: #333;
+}

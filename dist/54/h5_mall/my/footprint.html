@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="x5-orientation" content="portrait">
+    <meta name="msapplication-tap-highlight" content="no">
+    <title></title>
+    <link rel="stylesheet" href="/libs/frozenui/css/frozen.css?v=1537884480835">
+    <link rel="stylesheet" href="/common.css?v=1537884480835">
+    <link rel="stylesheet" href="/my/preferential.css?v=1537884480835">
+    <link rel="stylesheet" href="/specialFun/specialFun.css?v=1537884480835">
+    <style>
+        .ui-list > li {
+            margin-left: 0;
+        }
+        .ui-list-thumb span{
+            width: 50px;
+            height: 50px;
+        }
+        .pro-info .jine{
+            margin-top: 0px;
+        }
+        .pro-info h4{
+            margin-top: 0;
+        }
+        .padL15{
+            padding-left: 15px;
+        }
+        .state{
+            position: absolute;
+            bottom: 0px;
+            left: 0px;
+            right: 0px;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.1);
+            font-size: 10px;
+            color: #fff;
+        }
+        @media screen and (min-width: 400px) {
+            .bd-t{
+                position:relative;
+            }
+
+            .bd-t:after{
+                content: "  ";
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 1px;
+                background-color: #e0e0e0;
+                -webkit-transform: scaleY(.5);
+                transform:scaleY(.5);
+            }
+
+            .bd-r{
+                position:relative;
+            }
+
+            .bd-r:after{
+                content: "  ";
+                position: absolute;
+                right: 0;
+                top: 0;
+                width: 1px;
+                height: 100%;
+                background-color: #e0e0e0;
+                -webkit-transform: scaleX(.5);
+                transform:scaleX(.5);
+            }
+        }
+        .line35height35{
+            line-height: 35px;
+            height: 35px;
+        }
+    </style>
+</head>
+<!---->
+
+<body v-need-login>
+    <ui-header title="我的足迹">
+        <!--v-show="detailTab == 'collect1' "收藏文章-->
+        <label>
+            <a href="javascript:void(0)" class="handle" v-if="!editStatus" @click="editStatus = true">编辑</a>
+            <a href="javascript:void(0)" class="handle" v-if="editStatus" @click="editStatus = false">完成</a>
+        </label>
+    </ui-header>
+    <div class="ui-tab" style="overflow: visible;">
+        <!-- <ul class="ui-tiled nav-tabs ui-border-b">
+            <li class="avtive" :class="{avtive: detailTab == 1}" @click="changeTab(1)">我的爱吃</li>
+            <li :class="{avtive: detailTab == 3}" @click="changeTab(3)">浏览足迹</li>
+        </ul> -->
+        <!-- main section -->
+        <ui-drop-down :on-pull-down="dropDown" :stop.sync="stopDropDown" :top="'-41'">
+            <div class="ui-container" :class="{mgT10:detailTab == 1}">
+            <ul class="ui-tab-content">
+                <!-- -->
+                <!-- 商品列表 -->
+                <!--无数据时-->
+                <div class="ui-row-flex ui-whitespace marT150" v-if="goodList.length==0" v-show="detailTab == 1 ">
+                    <div class="ui-col ui-col text-center mgT10 mgB10">
+                        <i class="specailFunIcons  icon-noContent2"></i>
+                        <p class="f12 c6">无内容</p>
+                    </div>
+                </div>
+                <ul class="ui-list mgB50" v-if="goodList.length>0" v-show="detailTab == 1 ">
+                    <li class="bd-t ui-border-b" v-for="good in goodList" :class="{wuhuo:good.managementState==0}">
+                        <label class="ui-checkbox-s marT38" v-if="editStatus && detailTab == '1'">
+                            <input type="checkbox" v-model="good.checked">
+                        </label>
+                        <div class="ui-list-thumb" @click="gotoDetail(good.mpId)">
+                            <span><img :src="good.picUrl" width="50" height="50"></span>
+                            <div class="state" v-if="good.stockNum==0">无货</div>
+                            <div class="state" v-if="good.managementState==0">商品已下架</div>
+                        </div>
+                        <div class="pro-info" @click="gotoDetail(good.mpId)">
+                            <h4 class="ui-nowrap-multi">{{good.chineseName}}</h4>
+                            <p class="jine">
+                                <span class="price" v-if="good.availablePrice">¥<span class="main-price">{{good.availablePrice | currency ''}}</span></span>
+                                <span class="price" v-if="!good.availablePrice">¥<span class="main-price">{{good.originalPrice | currency ''}}</span></span>
+                                <del class="f12 cb2b2b2 marL10" v-if="good.availablePrice">¥{{good.originalPrice | currency ''}}</del>
+                                <!--<span class="ogn-price">¥{{good.originalPrice}}</span>-->
+                            </p>
+                            <!--<p class="sales" v-if="good.mpSalesVolume>0">已售{{good.mpSalesVolume}}笔</p>-->
+                            <!--<p class="sales" v-if="good.mpSalesVolume==null||good.mpSalesVolume==0">已售0笔</p>-->
+                        </div>
+                    </li>
+                </ul>
+                <!-- 文章列表 -->
+                <!--无数据时-->
+                <div class="ui-row-flex ui-whitespace marT150" v-if="passageList.length==0" v-show="detailTab == 2 ">
+                    <div class="ui-col ui-col text-center mgT10 mgB10">
+                        <i class="icons3  icons3-search-no"></i>
+                        <p class="f14 c6">暂时无内容哦...</p>
+                    </div>
+                </div>
+                <ul class="ui-list mgB50" v-if="passageList.length>0" v-show="detailTab == 2 ">
+                    <div class="goodmount">共{{totalCountpassage}}篇文章</div>
+                    <li class="bd-t" v-for="passage in passageList">
+                        <label class="ui-checkbox-s marT38" v-if="editStatus && detailTab == '2'">
+                            <input type="checkbox" v-model="passage.checked">
+                        </label>
+                        <div class="ui-list-thumb mediumimg" v-link-to="'/cms/view/h5/article/'+passage.articleId+'.html'">
+                            <span>
+                            <img :src="passage.url160x160  || '/images/item_default.png?v=1537884480835'" width="100%" height="100%">
+                            </span>
+                        </div>
+                        <div class="article" v-link-to="'/cms/view/h5/article/'+passage.articleId+'.html'">
+                            <!--<span class="theme hide" :class="{'show': art.isTop == 1}">[置顶]</span>-->
+                            <h4 class="ui-nowrap-multi"> #{{passage.title}}#{{passage.content}}</h4>
+                            <p class="date">{{passage.createTimeStr}}</p>
+                        </div>
+                    </li>
+                </ul>
+                <!--</div>-->
+                <!-- 我的足迹 -->
+                <!--无数据时-->
+                <div class="ui-row-flex ui-whitespace" v-if="footList.length==0" v-show="detailTab == 3 ">
+                    <div class="ui-col ui-col text-center mgT10 mgB10">
+                        <i class="specailFunIcons  icon-noContent2"></i>
+                        <p class="f12 c6">暂无数据...</p>
+                    </div>
+                </div>
+                <ul class="ui-list mgB50" v-if="footList.length>0" v-show="detailTab == 3 " style="background:none">
+                    <li v-for="foot in footList" class="" style="margin-left:0px;padding-left:0px;">
+                        <ul class="ui-list" style="background:none">
+                            <p class="line35height35 padL15">{{foot.name}}</p>
+                            <li class="bd-t ui-border-b" v-for="footGood in foot.values" :class="{wuhuo:footGood.shelvesStatus==0}" style="margin-left:0px;padding-left:15px;background:#fff" >
+                                <label class="ui-checkbox-s marT38" v-if="editStatus && detailTab == '3'">
+                                    <input type="checkbox" v-model="footGood.checked">
+                                </label>
+                                <div class="ui-list-thumb" @click="gotoDetail(footGood.mpId)">
+                                    <span><img :src="footGood.picUrl" width="50" height="50"></span>
+                                    <div class="state" v-if="footGood.shelvesStatus==0">商品已下架</div>
+                                </div>
+                                <div class="pro-info" @click="gotoDetail(footGood.mpId)">
+                                    <h4 class="ui-nowrap-multi">{{footGood.name}}</h4>
+                                    <p class="jine">
+                                        <span class="price" v-if="footGood.availablePrice">¥<span class="main-price">{{footGood.availablePrice | currency ''}}</span></span>
+                                        <span class="price" v-if="!footGood.availablePrice">¥<span class="main-price">{{footGood.originalPrice | currency ''}}</span></span>
+                                        <del class="f12 cb2b2b2 marL10" v-if="footGood.availablePrice">¥{{footGood.originalPrice | currency ''}}</del>
+                                        <!--<span class="ogn-price">¥{{good.originalPrice}}</span>-->
+                                    </p>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </ul>
+        </div>
+        </ui-drop-down>
+        <footer class="padbtn" :class="{show:editStatus}" v-if="goodList.length>0&&detailTab == 1">
+            <!-- 菜单点击删除时，加上show类样式 -->
+            <button class="bgTf4cc53Tb48b32" @click="deleteFavorite(selectAll)">删除 ({{selectAll.length||0}})</button>
+        </footer>
+        <footer class="padbtn" :class="{show:editStatus}" v-if="passageList.length>0&&detailTab == 2">
+            <!-- 菜单点击删除时，加上show类样式 -->
+            <button class="bgTf4cc53Tb48b32" @click="deleteFavorite(selectAll2)">删除 ({{selectAll2.length||0}})</button>
+        </footer>
+        <footer class="padbtn" :class="{show:editStatus}" v-if="footList.length>0&&detailTab == 3">
+            <!-- 菜单点击删除时，加上show类样式 -->
+            <button class="bgTf4cc53Tb48b32" @click="deleteFavorite(selectAll3)">删除 ({{selectAll3.length||0}})</button>
+        </footer>
+        <div v-if="nomore&&detailTab == 1" v-cloak>
+            <img src="/images/pull-up.png?v=1537884480835" width="100%" />
+        </div>
+        <div v-if="nomore&&detailTab == 2" v-cloak>
+            <img src="/images/pull-up.png?v=1537884480835" width="100%" />
+        </div>
+    </div>
+
+    <!--  </section>-->
+    <script type="text/javascript" src="/cms/view/frontier_guide/h5/templateJS.json"></script>
+    <script src="/libs/frozenui/lib/zepto.min.js?v=1537884480835"></script>
+    <script src="/libs/frozenui/js/frozen.js?v=1537884480835"></script>
+    <script src="/libs/vendor.js?v=1537884480835"></script>
+    <script src="/common.js?v=1537884480835"></script>
+    <script src="/my/footprint.js?v=1537884480835"></script>
+</body>
+
+</html>

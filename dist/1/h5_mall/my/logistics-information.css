@@ -1,0 +1,59 @@
+.switch-tab {
+  position: fixed;
+  top: 44px;
+  left: 0;
+  right: 0;
+  background-color: #fff;
+  overflow: hidden;
+  z-index: 99;
+}
+.switch-tab ul::-webkit-scrollbar {
+  display: none;
+}
+.switch-tab ul {
+  padding: 10px 15px;
+  display: -webkit-box;
+  width: 100%;
+  overflow-x: scroll;
+  box-sizing: border-box;
+}
+.switch-tab ul li {
+  margin-left: 10px;
+}
+.switch-tab ul li i {
+  position: relative;
+  left: 6px;
+}
+.switch-tab ul li.current {
+  color: #d6265d;
+}
+.logistics-tracking {
+  height: 45px;
+  line-height: 45px;
+  display: -webkit-flex;
+  position: relative;
+}
+.logistics-tracking .active {
+  color: #d6265d;
+  position: relative;
+}
+.logistics-tracking .active:after {
+  content: '';
+  position: absolute;
+  bottom: 0px;
+  height: 2px;
+  width: 40px;
+  z-index: 10;
+  background: #d6265d;
+  left: 38%;
+}
+.box-pack-i {
+  -webkit-box-pack: inherit;
+  position: relative;
+}
+.box-pack-i .name {
+  position: absolute;
+  bottom: 7px;
+  right: 18px;
+  color: #666;
+}

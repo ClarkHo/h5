@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="x5-orientation" content="portrait">
+    <meta name="msapplication-tap-highlight" content="no">
+    <title></title>
+    <link rel="stylesheet" href="/libs/frozenui/css/frozen.css?v=1537884480835">
+    <link rel="stylesheet" href="/common.css?v=1537884480835">
+    <link rel="stylesheet" href="/libs/mob-share.css?v=1537884480835">
+    <link rel="stylesheet" href="/my/my-proCode.css?v=1537884480835">
+</head>
+<body :style="{overflow:addProCodeShow?'hidden':'auto'}" v-cloak>
+<ui-header title="使用优惠码" :back-event="redirectBack" hide-border="true">
+        <a href="javascript:void(0)" @click="addProCodeShow = true" class="handle h-nav show c6">添加</a>
+</ui-header>
+
+<!-- main section -->
+<section class="ui-container">
+    <div class="proCode-tab ui-row-flex">
+        <div class="ui-col">
+            <span class="tab-li left fr" :class="{'active':proCodeIsVal == 1}" @click="switchCode(1)">
+                推荐码
+            </span>
+        </div>
+        <div class="ui-col">
+            <span class="tab-li right fl" :class="{'active':proCodeIsVal == 2}" @click="switchCode(2)">
+                优惠码
+            </span>            
+        </div>
+
+        <!-- <div class="ui-form marT10" >
+            <div class="ui-form-item ui-form-item-show ui-border-b">
+                <label class="cb2b2b2">优惠码</label>
+                <input type="text" placeholder="请输入优惠码号" class="c6" v-model="couponCode">
+                <a href="#" class="ui-icon-close" v-show="couponCode" ></a>
+            </div>
+        </div> -->
+
+        <!-- <div class="submit-btn"> -->
+            <!-- <button class="ui-btn ui-btn-primary" @click="addCouponCode()">添加</button> -->
+            <!--<p class="f12 c3 mgT5 text-center">温馨提示：如非电子卡券，至门店消费请务必携带实物卡</p>-->
+        <!-- </div> -->
+
+
+    </div>
+    <div class="group" v-for="item in proCodeList" v-cloak>
+        <div class="coupon">
+            <div class="ui-row-flex mgB10 pad15">
+                <div class="ui-col ui-col-3 ui-border-r" @click="">
+                    <h5><span class="f14 c3">{{item.themeName}}</span></h5>
+                    <p class="mgT10 c9 f14">有效期：{{item.startTimeStr}}至{{item.endTimeStr}}</p>
+                    <p class="mgT5 c9 f14">
+                        {{proCodeIsVal == 1 ? '推荐码' : '优惠码'}}：{{item.referralCode}}
+                        <ui-btn-copy v-if="item.status == 1 || item.status == 4" :type="'text'" :value="item.referralCode" :index="'copy'+$index" :top="1" :left="5" :text="'复制'"></ui-btn-copy>
+                    </p>
+                    <p v-if="proCodeIsVal!=2 && item.useRuleInfo" class="theme mgT5 f14 pdB10">返利说明：{{item.rebateContent}}</p>
+                    <!-- <p class="mgT5 c9 f10">优惠内容：{{item.rebateContent}}</p> -->
+                    
+                </div>
+                <div class="ui-col ui-col text-center">
+                    <div v-if="item.status == 1 || item.status == 4" @click="clickShareToFriend(item,0)">
+                        <p class="mgT25"><i class="icons icons-share-red"></i></p>
+                        <p class="c9 f12">分享</p>
+                    </div>
+                    <div v-else class="mgT20">
+                        已失效
+                    </div>
+                </div>
+            </div>
+            <div class="ui-row-flex ui-border-t"  :class="{'bgGray':!item.isFold}">
+                <div class=" ui-col ui-col-4">
+                    <p class="f12 pdB10 mgL10 c6 hide" :class="{show: !item.isFold}">使用规则：{{item.useRuleInfo || item.rebateContent}}</p>
+                    <p class="desc" @click="item.isFold = !item.isFold">查看使用规则<i class="ui-icon-unfold"></i></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 添加优惠码弹窗 -->
+    <div class="ui-actionsheet" :class="{show:addProCodeShow}">
+        <div class="ui-actionsheet-cnt ui-pop">
+            <div class="close" @click="addProCodeShow = false">×</div>
+            <div class="tit c9 f14">添加优惠码</div>
+            <div class="ui-form marT10 mgB90 ui-border-b">
+                <div class="ui-form-item ui-form-item-show ui-border-t">
+                    <label for="#" class="f14 c6" >优惠码</label>
+                    <input style="text-align:left;" type="text" maxlength="19" placeholder="请输入优惠码" class="c6" v-model="userAddProCode">
+                    <a href="#" class="ui-icon-close" style="top:-4px;" v-if="userAddProCode.length > 0" @click="userAddProCode = ''"></a>
+                </div>
+            </div>
+            <div class="btn">
+                <div class="ui-btn-lg ui-btn-primary no-radius" @click="addProCode">确定</div>
+            </div>
+        </div>
+    </div>
+    <!--无数据时-->
+    <div class="ui-row-flex ui-whitespace" v-if="noData" :style="{height:height-288+'px'}">
+        <div class="ui-col ui-col text-center mgT10 mgB10">
+            <i class="icons4  icons4-noGoods" :style="{marginTop:(height-288)/4+'px'}"></i>
+            <p class="f12 c6">暂无数据...</p>
+        </div>
+    </div>
+
+    <!--数据到底-->
+    <div class="ui-row-flex ui-whitespace pdT10 pdB10" v-if="isEnd">
+        <div class="ui-col ui-col text-center"><span class="f12 c6">没有更多了哦~</span></div>
+    </div>
+</section>
+<!-- 分享组件 -->
+<ui-share :show.sync="showShare" :config.sync="shareConfig"></ui-share>
+<script>if(/MicroMessenger/i.test(navigator.userAgent)) document.write('<script src="//res.wx.qq.com/open/js/jweixin-1.1.0.js"><\/script>');</script>
+<script type="text/javascript" src="/cms/view/frontier_guide/h5/templateJS.json"></script>
+<script src="/libs/frozenui/lib/zepto.min.js?v=1537884480835"></script>
+<script src="/libs/frozenui/js/frozen.js?v=1537884480835"></script>
+<script src="/libs/vendor.js?v=1537884480835"></script>
+<script src="/libs/clipboard.min.js?v=1537884480835"></script>
+<script src="/libs/mob-share.js?v=1537884480835" async></script>
+<script src="/common.js?v=1537884480835"></script>
+<script src="/my/my-proCode.js?v=1537884480835"></script>
+</body>
+</html>

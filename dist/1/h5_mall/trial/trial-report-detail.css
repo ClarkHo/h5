@@ -1,0 +1,24 @@
+.trial-imgList {
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+.trial-imgList li {
+  float: left;
+  width: 33%;
+  margin-right: 0.5%;
+  margin-bottom: 0.5%;
+}
+.trial-imgList li:nth-child(3n) {
+  margin-right: 0;
+}
+.ui-btn-buyNow {
+  width: 80px;
+  color: #fff;
+  background-color: #f23030;
+  height: 26px;
+  font-size: 12px;
+  position: absolute;
+  right: 10px;
+  bottom: 0;
+  border-radius: 3px;
+}

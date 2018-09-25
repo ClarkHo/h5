@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+        <meta name="format-detection" content="telephone=no">
+        <title>拼团</title>
+        <link rel="stylesheet" href="/libs/frozenui/css/frozen.css?v=1537883801478">
+        <link rel="stylesheet" href="/common.css?v=1537883801478">
+        <link rel="stylesheet" href="/libs/mob-share.css?v=1537883801478">
+        <link rel="stylesheet" href="/group/style-w.css?v=1537883801478">
+        <style>
+            .nav-tabs{
+                position: fixed;
+                top: 44px;
+                height: 40px;
+                padding: 0 12px;
+                line-height: 40px;
+                font-size: 15px;
+                background-color: #fff;
+                z-index: 99;
+            }
+        </style>
+    </head>
+    <body v-need-login :style="{overflow: (showSizePop || showShare) ?'hidden':'auto'}">
+        <ui-header title="我的团"></ui-header>
+        <!-- main section -->
+        <section class="ui-container" v-cloak>
+            <div class="ui-tab">
+                <ul class="ui-tab-nav ui-border-b">
+                    <li class="c6" :class="{'current': currentTab == 0}"  @click="switchTab(0)">全部</li>
+                    <li class="c6" :class="{'current': currentTab == 1}"  @click="switchTab(1)">组团中</li>
+                    <li class="c6" :class="{'current': currentTab == 2}"  @click="switchTab(2)">已成团</li>
+                    <li class="c6" :class="{'current': currentTab == 3}"  @click="switchTab(3)">组团失败</li>
+                </ul>
+                <!--<ui-drop-down :on-pull-down="dropDown" :stop.sync="stopDropDown" :top="'-50'">-->
+                    <ul class="order-list">
+                    <li v-for="group in patchgrouponList">
+                        <div class="group-title">
+                            <!-- <span>
+                                <i class="icons icons-soul-red mgR10"></i>
+                                欧普照明自营
+                            </span> -->
+                            <span class="status fr theme">{{group.statusDesc}}</span>
+                        </div>
+                        <div class="b-info ui-border-b clearfix" v-link-to="'/group/group-detail.html?instId=' + group.patchGrouponInstId">
+                            <img :src="group.patchGrouponMainPicUrl" width="60" height="60">
+                            <div class="txt">
+                                <p class="ui-nowrap-multi">{{group.patchGrouponTitle}}</p>
+                                <!-- <p class="name ui-nowrap f12 c9"><span v-for="val in group.productInfo[0].attributes">{{val}}&nbsp;&nbsp;&nbsp;</span></p> -->
+                                <p class="group-info abs">
+                                    <span class="num">{{group.totalMembers}}人团</span>
+                                    <span class="c6 fr">实付款：<span class="theme f16">{{group.patchGrouponPrice | currency '￥'}}</span></span>
+                                    <!-- <span class="status" :class="{'status-active':group.status == 1 || group.status == 2}">{{group.statusDesc}}</span> -->
+                                </p>
+                            </div>
+                        </div>
+                        <div class="f-desc clearfix">
+                            <a class="ui-btn fr ui-btn-primary" v-if="group.status == 1 || group.status == 2" @click="clickShare(group)">邀请好友参团</a>
+                            <a class="ui-btn fr" href="/my/order-detail.html?orderCode={{group.orderCode}}">查看订单详情</a>
+                            <a class="ui-btn fr" href="/group/group-detail.html?instId={{group.patchGrouponInstId}}" v-if="group.status != 1 && group.status != 2">查看团详情</a>
+                        </div>
+                    </li>
+                </ul>
+                <!--</ui-drop-down>-->
+            </div>
+            <div class="ui-notice" :class="{show: !patchgrouponList || patchgrouponList.length==0}" v-cloak>
+                <i class="lyf-icons lyf-icons-noTeamShop noTeamShop"></i>
+                <p v-if="currentTab == 0">您还没有参加过任何团购，<br>快去火拼吧！</p>
+                <p v-if="currentTab != 0">暂时没有相关团单哦</p>
+                <div class="ui-notice-btn">
+                    <!--<button class="ui-btn ui-btn-lg" v-link-to="'/group/index.html'">去开团</button>-->
+                </div>
+            </div>
+        </section>
+        <ui-share :show.sync="showShare" :config.sync="shareConfig"></ui-share>
+        <script type="text/javascript" src="/cms/view/frontier_guide/h5/templateJS.json"></script>
+        <script>if(/MicroMessenger/i.test(navigator.userAgent)) document.write('<script src="//res.wx.qq.com/open/js/jweixin-1.1.0.js"><\/script>');</script>
+        <script src="/libs/frozenui/lib/zepto.min.js?v=1537883801478"></script>
+        <script src="/libs/frozenui/js/frozen.js?v=1537883801478"></script>
+        <script src="/libs/vendor.js?v=1537883801478"></script>
+        <script src="/common.js?v=1537883801478"></script>
+        <script src="/group/my-group.js?v=1537883801478"></script>
+        <script src="/libs/mob-share.js?v=1537883801478" async></script>
+        
+    </body>
+</html>

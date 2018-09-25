@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="x5-orientation" content="portrait">
+    <meta name="msapplication-tap-highlight" content="no">
+    <title></title>
+    <link rel="stylesheet" href="${staticPath}/libs/frozenui/css/frozen.css?v=${version}">
+    <link rel="stylesheet" href="${staticPath}/libs/swiper/swiper.min.css?v=${version}">
+    <link rel="stylesheet" href="${staticPath}/common.css?v=${version}">
+    <link rel="stylesheet" href="${staticPath}/setting/setting.css?v=${version}">
+</head>
+
+<body>
+
+    <ui-header title="绑定手机"></ui-header>
+    <!-- main section -->
+    <section v-cloak class="text-center" style="margin-top: 60px">
+        <div class="ui-form marT10">
+            <div class="ui-form-item ui-form-item-show ui-border-b">
+                <label>手机号</label>
+                <input type="number" v-model="user.mobile" placeholder="请输入要绑定的手机号">
+                <a href="javascript:void(0)" class="ui-icon-close" v-show="user.mobile" @click="user.mobile = ''"></a>
+            </div>
+            <div class="ui-form-item ui-form-item-show has-sms">
+                <label>验证码</label>
+                <input type="text" v-model="user.captchas" placeholder="请输入手机验证码">
+                <button type="button" class="ui-border-l sms-btn" @click="showImgViCode" :disabled="smsBtnDisabled"><span v-cloak>{{smsBtn}}</span></button>
+                <a href="javascript:void(0)" class="ui-icon-close" v-show="user.captchas" @click="user.captchas = ''"></a>
+            </div>
+        </div>
+        <div class="submit-btn">
+            <button type="button" class="ui-btn ui-btn-primary" @click="ckBindMobile">确定</button>
+        </div>
+    </section>
+    <!--图片验证码-->
+    <ui-dialog-captchas :show.sync="vicodeDialog" :mobile.sync="user.mobile" :sms-btn.sync="smsBtn" :sms-btn-disabled.sync="smsBtnDisabled"></ui-dialog-captchas>
+    <script type="text/javascript" src="/cms/view/frontier_guide/h5/templateJS.json"></script>
+    <script src="${staticPath}/libs/frozenui/lib/zepto.min.js?v=${version}"></script>
+    <script src="${staticPath}/libs/frozenui/js/frozen.js?v=${version}"></script>
+    <script src="${staticPath}/libs/vendor.js?v=${version}"></script>
+    <script src="${staticPath}/common.js?v=${version}"></script>
+    <script src="${staticPath}/uinion-login-bindMobile.js?v=${version}"></script>
+</body>
+</html>

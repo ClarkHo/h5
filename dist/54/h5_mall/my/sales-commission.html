@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="x5-orientation" content="portrait">
+    <meta name="msapplication-tap-highlight" content="no">
+    <title></title>
+    <link rel="stylesheet" href="/libs/frozenui/css/frozen.css?v=1537884480835">
+    <link rel="stylesheet" type="text/css" href="/libs/datePicker.css?v=1537884480835">
+    <link rel="stylesheet" href="/common.css?v=1537884480835">
+    <link rel="stylesheet" href="/my/my.css?v=1537884480835">
+    <link rel="stylesheet" href="/my/my-income-detail.css?v=1537884480835">
+</head>
+<body ontouchstart="" class="fans" v-need-login>
+    <ui-header title="自销佣金"></ui-header>
+    <!-- main section -->
+    <section v-cloak class="mgT43">
+        <!--统计-->
+        <div class="ui-row-flex ui-whitespace bgf pdT5">
+            <div class="ui-col ui-col ui-border-r mgT15 mgB15">
+                <p class="text-center">
+                    <span class="f12 c6">订单总金额</span>
+                </p>
+                <p class="text-center">
+                    <!--<span class="f18 c3">69865.21</span>-->
+                    <span class="f18 c3" v-if="settledSelfCommissionStatistics.orderAmount!==null">{{settledSelfCommissionStatistics.orderAmount}}</span>
+                    <span class="f18 c3" v-if="settledSelfCommissionStatistics.orderAmount==null">0</span>
+                </p>
+            </div>
+            <div class="ui-col ui-col mgT15 mgB15">
+                <p class="text-center">
+                    <span class="f12 c6">自销提成</span>
+                </p>
+                <p class="text-center">
+                    <!--<span class="f18 c3">3154.64</span>-->
+                    <span class="f18 c3" v-if="settledSelfCommissionStatistics.commission!==null">{{settledSelfCommissionStatistics.commission}}</span>
+                    <span class="f18 c3" v-if="settledSelfCommissionStatistics.commission==null">0</span>
+                </p>
+            </div>
+        </div>
+        <!--搜索-->
+        <div class="ui-row-flex ui-whitespace mgT10">
+            <div class="ui-col ui-col-3">
+                <div class="ui-row-flex ui-whitespace" style="padding: 0;">
+                    <div class="ui-col ui-col">
+                        <div class="ui-input ui-border-radius inpt-h30-line30">
+                            <input type="text" name="" placeholder="开始时间" class="inpt-h30-line30" id="startTime" value="" readonly>
+                        </div>
+                    </div>
+                    <div class="ui-col ui-col mgL15">
+                        <div class="ui-input ui-border-radius inpt-h30-line30">
+                            <input type="text" name=""  placeholder="结束时间" class="inpt-h30-line30" id="endTime" value="" readonly>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="ui-col text-right">
+                <button class="ui-btn bgTf4cc53Tb48b32 f12 c5c471a" @click="searchList()">搜索</button>
+            </div>
+        </div>
+        <!--订单-->
+        <!--<ul class="ui-list mgT10">-->
+            <!--<li>-->
+                <!--<div class="ui-list-info ui-border-t">-->
+                    <!--<h4 class="ui-nowrap f14 c3">订单号：94003893892</h4>-->
+                <!--</div>-->
+            <!--</li>-->
+            <!--<li>-->
+                <!--<div class="ui-list-info ui-border-t ui-form-item-link">-->
+                    <!--<h4 class="ui-nowrap f14 c3">2016-07-05  19：36：15</h4>-->
+                    <!--<p class="ui-nowrap">-->
+                        <!--<span class="f14 c3">总金额：</span><span class="f14 cb38a32">¥625.00</span>-->
+                        <!--<span class="f14 c3 mgL30">提成：</span><span class="f14 cb38a32">¥625.00</span>-->
+                    <!--</p>-->
+                    <!--<p class="ui-nowrap f14 c6 mgT10">售后类型：退款</p>-->
+                    <!--<p class="ui-nowrap f14 c6">申请时间：2016-07-06  12:11:11</p>-->
+                    <!--<p class="ui-nowrap f14 c6">退款金额：¥625.00</p>-->
+                <!--</div>-->
+            <!--</li>-->
+        <!--</ul>-->
+
+        <!--无数据时-->
+        <div class="ui-row-flex ui-whitespace" v-if="settledSelfCommissionOrderList.length==0">
+            <div class="ui-col ui-col text-center mgT10 mgB10">
+                <i class="icons3  icons3-search-no"></i>
+                <p class="f12 c6">无数据时显示...</p>
+            </div>
+        </div>
+        <ul class="ui-list  mgT10" v-for="q in settledSelfCommissionOrderList" v-if="settledSelfCommissionOrderList.length>0" v-link-to="'/my/order-detail.html?orderCode='+q.orderCode">
+            <li>
+                <div class="ui-list-info ui-border-t">
+                    <h4 class="ui-nowrap f14 c3" v-if="q.orderType==1">订单编号：{{q.orderCode}}</h4>
+                    <h4 class="ui-nowrap f14 c3" v-if="q.orderType==2">售后单号：{{q.orderCode}}</h4>
+                </div>
+            </li>
+            <li>
+                <div class="ui-list-info ui-border-t ui-form-item-link">
+                    <h4 class="ui-nowrap f14 c3">{{q.orderCreateTimeStr}}</h4>
+                    <p class="ui-nowrap">
+                        <span class="f14 c3">总金额：</span><span class="f14 cb38a32">¥{{q.orderAmount}}</span>
+                        <span class="f14 c3 mgL30">提成：</span><span class="f14 cb38a32">¥{{q.orderCommission}}</span>
+                    </p>
+                </div>
+            </li>
+        </ul>
+
+    </section>
+
+    <script type="text/javascript" src="/cms/view/frontier_guide/h5/templateJS.json"></script>
+    <script src="/libs/frozenui/lib/zepto.min.js?v=1537884480835"></script>
+    <script src="/libs/frozenui/js/frozen.js?v=1537884480835"></script>
+    <script src="/libs/iscroll.js?v=1537884480835"></script>
+    <script src="/libs/datePicker.js?v=1537884480835"></script>
+    <script src="/libs/vendor.js?v=1537884480835"></script>
+    <script src="/common.js?v=1537884480835"></script>
+    <script src="/my/sales-commission.js?v=1537884480835"></script>
+</body>
+</html>

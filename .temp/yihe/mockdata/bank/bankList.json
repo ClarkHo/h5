@@ -1,0 +1,78 @@
+{
+  "code": "0",
+  "message": "操作成功",
+  "data": {
+    "bankList": [
+      {
+        "bankId": 100001,
+        "bankName": "中国农业银行",
+        "bankIconUrl": null
+      },
+      {
+        "bankId": 100001,
+        "bankName": "中国工商银行",
+        "bankIconUrl": null
+      },
+      {
+        "bankId": 100001,
+        "bankName": "中国农业银行",
+        "bankIconUrl": null
+      },
+      {
+        "bankId": 100001,
+        "bankName": "中国农业银行",
+        "bankIconUrl": null
+      },
+      {
+        "bankId": 100001,
+        "bankName": "中国农业银行",
+        "bankIconUrl": null
+      },
+      {
+        "bankId": 100001,
+        "bankName": "中国农业银行",
+        "bankIconUrl": null
+      },
+      {
+        "bankId": 100001,
+        "bankName": "中国农业银行",
+        "bankIconUrl": null
+      },
+      {
+        "bankId": 100001,
+        "bankName": "中国农业银行",
+        "bankIconUrl": null
+      },
+      {
+        "bankId": 100001,
+        "bankName": "中国农业银行中国农业银行中国农业银行",
+        "bankIconUrl": null
+      },
+      {
+        "bankId": 100001,
+        "bankName": "中国农业银行",
+        "bankIconUrl": null
+      },
+      {
+        "bankId": 100001,
+        "bankName": "中国农业银行",
+        "bankIconUrl": null
+      },
+      {
+        "bankId": 100001,
+        "bankName": "中国农业银行",
+        "bankIconUrl": null
+      },
+      {
+        "bankId": 100001,
+        "bankName": "中国农业银行",
+        "bankIconUrl": null
+      },
+      {
+        "bankId": 100001,
+        "bankName": "中国农业银行",
+        "bankIconUrl": null
+      }
+    ]
+  }
+}

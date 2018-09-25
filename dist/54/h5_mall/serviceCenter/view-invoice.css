@@ -1,0 +1,44 @@
+.repair-tab li {
+  width: 146px;
+  height: 29px;
+  line-height: 29px;
+  background-color: #f0f0f0;
+  display: block;
+  margin-top: 8px;
+  font-size: 14px;
+}
+.repair-tab li.current {
+  color: #fff;
+  background-color: #f23030;
+}
+.repair-tab li:nth-child(1n) {
+  -webkit-border-radius: 5px 0 0 5px;
+  -moz-border-radius: 5px 0 0 5px;
+  border-radius: 5px 0 0 5px;
+}
+.repair-tab li:nth-child(2n) {
+  -webkit-border-radius: 0 5px 5px 0;
+  -moz-border-radius: 0 5px 5px 0;
+  border-radius: 0 5px 5px 0;
+}
+.repair-img .ui-avatar-tiled {
+  width: 62px;
+  height: 62px;
+  -webkit-border-radius: 0px;
+}
+.repair-img .ui-avatar-tiled span {
+  -webkit-border-radius: 0px;
+  border: 1px solid #e5e5e5;
+  height: 60px;
+  width: 60px;
+}
+.repair-btn {
+  width: 80px;
+  height: 34px;
+  border: 1px solid #f23030;
+  color: #f23030;
+}
+.repair-btn:not(.disabled):not(:disabled):active {
+  background: #fff;
+  color: #f23030;
+}

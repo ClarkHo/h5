@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="x5-orientation" content="portrait">
+    <meta name="msapplication-tap-highlight" content="no">
+    <title></title>
+    <link rel="stylesheet" href="${staticPath}/libs/frozenui/css/frozen.css?v=${version}">
+    <link rel="stylesheet" href="${staticPath}/common.css?v=${version}">
+    <link rel="stylesheet" href="${staticPath}/my/my.css?v=${version}">
+    <style>
+        /* button {
+            width: 81px;
+        } */
+
+        .current {
+            color: #f23030;
+        }
+
+        .ui-list>li {
+            margin-left: 15px;
+        }
+
+        .ui-list-text>li,
+        .ui-list-pure>li {
+            padding-right: 15px;
+        }
+
+        .fixed-width-tabs li {
+            padding: 0px;
+            text-align: center;
+        }
+
+        .icons2-pintuan {
+            width: 24px;
+            height: 40px;
+            background-position: -249px -249px;
+            position: absolute;
+            top: -3px;
+        }
+
+        .icons2-kanjia {
+            width: 24px;
+            height: 40px;
+            background-position: -284px -249px;
+            position: absolute;
+            top: -3px;
+        }
+    </style>
+</head>
+
+<body ontouchstart="" :style="{overflow:showReturnCause?'hidden':'auto'}"  v-need-login>
+    <ui-header :title="title" :back-event="back">
+        <a href="/my/order-search.html{{orderListType == 1 ? '?seller=1':''}}" class="handle-search"><i class="ui-icon-search"></i></a>
+        <a href="javascript:void(0)" class="handle h-nav icon" :class="{'active':rightNavFlag}" @click="rightNavFlag = !rightNavFlag"></a>
+        <div class="nav">
+            <i class="arrow"></i>
+            <a v-link-to-webapp="{web:'/index.html', app:'${appSchema}://home'}"><i class="icon icon-home-sm"></i>首页</a>
+            <a style="border:0!important;" v-link-to-webapp="{web:'/my/home.html', app:'${appSchema}://goback'}"><i class="icon icon-user-sm"></i>&nbsp;&nbsp;我&nbsp;&nbsp;</a>
+        </div>
+    </ui-header>
+
+    <!-- 定宽tab -->
+
+    <div class="fixed-width-tabs ui-border-b">
+        <div class="ui-row-flex f14  ui-flex-pack-center ui-flex-align-center my-order-mer" v-if="pageConfig.showThirdParty">
+            <div class="ui-col ui-col text-center height30 lineH30px" :class="{'left-radius':$index==0,'right-radius':$index==(orderTabs.length-1),'active':$index==tabIndex}" v-for="od in orderTabs" @click="changeOrderType($index)">{{od}}</div>
+        </div>
+        <!-- 服务订单不显示此项 -->
+        <div class="tabs-wrapper" v-show="orderType!=2">
+            <ul :style="{'width': tabsWidth * (sysSource == 'op'?7:8) + 'px'}">
+                <li :style="{'width': tabsWidth + 'px'}" :class="{'current': currentTab == 0}" @click="switchTab(0)">全部</li>
+                <li :style="{'width': tabsWidth + 'px'}" :class="{'current': currentTab == 1}" @click="switchTab(1)">待付款</li>
+                <li :style="{'width': tabsWidth + 'px'}" :class="{'current': currentTab == 2}" @click="switchTab(2)">待发货</li>
+                <li :style="{'width': tabsWidth + 'px'}" :class="{'current': currentTab == 3}" @click="switchTab(3)">待收货</li>
+                <li v-show="orderListType != 1" :style="{'width': tabsWidth + 'px'}" :class="{'current': currentTab == 4}" @click="switchTab(4)">待评价</li>
+                <li :style="{'width': tabsWidth + 'px'}" :class="{'current': currentTab == 8}" @click="switchTab(8)">已完成</li>
+                <li :style="{'width': tabsWidth + 'px'}" :class="{'current': currentTab == 10}" @click="switchTab(10)">已取消</li>
+                <li v-if="sysSource != 'op'" :style="{'width': tabsWidth + 'px'}" v-link-to-userpage.literal="/my/aftersale-list.html">售后服务</li>
+            </ul>
+        </div>
+    </div>
+    <!-- <ui-drop-down :on-pull-down="dropDown" :stop.sync="stopDropDown" :top="dropdownTop"> -->
+        <!-- main section -->
+        <section class="ui-container" :class="{'mgT60':orderType!=2&&pageConfig.showThirdParty,'mgT20':orderType==2}" v-cloak>
+            <!-- 订单列表 -->
+            <ui-order-list :order-type.sync="orderListType" :show-return-cause.sync="showReturnCause" :orders.sync="orders" :delete.sync="delete" :after-sales.sync="afterSales" :sys-source.sync="sysSource"></ui-order-list>
+            <!-- no orders -->
+            <!--无数据时-->
+            <div class="ui-row-flex ui-whitespace hide marT150" :class="{'show':noOrder}">
+                <div class=" text-center mgT20 mgB10 w100">
+                    <i class="icons4 icons4-noOrder"></i>
+                    <p v-if="currentTab==0" class="mgT10">
+                        <span v-if="orderListType == 0">还没有订单信息，快去逛逛吧</span>
+                        <span v-if="orderListType == 1">这个页面空空如也~</span>
+                    </p>
+                    <p class="mgT10 c6" v-if="currentTab!=0">暂时没有相关订单哦</p>
+                    <button class="ui-btn bgTheme cf radiusAll4 mgT25" style="border:none!important;" @click="gotoIndex()">去逛逛</button>
+                </div>
+            </div>
+            <img src="${staticPath}/images/no-orderList.png?v=${version}" width="100%" class="mgT20" v-if="isEnd" />
+        </section>
+    <!-- </ui-drop-down> -->
+    <!-- <ui-drag top="150" :onclick="goGroup"></ui-drag> -->
+    <script type="text/javascript" src="/cms/view/frontier_guide/h5/templateJS.json"></script>
+    <script src="${staticPath}/libs/frozenui/lib/zepto.min.js?v=${version}"></script>
+    <script src="${staticPath}/libs/frozenui/js/frozen.js?v=${version}"></script>
+    <script src="${staticPath}/libs/vendor.js?v=${version}"></script>
+    <script src="${staticPath}/common.js?v=${version}"></script>
+    <script src="${staticPath}/my/my-order.js?v=${version}"></script>
+</body>
+
+</html>

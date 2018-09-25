@@ -1,0 +1,11 @@
+{
+  "code": "0",
+  "message": "操作成功",
+  "data": {
+    "lastDayCount": 1,
+    "todayCount": 2,
+    "weekCount": 3,
+    "monthCount": 4,
+    "totalCount": 10
+  }
+}

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="x5-orientation" content="portrait">
+    <meta name="msapplication-tap-highlight" content="no">
+    <title></title>
+    <link rel="stylesheet" href="${staticPath}/libs/frozenui/css/frozen.css?v=${version}">
+    <link rel="stylesheet" href="${staticPath}/libs/swiper/swiper.min.css?v=${version}">
+    <link rel="stylesheet" href="${staticPath}/common.css?v=${version}">
+    <link rel="stylesheet" href="${staticPath}/special.css?v=${version}">
+</head>
+
+<body v-need-login>
+    <!--header-->
+    <ui-header title="全部专题">
+        <a href="javascript:void(0)" class="handle h-nav icon" :class="{'active':rightNavFlag}" @click="rightNavFlag = !rightNavFlag"></a>
+        <div class="nav">
+            <i class="arrow"></i>
+            <a href="javascript:void(0)" class="ui-border-b" v-link-to-userpage.literal="/my/my-message.html"><i class="icons3 icons3-index-slide-1"></i> 消息</a>
+        </div>
+    </ui-header>
+    <section class="ui-container">
+        <div class="navigation" v-cloak>
+            <ul class="ui-row">
+                <li class="ui-col ui-col-25" v-for="nav in channel">
+                    <a href="{{ nav.linkUrl || 'javascript:void(0)' }}">
+                        <img width="36" height="30" :src="nav.imageUrl" alt="">
+                        <span>{{ nav.name }}</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </section>
+    <script type="text/javascript" src="/cms/view/frontier_guide/h5/templateJS.json"></script>
+    <script src="${staticPath}/libs/frozenui/lib/zepto.min.js?v=${version}"></script>
+    <script src="${staticPath}/libs/frozenui/js/frozen.js?v=${version}"></script>
+    <script src="${staticPath}/libs/qrcode.js?v=${version}"></script>
+    <script src="${staticPath}/libs/vendor.js?v=${version}"></script>
+    <script src="${staticPath}/common.js?v=${version}"></script>
+    <script src="${staticPath}/special.js?v=${version}"></script>
+</body>
+</html>

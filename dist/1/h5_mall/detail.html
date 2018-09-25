@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="x5-orientation" content="portrait">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="heimdall" content="商品详情页">
+    <title></title>
+    <link rel="stylesheet" href="/libs/frozenui/css/frozen.css?v=1537885372784">
+    <link rel="stylesheet" href="/common.css?v=1537885372784">
+    <link rel="stylesheet" href="/detail.css?v=1537885372784">
+    <link rel="stylesheet" href="/libs/mob-share.css?v=1537885372784">
+</head>
+
+<body :style="{overflow:fixBody?'hidden':'auto'}">
+    <div v-show="!showLocation">
+        <section class="ui-container prod-page" v-cloak v-show="!showFullPic">
+            <!--返回-->
+            <div class="ui-icon-return" @click="back()"></div>
+            <div class="ui-tab posR">
+                <ul class="ui-tab-nav ui-border-b">
+                    <li @click="currentArea=0" class="f15 fb">商品</li>
+                    <li @click="currentArea=1" class="f15 fb">详情</li>
+                    <li @click="currentArea=2" class="f15 fb">评价</li>
+                </ul>
+                <ul class="ui-tab-content" style="width:300% !important">
+                    <!-- 商品tab -->
+                    <li class="current current_box">
+                        <!--轮播-->
+                        <div class="ui-slider" @click="showImageViewer">
+                            <i class="icons3 icons3-play" @click="playVideo(itemInfo.video.videoUrl,$event)" v-if="itemInfo.video&&itemInfo.video.videoUrl"></i>
+                            <ul class="ui-slider-content" style="width: 300%">
+                                <li v-for="pic in itemInfo.pics">
+                                    <span>
+                                        <img :src="pic.url|imgSize 'xl' 90">
+                                    </span>
+                                </li>
+                            </ul>
+                            <!--<div class="store"><i class="icon"></i></div>-->
+                            <div class="share" v-if="pageConfig.shareIcon">
+                                <i class="icons" :class="{'icons-share':!isDistribution,'icons-itemShare':isDistribution}" @click="clickShare"></i>
+                            </div>
+                            <!--角标-->
+                            <div class="sub-icon" v-if="itemInfo.scripts" :class="{'l-t':itemInfo.scripts.displayType==0,'l-r':itemInfo.scripts.displayType==1,'b-l':itemInfo.scripts.displayType==3,'b-r':itemInfo.scripts.displayType==2,}">
+                                <img :src="itemInfo.scripts.scriptIconUrl" width="100%">
+                            </div>
+                            <!--已售罄-->
+                            <div class="wuhuo" v-if="itemSoldOut && itemInfo.managementState">
+                                <img src="/images/wuhuo.png?v=1537885372784" width="100%" />
+                            </div>
+                        </div>
+                        <!--商品详情-->
+                        <!--秒杀-->
+                        <div class="kill" v-if="itemInfo.isSeckill==1">
+                            <ul class="ui-row">
+                                <li class="ui-col ui-col-67 kill-left cf">
+                                    <span class="f18 ">¥
+                                        <i class="f18 cf">{{itemInfo.availablePrice |currency ''}}</i>
+                                    </span>
+                                    <!-- <span class="f12 c9 line-through mgL10" v-if="itemInfo.availablePrice">原价：{{itemInfo.originalPrice|currency '¥'}}</span> -->
+                                    <span class="mgL5" v-if="itemInfo.availablePrice">原价</span>
+                                    <span class="f12 line-through" v-if="itemInfo.availablePrice">{{itemInfo.originalPrice|currency '¥'}}</span>
+                                    <p class="f12">
+                                        <span class="border-f radius4px mgR5 pd0a3">秒杀</span>活动结束后立即恢复原价</p>
+                                </li>
+                                <li class="ui-col ui-col-33 kill-right">
+                                    <p class="mgB5">距结束还剩</p>
+                                    <p>
+                                        <ui-count-down :show="showCountDown" date='1' :end="seckillPromotion.endTime" :current="sysTime"></ui-count-down>
+                                    </p>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- 预售 -->
+                        <div class="preSell" v-if="itemInfoForSize&&itemInfoForSize.isPresell==1">
+                            <ul class="ui-row">
+                                <li class="ui-col ui-col-33 pre-left cf">
+                                    <span class="cf f14">已预订{{presellPromotion.bookNum}}件</span>
+                                </li>
+                                <li class="ui-col ui-col-67 pre-right">
+                                    距结束还剩
+                                    <span class="f12 c3">
+                                        <ui-count-down date="true" :show="showCountDown" :end="presellPromotion.endTime" :current="sysTime"></ui-count-down>
+                                    </span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="pro-info">
+                            <div class="name ui-nowrap-multi">
+                                <span class="f10 cff6900 borff6900 mgR5 pdLR3" v-for="text in itemInfo.titleIconTexts">{{text}}</span>
+                                <span class="f16 c3" v-if="itemInfoForSize">{{itemInfoForSize.name}}</span>
+                            </div>
+                            <div class="lights f12 cff4444 ui-nowrap-multi" v-if="itemInfo.subTitle">{{itemInfo.subTitle}}</div>
+                            <div class="price marT10">
+                                <!-- 正常价格显示， 包含会员价 -->
+                                <div v-if="itemInfoForSize&&!itemInfoForSize.isPresell && !itemInfo.isSeckill && !isPointPro">
+                                    <span class="c12 cfe6a00">¥
+                                        <i class="f20 cfe6a00 fb">{{itemInfo.availablePrice |currency ''}}</i>
+                                    </span>
+                                    <span class="promotion-icon-text" v-if="itemInfo.availablePriceText">{{itemInfo.availablePriceText}}</span>
+                                    <span class="f12 cb2  mgL6" v-if="itemInfo.availablePrice != null && itemInfo!='' && itemInfo.originalPrice ">原价：
+                                        <span class="line-through">{{itemInfo.originalPrice|currency '¥'}}</span>
+                                    </span>
+                                </div>
+                                <!-- 积分显示 -->
+                                <div v-if="itemInfoForSize&&!itemInfoForSize.isPresell && !itemInfo.isSeckill && isPointPro">
+                                    <span class="c12 cfe6a00">
+                                        <i class="f20 cfe6a00 fb">{{itemInfoForSize.pointPrice}}</i>积分</span>
+                                    <span class="c12 cfe6a00" v-if="itemInfo.price && itemInfo.pointPrice">+</span>
+                                    <span class="c12 cfe6a00" v-if="itemInfo.price">
+                                        <i class="f20 cfe6a00 fb">{{itemInfoForSize.price |currency ''}}</i>元</span>
+                                    <span class="f12 cb2  mgL6" v-if="itemInfo.originalPrice">原价：
+                                        <span class="line-through">{{itemInfo.originalPrice|currency '¥'}}</span>
+                                    </span>
+                                </div>
+                                <!-- 预售金额 -->
+                                <div class="preSell-price" v-if="itemInfoForSize&&itemInfoForSize.isPresell&&!isPointPro">
+                                    <!-- 定金 -->
+                                    <span class="theme mgR10">
+                                        <span class="f14">￥</span>
+                                        <span class="f25 bold mgR5">{{itemInfoForSize.presellDownPrice|currency ''}}</span>
+                                        <span class="f12" style="border:1px solid #f23030;">定金</span>
+                                    </span>
+                                    <!-- 预售价 -->
+                                    <span class="c3 f16 mgR10">
+                                        <span class="mgR5 bold">{{itemInfoForSize.presellTotalPrice|currency '¥'}}</span>
+                                        <span class="f12" style="border:1px solid #333;">预售价</span>
+                                    </span>
+                                    <!-- 原价 -->
+                                    <span class="c9" v-if="itemInfoForSize.originalPrice">原价：
+                                        <span class="line-through">{{itemInfoForSize.originalPrice|currency '¥'}}</span>
+                                    </span>
+                                </div>
+                            </div>
+                            <!-- 预售说明 -->
+                            <div class="theme f12 mgT10" v-if="itemInfoForSize&&itemInfoForSize.isPresell&&presellPromotion.description">{{presellPromotion.description}}</div>
+                            <ul class="ui-row-flex c808080 pdT10">
+                                <li class="ui-col ui-col c9" style="font-size: 14px;">已{{isPointPro?'兑':'售'}}{{(isPointPro?itemInfo.totalExchanged:itemInfo.volume4sale)||0}}笔</li>
+                                <!-- <li class="ui-col ui-col text-center" v-if="itemInfo.stockNum>0">库存：{{itemInfo.stockNum||0}}</li> -->
+                                <li class="ui-col ui-col text-center" v-if="itemInfoForSize && (itemInfoForSize.stockNum<=0||!itemInfoForSize.stockNum)"
+                                    style="font-size: 14px;">已售罄</li>
+                                <li class="ui-col ui-col text-right pdR5">{{itemInfo.warehouseName}}</li>
+                            </ul>
+                        </div>
+                        <!-- 预售进度 -->
+                        <div class="preSell-process" v-if="itemInfoForSize&&itemInfoForSize.isPresell">
+                            <span class="title">限量预售&nbsp;&nbsp;精彩不断</span>
+                            <!-- <span class="dingjin">{{itemInfo.presellDownPrice|currency '¥'}}抵扣{{itemInfo.presellOffsetPrice|currency '¥'}}</span>
+                            <span class="weikuan">{{itemInfo.balancePayment|currency '¥'}}</span> -->
+                            <div class="ui-row-flex content">
+                                <div class="ui-col ui-col text-center">
+                                    <p class="c3">{{presellPromotion.presellDownPrice|currency '¥'}}抵扣{{presellPromotion.presellOffsetPrice|currency
+                                        '¥'}}</p>
+                                    <p class="c9">{{presellPromotion.endTime | preSellTime}}</p>
+                                </div>
+                                <div class="ui-col ui-col text-center">
+                                    <p class="c3">{{itemInfo.balancePayment|currency '¥'}}</p>
+                                    <p class="c9">{{presellPromotion.presellFinalEndTime| preSellTime}}</p>
+                                </div>
+                                <div class="ui-col ui-col text-center">
+                                    <p>&nbsp;</p>
+                                    <p class="c9">{{presellPromotion.deliveryTime| preSellTime}}</p>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!--优惠券/满减/满赠/积分-->
+                        <div class="ui-form mgT9" v-if="promotions">
+                            <template v-for="promotion in promotions">
+                                <div class="ui-form-item  ui-form-item-order ui-nowrap line40h40 ui-border-b" v-if="promotion.promotionType!=13" @click="promotionLink(promotion)">
+                                    <span class="promotion-icon-text">{{promotion.iconText}}</span>
+                                    <!--接口中需返回赠品字段，赠品对应背景颜色为bgfcb203-->
+                                    <!--<span class="f10 cf  pd3 radiusAll4 bgfcb203"-->
+                                    <!--:class="{'bg49bbff':promotion.contentType==3||promotion.contentType==2,'bg89d301':promotion.contentType==4||promotion.contentType==5,'bgff6900':promotion.contentType==11 || promotion.contentType==12 || promotion.contentType==13 || promotion.contentType==14}">{{promotion.iconText}}</span>-->
+                                    <span class="f14 c6 mgL5">{{promotion.description}}</span>
+                                    <span class="theme text-underline" v-if="promotion.frontPromotionType == 2001 || promotion.frontPromotionType == 2002 || promotion.frontPromotionType == 3001"
+                                        @click="goPromoition(promotion)">{{promotion.frontPromotionType == 3001?'发起砍价':'去开团'}}</span>
+                                    <span class="ui-panel-title-tips f13 c808080  r10" v-if="promotion.frontPromotionType!=1 && promotion.frontPromotionType!=7 && promotion.frontPromotionType!=8 && promotion.frontPromotionType!=1022 && promotion.frontPromotionType!=2001 && promotion.frontPromotionType!=2002 && promotion.frontPromotionType!=3001 && promotion.frontPromotionType!=1014 && promotion.frontPromotionType!=1015 && promotion.frontPromotionType!=1007 && promotion.frontPromotionType!=2001 && promotion.frontPromotionType!=2002 && promotion.frontPromotionType!=3001">
+                                        <i class="f13 c9 icons icons-next"></i>
+                                    </span>
+                                    <span class="ui-panel-title-tips f13 c808080  r10" v-if="promotion.frontPromotionType == 2001 || promotion.frontPromotionType == 2002"
+                                        @click="goMore(promotion)">
+                                        <span class="marR5" v-if="pintuanEntry">查看更多</span>
+                                        <i class="f13 c9 icons icons-next"></i>
+                                    </span>
+                                    <span class="ui-panel-title-tips f13 c808080  r10" v-if="promotion.frontPromotionType == 3001" @click="goMore(promotion)">
+                                        <span class="marR5" v-if="kanjiaEntry">查看更多</span>
+                                        <i class="f13 c9 icons icons-next"></i>
+                                    </span>
+                                </div>
+                            </template>
+                        </div>
+                        <div class="ui-form bgfef7ea" @click="showServicePop = true" v-if="itemInfo.securityVOList && itemInfo.securityVOList.length>0">
+                            <div class="ui-form-item ui-form-item-order ui-nowrap line30h30 icons-content ui-next">
+                                <!--<i class="lyf-icons lyf-guarantee pdR5"></i>-->
+                                <span v-for="se in itemInfo.securityVOList | limitBy 3" class="f10 pdR15">
+                                    <i class="icons icons-correct pdR5"></i>{{se.title}}</span>
+                                <i class="icons icons-next"></i>
+                            </div>
+                        </div>
+                        <div class="ui-form  mgT9 mgB9" @click="showSizePop=true" v-if="itemInfo.managementState">
+                            <div class="ui-form-item ui-form-item-order  ui-nowrap line40h40">
+                                <p class="ui-nowrap" style="padding-right:20px;">
+                                    <span class="f14 c6">{{noCheckDefault?selectedItemInfo:'已选'}}</span>
+                                    <span class="f14 c3 mgL15" v-if="!noCheckDefault">{{selectedItemInfo}}</span>
+                                </p>
+                                <i class="icons icons-down" style="position:absolute;top:18px;right:16px;"></i>
+                            </div>
+                        </div>
+                        <div class="ui-form  mgT9" @click="showAddressList = true;">
+                            <div class="ui-form-item ui-nowrap chose-address">
+                                <span class="f14 c6">送至</span>
+                                <!--v-link-to="getAddressUrl(1)"-->
+                                <!--<span class="f14 c3 mgL15" ><i class="icon"></i>{{defaultAddress.provinceName}}{{defaultAddress.cityName}}{{defaultAddress.regionName}}</span>-->
+                                <i class="icons icons-location"></i>
+                                <span class="f14 c3 ">
+                                    <i class="icons4 icons4-location f14" style="margin-top:-3px"></i>
+                                    {{curDeliveryArea.provinceName}} {{curDeliveryArea.cityName}} {{curDeliveryArea.regionName}} {{curDeliveryArea.detailAddress}}
+                                </span>
+                                <div style="margin-left: 46px" class="c808080 f12">{{deliveryTime.deliveryDescription}}</div>
+                                <span class="ui-panel-title-tips f13 c808080" style="top: 6px;">
+                                    <i class="f13 c9 icons icons-next"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="ui-form   mgT9 mgB9" v-if="tradeRate_mpcList.length == 0 && pageConfig.showConsult" v-link-to="'/detail-include/consult.html?mpId=' + itemInfo.mpId">
+                            <div class="ui-form-item ui-form-item-order  ui-nowrap line40h40">
+                                <span class="f14 c3">购买咨询</span>
+                                <span class="ui-panel-title-tips f13 c808080 r10">查看
+                                    <i class="f13 c9 icons icons-next"></i>
+                                </span>
+                            </div>
+                        </div>
+
+
+
+                        <!--部分评价-->
+                        <div class="ui-form mgB9 mgT9 breakAll" v-if="tradeRate_mpcList.length>0">
+                            <ul class="ui-list ui-list-pure">
+                                <li class="marL15 ui-form-item good-comment">
+                                    <span class="f15 c3 heiti">商品评价({{tradeRate.ratingUserCount}})</span>
+                                    <span class="f12 cf74c31 fr mgR25">{{tradeRate.positiveRate}}%</span>
+                                    <span class="f12 c3 fr mgR9">好评度 </span>
+                                    <span class="ui-panel-title-tips f13 c808080 r10" @click="navTabSwitch()" v-scroll-top>
+                                        <i class="f13 c9 icons icons-next"></i>
+                                    </span>
+                                </li>
+                                <li class="ui-border-t pdRL15" v-for="a in tradeRate_mpcList | limitBy 3">
+                                    <p v-if="a.rate==1">
+                                        <i class="icons icons-star"></i>
+                                        <i class="icons icons-star-gray"></i>
+                                        <i class="icons icons-star-gray"></i>
+                                        <i class="icons icons-star-gray"></i>
+                                        <i class="icons icons-star-gray"></i>
+                                        <span class="f12 c9 fr">{{a.nickName}}</span>
+                                        <span v-if="!a.nickName" class="f12 c9 fr">{{a.userUsername}}</span>
+                                    </p>
+                                    <p v-if="a.rate==2">
+                                        <i class="icons icons-star"></i>
+                                        <i class="icons icons-star"></i>
+                                        <i class="icons icons-star-gray"></i>
+                                        <i class="icons icons-star-gray"></i>
+                                        <i class="icons icons-star-gray"></i>
+                                        <span class="f12 c9 fr">{{a.nickName}}</span>
+                                        <span v-if="!a.nickName" class="f12 c9 fr">{{a.userUsername}}</span>
+                                    </p>
+                                    <p v-if="a.rate==3">
+                                        <i class="icons icons-star"></i>
+                                        <i class="icons icons-star"></i>
+                                        <i class="icons icons-star"></i>
+                                        <i class="icons icons-star-gray"></i>
+                                        <i class="icons icons-star-gray"></i>
+                                        <span class="f12 c9 fr">{{a.nickName}}</span>
+                                        <span v-if="!a.nickName" class="f12 c9 fr">{{a.userUsername}}</span>
+                                    </p>
+                                    <p v-if="a.rate==4">
+                                        <i class="icons icons-star"></i>
+                                        <i class="icons icons-star"></i>
+                                        <i class="icons icons-star"></i>
+                                        <i class="icons icons-star"></i>
+                                        <i class="icons icons-star-gray"></i>
+                                        <span class="f12 c9 fr">{{a.nickName}}</span>
+                                        <span v-if="!a.nickName" class="f12 c9 fr">{{a.userUsername}}</span>
+                                    </p>
+                                    <p v-if="a.rate==5">
+                                        <i class="icons icons-star"></i>
+                                        <i class="icons icons-star"></i>
+                                        <i class="icons icons-star"></i>
+                                        <i class="icons icons-star"></i>
+                                        <i class="icons icons-star"></i>
+                                        <span class="f12 c9 fr">{{a.nickName}}</span>
+                                        <span v-if="!a.nickName" class="f12 c9 fr">{{a.userUsername}}</span>
+                                    </p>
+                                    <p class="f14 c6 mgT10">{{a.content}}</p>
+                                    <p class="mgT9">
+                                        <img :src="img" alt="" v-for="img in a.mpShinePicList" track-by="$index" class="w60h60bor1 mgR9">
+                                    </p>
+                                    <p class="f12 c9 text-right">
+                                        {{a.createTime | date}}
+                                    </p>
+
+                                    <div class="replyContent" v-if="a.replyContent">
+                                        <span class="title">
+                                            官方回复：
+                                        </span>
+                                        <span class="content">
+                                            {{a.replyContent}}
+                                        </span>
+                                    </div>
+                                    <!--<div class="replyContent" v-if="p.addMPCommentVOList">
+                                        <span class="title">{{parseInt((p.addMPCommentVOList[0].addContentTime-p.createTime)/86400000)||'当'}}天后追加:</span>
+                                        <span class="content">
+                                                {{p.addMPCommentVOList[0].addContent}}
+                                                <p class="mgT10">
+                                                    <img :src="img" alt="" v-for="img in p.addMPCommentVOList[0].addMpShinePicList" @click="showImageViewer3(p.addMPCommentVOList[0].addMpShinePicList,$index)" track-by="$index" class="w60h60bor1 mgR5">
+                                                    </p>
+                                        </span>
+                                    </div>
+                                    <div class="replyContent" v-if="p.addMPCommentVOList[0].replyAddContent">
+                                        <span class="title">
+                                            官方回复：
+                                        </span>
+                                        <span class="content">
+                                                {{p.addMPCommentVOList[0].replyAddContent}}
+                                        </span>
+                                    </div>-->
+
+                                </li>
+                                <!--@click="navTabSwitch()" v-scroll-top-->
+                                <li class="ui-border-t text-center pdTB20">
+
+                                    <ul class="ui-row">
+                                        <li class="ui-col " :class="{'ui-col-50':pageConfig.showConsult}" @click="navTabSwitch()" v-scroll-top>
+                                            <span class="btn-md">查看全部评价</span>
+                                        </li>
+                                        <li class="ui-col ui-col-50" v-if="pageConfig.showConsult">
+                                            <span class="btn-md" v-link-to="'/detail-include/consult.html?mpId=' + itemInfo.mpId">查看购买咨询</span>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- 问大家 -->
+                        <div class="ui-form mgB9 mgT9" v-if="pageConfig.showQA">
+                            <ul class="ui-list ui-list-pure">
+                                <li class="marL15 ui-form-item good-comment">
+                                    <span class="f15 c3 heiti">问大家</span>
+                                </li>
+                                <li class="ui-border-t pdRL15" v-if="askList.length>0">
+                                    <p class="ui-nowrap c3 mgR5">
+                                        <i class="icons icons-wen mgR5"></i>{{askList[0].content}}</p>
+                                    <p class="mgT5 mgL20">{{askList[0].listObj.length}}个回答</p>
+                                    <p class="ui-nowrap mgT10" v-if="askList[0].listObj.length > 0">
+                                        <i class="icons icons-da mgR5"></i>{{askList[0].listObj[0].content}}</p>
+                                    <p class="ui-nowrap mgT10" v-else>
+                                        <i class="icons icons-da mgR5"></i>暂无回复</p>
+                                </li>
+                                <p class="ui-border-t text-center pdT10 f16 c9" v-if="askList.length == 0">
+                                    宝贝好不好，问问已买过的人
+                                </p>
+                                <!--@click="navTabSwitch()" v-scroll-top-->
+                                <li class="text-center pdTB20" v-link-to="'/detail-include/ask.html?content=' + itemInfo.name + '&mpId=' + itemInfo.mpId">
+                                    <ul class="ui-row">
+                                        <li class="ui-col">
+                                            <span class="btn-md" v-if="askList.length>0">查看全部问题</span>
+                                            <span class="btn-md" v-else>去提问</span>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <ui-guess-like v-if="!isPointPro" :data="recoList" :title="'猜你喜欢'" :icons="'icons icons-guessLike'"></ui-guess-like>
+
+
+                        <!--上拉查看更多-->
+                        <img v-if="false" src="/images/continue.png?v=1537885372784" width="100%" class="mgT20" />
+                        <!--商品推荐-->
+                        <ul class="ui-grid-halve bgf mgB15" v-if="false">
+                            <p class="f16 c3 mgB10">商品推荐</p>
+
+                            <li v-for="q in brandRecommendProduct" v-link-to="'/detail.html?itemId='+q.mpId">
+                                <div class="ui-grid-halve-img bgf">
+                                    <img :src="q.url160x160" alt="" class="w100">
+                                    <p class="f14 c3 ui-nowrap lineH150">{{q.name}}</p>
+                                    <p style="width: 100%;height: 15px;line-height: 15px">
+                                        <span v-cloak v-for="txt in q.promotionIconTexts">{{txt}}</span>
+                                        <template v-for="proInfo in q.promotionInfo">
+                                            <span class="f14 cf pd3 bgff4444 radiusAll4 mgR5" v-cloak v-for="prom in proInfo.promotions" v-if="q.promotionInfo.length>0"
+                                                class="">{{prom.iconText}}</span>
+                                        </template>
+                                    </p>
+                                    <p v-if="!q.availablePrice">
+                                        <span class="f10 cf74c31">¥</span>
+                                        <span class="f20 cf74c31">{{q.originalPrice}}</span>
+                                    </p>
+                                    <p v-if="q.availablePrice">
+                                        <span class="f10 cf74c31">¥</span>
+                                        <span class="f20 cf74c31">{{q.availablePrice}}</span>
+                                    </p>
+
+                                    <p class="f14 c3 ui-nowrap lineH150">已售{{q.volume4sale||0}}笔</p>
+
+
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <!-- 详情tab -->
+                    <li class="current_box" style="height: 0px;">
+                        <!--详情-->
+                        <ul class="ui-tiled detail-tab">
+                            <li :class="{active: detailTab == 'desc'}" @click="detailTab = 'desc' ">商品详情</li>
+                            <li :class="{active: detailTab == 'spec'}" @click="detailTab = 'spec' ">规格参数</li>
+                            <li :class="{active: detailTab == 'afterSale'}" @click="detailTab = 'afterSale' ">商品售后</li>
+                        </ul>
+                        <div class="detail-content mgT10" v-show="detailTab == 'desc' ">
+                            <div class="text-center spec-info" v-if="(productDesc||'').length==0" style="font-size: 14px;">暂无信息...</div>
+                            {{{productDesc}}}
+                        </div>
+                        <div class="ui-row-flex ui-whitespace pd0" v-show="detailTab == 'desc' ">
+                            <div class="ui-col ui-col">
+                                <img v-if="markprice &&　markprice.imageUrl" :src="markprice.imageUrl" alt="" class="w100" style="max-height:150px;">
+                            </div>
+                        </div>
+                        <div class="ui-row-flex ui-whitespace pd0">
+                            <div class="ui-col ui-col" v-show="detailTab == 'desc' ">
+                                <img v-if="aboutprice &&　aboutprice.imageUrl" :src="aboutprice.imageUrl" alt="" class="w100" style="max-height:100px;">
+                            </div>
+                        </div>
+                        <div class="detail-content" v-show="detailTab == 'spec' ">
+                            <div class="text-center spec-info" v-if="(productSpec||[]).length==0" style="font-size: 14px;">暂无信息...</div>
+                            <div v-for="ps in productSpec" class="spec-info ui-border-b">
+                                <!-- <p class="spec-title">{{ps.name}}</p> -->
+                                <ul>
+                                    <li v-for="attr in ps.attrs" class="spec-item f14 c3">
+                                        <span class="f12 c808080">{{attr.attrName.name}}</span>{{attr.attrVal.value}}
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="detail-content mgT10" v-show="detailTab == 'afterSale' ">
+                            <div class="text-center spec-info" v-if="(afterSaleService||'').length==0" style="font-size: 14px;">暂无信息...</div>
+                            <div class="after-sale" v-else>
+                                <div v-html="afterSaleService"></div>
+                                <!-- <p v-for="item in afterSaleService_arr">{{item}}</p> -->
+                            </div>
+                        </div>
+                    </li>
+
+                    <!--评价-->
+                    <li class="detail-valuation current_box breakAll" style="height: 0px;">
+                        <div>
+                            <div class="ui-form">
+                                <ul class="ui-list ui-list-pure">
+                                    <li class="ui-form-item mpLabelList" style="height: auto;overflow: auto;padding-top:12px;padding-bottom:12px;margin-left:0px!important;"
+                                        v-if="tradeRate_mpLabelList.length>0">
+                                        <span class="f12 c6 pd3a5 radiusAll4 mgR15 mgT5 bgfff5ed border-ffc399" style="display: block;float: left;height: 15px;line-height: 15px"
+                                            :class="{'active-bgb38a32-cf': currentTab == $index}" @click="switchTab($index,q.labelflag)"
+                                            v-for="q in tradeRate_mpLabelList">{{q.labelName}}({{q.labelNum}})</span>
+
+                                    </li>
+                                    <!--<li class="ui-form-item text-center ui-border-t">-->
+                                    <!--<i class="icons2 icons2-arrow"></i>-->
+                                    <!--</li>-->
+                                </ul>
+                            </div>
+                            <div class="ui-form mgT12" v-if="tradeRate_mpcList.length>0 && !evaluatePicListState">
+                                <ul class="ui-list ui-list-pure">
+                                    <li class="ui-border-t pdL5" v-for="p in tradeRate_mpcList">
+                                        <p>
+                                            <span class="f12 c9 mgR5 fr">{{p.nickName}}</span>
+                                        </p>
+                                        <p v-if="!p.nickName">
+                                            <span class="f12 c9 mgR5 fr">{{p.userUsername}}</span>
+                                        </p>
+                                        <p v-if="p.rate==1">
+                                            <!---->
+                                            <i class="icons icons-star"></i>
+                                            <i class="icons icons-star-gray"></i>
+                                            <i class="icons icons-star-gray"></i>
+                                            <i class="icons icons-star-gray"></i>
+                                            <i class="icons icons-star-gray"></i>
+                                        </p>
+                                        <p v-if="p.rate==2">
+                                            <i class="icons icons-star"></i>
+                                            <i class="icons icons-star"></i>
+                                            <i class="icons icons-star-gray"></i>
+                                            <i class="icons icons-star-gray"></i>
+                                            <i class="icons icons-star-gray"></i>
+                                        </p>
+                                        <p v-if="p.rate==3">
+                                            <i class="icons icons-star"></i>
+                                            <i class="icons icons-star"></i>
+                                            <i class="icons icons-star"></i>
+                                            <i class="icons icons-star-gray"></i>
+                                            <i class="icons icons-star-gray"></i>
+                                        </p>
+                                        <p v-if="p.rate==4">
+                                            <i class="icons icons-star"></i>
+                                            <i class="icons icons-star"></i>
+                                            <i class="icons icons-star"></i>
+                                            <i class="icons icons-star"></i>
+                                            <i class="icons icons-star-gray"></i>
+                                        </p>
+                                        <p v-if="p.rate==5">
+                                            <i class="icons icons-star"></i>
+                                            <i class="icons icons-star"></i>
+                                            <i class="icons icons-star"></i>
+                                            <i class="icons icons-star"></i>
+                                            <i class="icons icons-star"></i>
+                                        </p>
+                                        <p class="f14 c3 mgT10">{{p.content}}</p>
+                                        <p class="mgT10">
+                                            <img :src="img" alt="" v-for="img in p.mpShinePicList" @click="showImageViewer3(p.mpShinePicList,$index)" track-by="$index"
+                                                class="w60h60bor1 mgR5">
+                                        </p>
+                                        <p class="mgT10">
+                                            <span class="f12 c9">{{p.mpAttr}}</span>
+                                        </p>
+                                        <p class="mgT10" v-for="a in tradeRate_mpcList.mpAttrList">
+                                            <span class="f12 c9">{{a.name}}:</span>
+                                            <span class="f12 c9">{{a.value}}</span>
+                                        </p>
+                                        <div class="replyContent" v-if="p.replyContent">
+                                            <span class="title">
+                                                官方回复：
+                                            </span>
+                                            <span class="content">
+                                                {{p.replyContent}}
+                                            </span>
+                                        </div>
+                                        <div class="replyContent" v-if="p.addMPCommentVOList">
+                                            <span class="title">{{parseInt((p.addMPCommentVOList[0].addContentTime-p.createTime)/86400000)||'当'}}天后追加:</span>
+                                            <span class="content">
+                                                {{p.addMPCommentVOList[0].addContent}}
+                                                <p class="mgT10">
+                                                    <img :src="img" alt="" v-for="img in p.addMPCommentVOList[0].addMpShinePicList" @click="showImageViewer3(p.addMPCommentVOList[0].addMpShinePicList,$index)"
+                                                        track-by="$index" class="w60h60bor1 mgR5">
+                                                </p>
+                                            </span>
+                                        </div>
+                                        <div class="replyContent" v-if="p.addMPCommentVOList[0].replyAddContent">
+                                            <span class="title">
+                                                官方回复：
+                                            </span>
+                                            <span class="content">
+                                                {{p.addMPCommentVOList[0].replyAddContent}}
+                                            </span>
+                                        </div>
+                                        <p class="mgT5">
+                                            <span class="f12 c9">购买日期：{{p.orderCreateTime | date}} </span>
+                                        </p>
+                                    </li>
+                                    <!--<li class="ui-border-t text-center">-->
+                                    <!--<span class="f14 c3">查看全部评价</span>-->
+                                    <!--</li>-->
+                                </ul>
+                            </div>
+
+                            <ul class="ui-row picList">
+                                <li class="ui-col ui-col-33" style="padding-top: 5px;padding-left: 5px;padding-right: 5px" v-for="item in evaluatePicList"
+                                    @click="showImageViewer2($index)">
+                                    <img :src="item.url160x160" alt="" class="w100">
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="ui-row-flex ui-whitespace text-center" v-if="isEnd">
+                            <div class="ui-col ui-col pdT30 pdB30">
+                                <span class="f12 c6">没有更多了哦~</span>
+                            </div>
+                        </div>
+                        <div v-if="noData">
+                            <div class="ui-row-flex ui-whitespace mgT20" style="margin-top:50%;">
+                                <div class="ui-col ui-col text-center mgT10 mgB10">
+                                    <i class="icons-au icons-no-evaluation"></i>
+                                    <p class="f12 c6 mgT10">暂时还没有相关评价哦~</p>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+
+                </ul>
+            </div>
+        </section>
+
+        <!--地址选择 弹框-->
+        <ui-actionsheet-pop title="选择配送区域" :show.sync="showAddressList">
+            <ul class="address-list" v-cloak>
+                <li :class="{'ui-border-b':addressList.length>0}">
+                    <div class="posR">
+                        <p class="f15 c3" @click="showSetLocation()">
+                            <i class="lyf-icons lyf-location pdR5"></i>
+                            <span class="pdR10">{{curLocation.province.name}}</span>
+                            <span class="pdR10">{{curLocation.city.name}}</span>
+                            <span class="pdR10">{{curLocation.region.name}}</span>
+                        </p>
+                    </div>
+                </li>
+                <li :class="{'ui-border-b': ($index+1) != addressList.length }" v-for="address in addressList" @click="choseAddress(address,true,address)">
+                    <div class="posR">
+                        <p class="f15 c3 w80" :class="{'theme':address.checked,'c3':!address.checked}">
+                            <!--  <i class="lyf-icons lyf-pen pdR5"></i>-->
+                            <span class="pdR10">{{address.provinceName}}</span>
+                            <span class="pdR10">{{address.cityName}}</span>
+                            <span class="pdR10">{{address.regionName}}</span>
+                            <span class="pdR10">{{address.detailAddress}}</span>
+                        </p>
+                        <i class="checked lyf-icons lyf-icons-duihao" v-if="address.checked"></i>
+                        <!--<div class="check">-->
+                        <!--<label class="ui-checkbox-s">-->
+                        <!--<input type="radio" name="option" :checked="">-->
+                        <!--</label>-->
+                        <!--</div>-->
+                    </div>
+                </li>
+            </ul>
+            <div class="btn" @click="showAddressList = false">
+                <div class="ui-btn-lg ui-btn-primary no-radius" @click="addOrUpdAddress()">新建收货地址</div>
+            </div>
+        </ui-actionsheet-pop>
+        <!--服务说明 弹框-->
+        <ui-actionsheet-pop title="服务说明" :show.sync="showServicePop">
+            <ul class="service-list" style="padding-bottom:60px;">
+                <li v-for="sv in itemInfo.securityVOList" class="ui-border-b">
+                    <div class="cont">
+                        <p class="c3 pdT10" :class="{'pdB10':!sv.content}">
+                            <i class="lyf-icons lyf-guarantee mgR12" style="background-position: -142px -248px;"></i>{{sv.title}}</p>
+                        <p class="c808080 pdB15 pdL22" v-if="sv.content">{{{sv.content}}}</p>
+                    </div>
+                </li>
+            </ul>
+            <div class="btn " @click="showServicePop = false">
+                <div class="ui-btn-lg ui-btn-primary no-radius">知道了</div>
+            </div>
+        </ui-actionsheet-pop>
+        <!--选择商品系列属性弹框 是关联商品-->
+        <ui-serial-product :show.sync="showSizePop" @close="updateProduct()" :item-info.sync="itemInfoForSize" :no-check-default.sync="noCheckDefault"
+            :is-point-pro="isPointPro" @updateitem="updatePro()" :service-pro.sync="servicePro">
+            <!--:item-id.sync="itemId">-->
+            <!--:serial-attributes.sync="serialAttributes">-->
+            <!-- <li slot="pro-service" class="ui-border-b" v-if="servicePro.length > 0" v-cloak>
+                <span>安装服务</span>
+                <div class="sort f13">
+                    <span v-for="item in servicePro" :class="{active: item.seleted}" @click="chooseService(item)">{{item.chineseName}}</span>
+                </div>
+            </li> -->
+            <li slot="cart-num" class="ui-border-b" v-cloak>
+                <span>购买数量</span>
+                <div class="chose-num">
+
+                    <span class="reduce" @click="plusAmount(-1)">
+                        <i class="icons" :class="{'icons-reduce': itemAmount>1, 'icon-sub-disabled': itemAmount<=1||itemInfo.stockNum<=0||itemInfo.disabled==1}"></i>
+                    </span>
+                    <!-- <span class="num">{{itemSoldOut? 0 : itemAmount}}</span> -->
+                    <input type="tel" class="num" v-model="itemAmount">
+                    <span class="plus" @click="plusAmount(1)">
+                        <i class="icons" style="position: relative;top: -2px;" :class="{'icons-add': itemInfo.stockNum>itemAmount, 'icon-add-disabled': itemInfo.stockNum<=itemAmount||itemInfo.stockNum<=0||itemInfo.disabled==1}"></i>
+                    </span>
+                </div>
+                <div style="clear:both;"></div>
+            </li>
+            <div slot="buttons" class="btn select-attr-box">
+                <ul class="ui-tiled ui-tiled-btn" v-cloak style="height: 45px">
+                    <li class="add cf ui-border-r f14 " :class="{'bgAid': (itemAmount <= itemInfo.stockNum),'bgDis': (itemAmount > itemInfo.stockNum)}"
+                        @click="addItemInCart(itemInfo)" v-if="!itemSoldOut&&itemInfo.isAreaSale==1&&itemInfoForSize.isPresell!=1&&itemInfo.managementState!=0&&!isPointPro">加入购物车</li>
+                    <li class="buy f14 cf " :class="{'bgTheme': (itemAmount <= itemInfo.stockNum),'bgDis': (itemAmount > itemInfo.stockNum)}"
+                        @click="quickPurchase(false,7)" v-if="!itemSoldOut&&itemInfo.isAreaSale==1&&itemInfoForSize.isPresell!=1&&itemInfo.managementState!=0&&!isPointPro">立即购买</li>
+                    <li class="buy f14 cf line25" :class="{'bgAid': (itemAmount <= itemInfo.stockNum),'bgDis': (itemAmount > itemInfo.stockNum)}"
+                        @click="addItemInCart(itemInfo)" v-if="!itemSoldOut&&itemInfo.isAreaSale==1&&itemInfoForSize.isPresell==1&&itemInfo.managementState!=0&&!isPointPro">
+                        <p class="f16">{{itemInfoForSize.originalPrice|currency '¥'}}</p>
+                        <p class="f12">原价购买</p>
+                    </li>
+                    <li class="buy f14 cf line25" :class="{'bgTheme': (itemAmount <= itemInfo.stockNum),'bgDis': (itemAmount > itemInfo.stockNum)}"
+                        @click="quickPurchase(false,5)" v-if="!itemSoldOut&&itemInfo.isAreaSale==1&&itemInfoForSize.isPresell==1&&itemInfo.managementState!=0&&!isPointPro">
+                        <p class="f16">{{itemInfoForSize.presellDownPrice|currency '¥'}}</p>
+                        <p class="f12">支付定金</p>
+                    </li>
+                    <li class="f14" :class="{'bgTheme':canExchange,'soldout':!canExchange || (itemAmount > itemInfo.stockNum)}" v-if="!itemSoldOut&&itemInfo.isAreaSale==1&&itemInfoForSize.isPresell!=1&&itemInfo.managementState!=0&&isPointPro"
+                        @click="quickPurchase(false,7,6,itemInfo)">立即兑换</li>
+                    <li class="soldout f14" v-if="itemSoldOut && itemInfo.managementState">已售完</li>
+                    <li class="soldout f14" v-if="itemInfo && itemInfo.managementState == 0">已下架</li>
+                    <li class="soldout" v-if="itemInfo.isAreaSale==0">该区域不可售</li>
+                </ul>
+                <!-- <ul class="ui-tiled ui-tiled-btn" v-cloak style="height: 45px">
+                    <li class="add cf ui-border-r f14 " :class="{'bgAid':!noCheckDefault&&(itemAmount <= itemInfo.stockNum),'bgDis':noCheckDefault || (itemAmount > itemInfo.stockNum)}" @click="addItemInCart(itemInfo)" v-if="!itemSoldOut&&itemInfo.isAreaSale==1&&itemInfoForSize.isPresell!=1">加入购物车</li>
+                    <li class="buy f14 cf " :class="{'bgTheme':!noCheckDefault&&(itemAmount <= itemInfo.stockNum),'bgDis':noCheckDefault || (itemAmount > itemInfo.stockNum)}" @click="quickPurchase(false,7)" v-if="!itemSoldOut&&itemInfo.isAreaSale==1&&itemInfoForSize.isPresell!=1">立即购买</li>
+                    <li class="buy f14 cf line25" :class="{'bgAid':!noCheckDefault&&(itemAmount <= itemInfo.stockNum),'bgDis':noCheckDefault || (itemAmount > itemInfo.stockNum)}" @click="quickPurchase(false,7)" v-if="!itemSoldOut&&itemInfo.isAreaSale==1&&itemInfoForSize.isPresell==1">
+                        <p class="f16">{{itemInfo.availablePrice|currency '¥'}}</p>
+                        <p class="f12">原价购买</p>
+                    </li>
+                    <li class="buy f14 cf line25" :class="{'bgTheme':!noCheckDefault&&(itemAmount <= itemInfo.stockNum),'bgDis':noCheckDefault || (itemAmount > itemInfo.stockNum)}" @click="quickPurchase(false,5)" v-show="!itemSoldOut&&itemInfo.isAreaSale==1&&itemInfoForSize.isPresell==1">
+                        <p class="f16">{{itemInfo.presellDownPrice|currency '¥'}}</p>
+                        <p class="f12">支付定金</p>
+                    </li>
+                    <li class="soldout f14" v-if="itemSoldOut && itemInfo.managementState">已售完</li>
+                    <li class="soldout f14" v-if="itemInfo && itemInfo.managementState == 0">已下架</li>
+                    <li class="soldout" v-if="itemInfo.isAreaSale==0">该区域不可售</li>
+                </ul> -->
+            </div>
+        </ui-serial-product>
+        <!--查看商品大图-->
+        <ui-image-viewer :show.sync="showFullPic" :images="itemImages" :current-index="preViewIndex" :needindex="true"></ui-image-viewer>
+        <ui-image-preview :show.sync="showFullPic2" :evaluatepiclist="evaluatePicList" :currentindex="preViewIndex" :pageno="pageNo"
+            :itemid="itemId"></ui-image-preview>
+        <!-- 视频播放 -->
+        <div class="ui-video-viewer" :class="{'show': showVideo||false}">
+            <div class="detail-video" style="width:100%;">
+                <video controls width="100%" height="100%"></video>
+                <div class="close" @click="stopVideo()">×</div>
+            </div>
+        </div>
+        <footer class="ui-footer ui-footer-stable ui-border-t" v-show="!showFullPic && !showSizePop">
+            <ul class="ui-row ui-tiled-btn" v-cloak>
+                <li class="cart ui-col ui-col-2" :class="{'w33':isPointPro}">
+                    <!--<div class="icon">&lt;!&ndash; <i class="hide" :class="{show:itemCountInCart>0}">{{itemCountInCart}}</i> &ndash;&gt;</div>-->
+                    <label v-if="pageConfig.showHotOnline" :class="{'w100':isPointPro}">
+                        <!--v-if="itemInfo.favoriteId=!null"-->
+                        <div class="ui-border-r" style="margin-top: 3px;" id="getService">
+                            <i class="icons icons-msg-gray"></i>
+                            <p class="f12 c3">在线客服</p>
+                        </div>
+                    </label>
+                    <label @click="addCollect" :class="{'w50':!pageConfig.showHotOnline}" v-if="!isPointPro">
+                        <!--v-if="itemInfo.favoriteId=!null"-->
+                        <div class="ui-border-r" style="margin-top: 3px;">
+                            <i class="icons" style="display:inline-block!important;" :class="{'icons-heart-red':itemInfo.isFavorite==1,'icons-heart':itemInfo.isFavorite!=1}"></i>
+                            <p class="f12 c3">收藏</p>
+                        </div>
+                    </label>
+                    <label :class="{'w50':!pageConfig.showHotOnline}" v-link-to="'/cart.html'" v-if="!isPointPro">
+                        <!--<sup class="radius50 bgff4444 f12">10</sup>-->
+                        <div style="margin-top: 3px;">
+                            <i class="icons icons-cart">
+                                <div class="ui-badge-cornernum bottom-cart" v-cloak v-if="cartCount>0">{{cartCount>99?99+'+':cartCount}}</div>
+                            </i>
+                            <p class="f12 c3">购物车</p>
+                        </div>
+                    </label>
+                </li>
+                <!--v-show="!itemSoldOut"-->
+                <li class="ui-col ui-col add cf bgAid " @click="showSizePop=true" v-if="!itemSoldOut&&itemInfo.isAreaSale==1&&itemInfoForSize.isPresell!=1&&itemInfo.managementState!=0&&!isPointPro">加入购物车</li>
+                <li class="ui-col ui-col add cf bgAid line25" @click="showSizePop=true" v-if="!itemSoldOut&&itemInfo.isAreaSale==1&&itemInfoForSize&&itemInfoForSize.isPresell==1&&itemInfo.managementState!=0&&!isPointPro">
+                    <p class="f16">{{itemInfoForSize.originalPrice|currency '¥'}}</p>
+                    <p class="f12">原价购买</p>
+                </li>
+                <li class="ui-col ui-col buy bgTheme cf" @click="showSizePop=true" v-if="!itemSoldOut&&itemInfo.isAreaSale==1&&itemInfoForSize.isPresell!=1&&itemInfo.managementState!=0&&!isPointPro">立即购买</li>
+                <li class="ui-col ui-col buy bgTheme cf line25" @click="showSizePop=true" v-if="!itemSoldOut&&itemInfo.isAreaSale==1&&itemInfoForSize&&itemInfoForSize.isPresell==1&&itemInfo.managementState!=0&&!isPointPro">
+                    <p class="f16">{{itemInfoForSize.presellDownPrice|currency '¥'}}</p>
+                    <p class="f12">支付定金</p>
+                </li>
+                <li class="ui-col ui-col-67" :class="{'bgTheme':canExchange,'soldout':!canExchange}" @click="showSizePop=true" v-if="!itemSoldOut&&itemInfo.isAreaSale==1&&itemInfoForSize.isPresell!=1&&itemInfo.managementState!=0&&isPointPro">立即兑换</li>
+                <li class="ui-col bgTheme" :class="{'w50':!isPointPro,'ui-col-67':isPointPro}" v-if="itemSoldOut && itemInfo.managementState"
+                    v-link-to="'/arrival-notice.html?mpId='+ itemId">到货通知</li>
+                <li class="ui-col bgDis" :class="{'w50':!isPointPro,'ui-col-67':isPointPro}" v-if="itemInfo && itemInfo.managementState == 0">已下架</li>
+                <li class="ui-col bgDis" :class="{'w50':!isPointPro,'ui-col-67':isPointPro}" v-if="itemInfo.isAreaSale==0">该区域不可售</li>
+            </ul>
+        </footer>
+        <!--收货地址-->
+        <ui-address :show.sync="showAddress" :add-success="afterAddAddress" :id="addressId"></ui-address>
+        <!-- 分享 -->
+        <ui-share :show.sync="showShare" :config.sync="shareConfig" :share="getSharePoint"></ui-share>
+    </div>
+    
+    <ui-set-position :show.sync="showLocation" :call-back="updateLocation"></ui-set-position>
+    <script>
+        if (/MicroMessenger/i.test(navigator.userAgent)) document.write(
+            '<script src="//res.wx.qq.com/open/js/jweixin-1.1.0.js"><\/script>');
+    </script>
+    <script type="text/javascript" src="http://webapi.amap.com/maps?v=1.3&key=4cbe65ccdb8919a83e3fa235b93b0fa9"></script>
+    <script type="text/javascript" src="/cms/view/frontier_guide/h5/templateJS.json"></script>
+    <script src="/libs/frozenui/lib/zepto.min.js?v=1537885372784"></script>
+    <script src="/libs/frozenui/js/frozen.js?v=1537885372784"></script>
+    <script src="/libs/vendor.js?v=1537885372784"></script>
+    <script src="/libs/swiper/swipe.js?v=1537885372784"></script>
+    <script src="/libs/mob-share.js?v=1537885372784" async></script>
+    <script src="/common.js?v=1537885372784"></script>
+    <script src="/detail.js?v=1537885372784"></script>
+    <script src="/libs/lazyload.min.js?v=1537885372784" async></script>
+    <script src="/kf.js?v=1537885372784"></script>
+
+
+
+    <!--    &lt;!&ndash; 小能客服 &ndash;&gt;
+    <script type="text/javascript">
+        var NTKF_PARAM ={
+            "siteid":"kf_600021" /*网站siteid*/,
+            "settingid":"kf_600021_9999" /*代码ID*/,
+            "uid":"" /*会员ID*/,
+            "uname":""/*会员名*/,
+            "userlevel": "0"/*会员等级*/
+        }
+
+        function openChatWindow(id) {
+            NTKF.im_openInPageChat("kf_9979_1452750735837");
+            if(id != "") {
+             NTKF_PARAM.sellerid = "ss_"+id;
+             NTKF.im_openInPageChat && NTKF.im_openInPageChat("ss_"+id+"_9999");
+             }else{
+             NTKF.im_openInPageChat("kf_9979_1452750735837");
+             }
+        }
+    </script>-->
+
+
+</body>
+
+</html>

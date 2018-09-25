@@ -1,0 +1,8 @@
+.ui-form {
+  background: transparent!important;
+}
+.ui-form .ui-form-item {
+  background: #fff;
+  margin-left: 0!important;
+  padding-left: 15px;
+}

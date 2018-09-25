@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="x5-orientation" content="portrait">
+    <meta name="msapplication-tap-highlight" content="no">
+    <title></title>
+    <link rel="stylesheet" href="/libs/frozenui/css/frozen.css?v=1537885372784">
+    <link rel="stylesheet" href="/libs/swiper/swiper.min.css?v=1537885372784">
+    <link rel="stylesheet" href="/common.css?v=1537885372784">
+    <link rel="stylesheet" href="/province.css?v=1537885372784">
+</head>
+
+<body>
+    <!--header-->
+    <header class="ui-header ui-header-stable ui-border-b">
+        <i class="ui-icon-return" @click="clickBack()"></i>
+        <div class="search">
+            <i class="icon icon-search"></i>
+            <div class="input">
+                <input type="text" maxlength="25">
+            </div>
+        </div>
+    </header>
+    <div class="indexing"><!-- v-if判断是否是省份列表 -->
+        <div class="inner">
+            <span>A</span><span>B</span><span>C</span><span>D</span><span>E</span><span>F</span><span>G</span><span>H</span><span>I</span><span>J</span><span>K</span><span>L</span><span>M</span><span>N</span><span>O</span><span>P</span><span>Q</span><span>R</span><span>S</span><span>T</span><span>U</span><span>V</span><span>W</span><span>X</span><span>Y</span><span>Z</span>
+        </div>
+    </div>
+    <section class="ui-container">
+        <!-- 省份列表 -->
+        <div class="group">
+            <div class="letter">定位地址</div>
+            <ul class="ui-list ui-list-text">
+                <li class="ui-border-t">
+                    <div class="ui-list-info">
+                        <h4 class="ui-nowrap">上海</h4>
+                    </div>
+                </li>
+                <li class="ui-border-t">
+                    <div class="ui-list-info">
+                        <h4 class="ui-nowrap">北京</h4>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="group">
+            <div class="letter">A</div>
+            <ul class="ui-list ui-list-text">
+                <li class="ui-border-t">
+                    <div class="ui-list-info">
+                        <h4 class="ui-nowrap">上海</h4>
+                    </div>
+                </li>
+                <li class="ui-border-t">
+                    <div class="ui-list-info">
+                        <h4 class="ui-nowrap">北京</h4>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="group">
+            <div class="letter">B</div>
+            <ul class="ui-list ui-list-text">
+                <li class="ui-border-t">
+                    <div class="ui-list-info">
+                        <h4 class="ui-nowrap">上海</h4>
+                    </div>
+                </li>
+                <li class="ui-border-t">
+                    <div class="ui-list-info">
+                        <h4 class="ui-nowrap">北京</h4>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="group">
+            <div class="letter">C</div>
+            <ul class="ui-list ui-list-text">
+                <li class="ui-border-t">
+                    <div class="ui-list-info">
+                        <h4 class="ui-nowrap">上海</h4>
+                    </div>
+                </li>
+                <li class="ui-border-t">
+                    <div class="ui-list-info">
+                        <h4 class="ui-nowrap">北京</h4>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <!-- 搜索结果 -->
+        <ul class="ui-list ui-list-text">
+            <li class="ui-border-t">
+                <div class="ui-list-info">
+                    <h4 class="ui-nowrap">上海</h4>
+                </div>
+            </li>
+            <li class="ui-border-t">
+                <div class="ui-list-info">
+                    <h4 class="ui-nowrap">上海</h4>
+                </div>
+            </li>
+            <li class="ui-border-t">
+                <div class="ui-list-info">
+                    <h4 class="ui-nowrap">上海</h4>
+                </div>
+            </li>
+            <li class="ui-border-t">
+                <div class="ui-list-info">
+                    <h4 class="ui-nowrap">上海</h4>
+                </div>
+            </li>
+            <li class="ui-border-t">
+                <div class="ui-list-info">
+                    <h4 class="ui-nowrap">上海</h4>
+                </div>
+            </li>
+        </ul>
+        <!-- 空 -->
+        <div class="ui-notice show">
+            <div class="icon icon-search-big"></div>
+            <p>非常抱歉，没有找到符合条件的信息</p>
+        </div>
+    </section>
+    <script type="text/javascript" src="/cms/view/frontier_guide/h5/templateJS.json"></script>
+    <script src="/libs/frozenui/lib/zepto.min.js?v=1537885372784"></script>
+    <script src="/libs/swiper/swipe.js?v=1537885372784"></script>
+    <script src="/libs/frozenui/js/frozen.js?v=1537885372784"></script>
+    <script src="/libs/vendor.js?v=1537885372784"></script>
+    <script src="/common.js?v=1537885372784"></script>
+    <script src="/province.js?v=1537885372784"></script>
+</body>
+</html>

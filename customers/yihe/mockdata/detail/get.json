@@ -1,0 +1,183 @@
+{
+  "status": 0,
+  "code": "0",
+  "success": true,
+  "data": {
+    "mpcList": {
+      "listObj": [
+        {
+          "id": 3,
+          "userUsername": "张*一",
+          "userImg": "http://placeholder.qiniudn.com/100x100",
+          "rate": 5,
+          "rateFlag": 1,
+          "content": "好评！",
+          "createTime": 1471933940000,
+          "orderCreateTime": 1471933940000,
+          "topflag": 0,
+          "isHideUserName": 0,
+          "mpAttr": null,
+          "mpShinePicList": [
+            "http://pic29.nipic.com/20130505/9252150_174246645000_2.jpg",
+            "http://pic29.nipic.com/20130505/9252150_174246645000_2.jpg",
+            "http://pic29.nipic.com/20130505/9252150_174246645000_2.jpg",
+            "http://pic29.nipic.com/20130505/9252150_174246645000_2.jpg"
+          ]
+        },
+        {
+          "id": 1,
+          "userUsername": "王*胖",
+          "userImg": null,
+          "rate": 5,
+          "rateFlag": 1,
+          "content": "好评！",
+          "createTime": 1471933940000,
+          "orderCreateTime": 1471933940000,
+          "topflag": 0,
+          "isHideUserName": 0,
+          "mpAttr": null,
+          "mpShinePicList": []
+        },
+        {
+          "id": 2,
+          "userUsername": "小*",
+          "userImg": null,
+          "rate": 5,
+          "rateFlag": 1,
+          "content": "好评！",
+          "createTime": 1471933940000,
+          "orderCreateTime": 1471933940000,
+          "topflag": 0,
+          "isHideUserName": 0,
+          "mpAttr": null,
+          "mpShinePicList": []
+        },
+        {
+          "id": 4,
+          "userUsername": "张*一",
+          "userImg": null,
+          "rate": 5,
+          "rateFlag": 3,
+          "content": "好评！",
+          "createTime": 1471933940000,
+          "orderCreateTime": 1471933940000,
+          "topflag": 0,
+          "isHideUserName": 0,
+          "mpAttr": null,
+          "mpShinePicList": []
+        },
+        {
+          "id": 5,
+          "userUsername": "张*一",
+          "userImg": null,
+          "rate": 5,
+          "rateFlag": 1,
+          "content": "好评！",
+          "createTime": 1471933940000,
+          "orderCreateTime": 1471933940000,
+          "topflag": 0,
+          "isHideUserName": 0,
+          "mpAttr": null,
+          "mpShinePicList": []
+        },
+        {
+          "id": 6,
+          "userUsername": "张十一",
+          "userImg": null,
+          "rate": 5,
+          "rateFlag": 1,
+          "content": "好评！",
+          "createTime": 1471933940000,
+          "orderCreateTime": 1471933940000,
+          "topflag": 0,
+          "isHideUserName": 1,
+          "mpAttr": null,
+          "mpShinePicList": []
+        },
+        {
+          "id": 7,
+          "userUsername": "张*一",
+          "userImg": null,
+          "rate": 5,
+          "rateFlag": 2,
+          "content": "好评！",
+          "createTime": 1471933940000,
+          "orderCreateTime": 1471933940000,
+          "topflag": 0,
+          "isHideUserName": 0,
+          "mpAttr": null,
+          "mpShinePicList": []
+        },
+        {
+          "id": 8,
+          "userUsername": "张*一",
+          "userImg": null,
+          "rate": 5,
+          "rateFlag": 2,
+          "content": "好评！",
+          "createTime": 1471933940000,
+          "orderCreateTime": 1471933940000,
+          "topflag": 0,
+          "isHideUserName": 0,
+          "mpAttr": null,
+          "mpShinePicList": []
+        },
+        {
+          "id": 9,
+          "userUsername": "张*一",
+          "userImg": null,
+          "rate": 5,
+          "rateFlag": 2,
+          "content": "好评！",
+          "createTime": 1471933940000,
+          "orderCreateTime": 1471933940000,
+          "topflag": 0,
+          "isHideUserName": 0,
+          "mpAttr": null,
+          "mpShinePicList": []
+        },
+        {
+          "id": 10,
+          "userUsername": "张*一",
+          "userImg": null,
+          "rate": 5,
+          "rateFlag": 1,
+          "content": "好评！",
+          "createTime": 1471933940000,
+          "orderCreateTime": 1471933940000,
+          "topflag": 0,
+          "isHideUserName": 0,
+          "mpAttr": null,
+          "mpShinePicList": []
+        }
+      ],
+      "total": 18
+    },
+    "mpLabelList": [
+      {
+        "labelflag": 0,
+        "labelName": "全部",
+        "labelNum": 208
+      },
+      {
+        "labelflag": 1,
+        "labelName": "好评",
+        "labelNum": 190
+      },
+      {
+        "labelflag": 2,
+        "labelName": "中评",
+        "labelNum": 10
+      },
+      {
+        "labelflag": 3,
+        "labelName": "差评",
+        "labelNum": 8
+      }
+    ],
+    "ratingUserCount":"21212",
+    "positiveRate":"98%"
+  },
+  "message": null,
+  "desc": null
+}

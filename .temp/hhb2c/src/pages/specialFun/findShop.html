@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="x5-orientation" content="portrait">
+    <meta name="msapplication-tap-highlight" content="no">
+    <title></title>
+    <link rel="stylesheet" href="${staticPath}/libs/frozenui/css/frozen.css?v=${version}">
+    <link rel="stylesheet" href="${staticPath}/common.css?v=${version}">
+    <link rel="stylesheet" href="${staticPath}/specialFun/specialFun.css?v=${version}">
+</head>
+<body ontouchstart="">
+<ui-header title="查询门店" :back-event="back"></ui-header>
+
+<section v-cloak>
+    <div style="position:fixed;top:0;left:0;right:0;z-index:20" >
+        <div class="ui-searchbar-wrap focus bgf mgT43" v-if="!showDetail">
+            <div class="ui-searchbar ui-border-radius">
+                <i class="ui-icon-search"></i>
+                <div class="ui-searchbar-text">输入想要查询的门店</div>
+                <div class="ui-searchbar-input">
+                    <input type="text" maxlength="50" placeholder="输入想要查询的门店" autocapitalize="off" v-model="keyword.value"  @focus="keyword.flag = true" @blur="inputOnBlur(keyword)">
+                </div>
+                <i class="ui-icon-close"  v-if="keyword.value.length > 0 && keyword.flag == true" @click="keyword.value = ''"></i>
+            </div>
+            <button class="f14 c3 search" @click="search">搜索</button>
+        </div>
+
+        <div class="ui-flex" style="height:280px;">
+            <div id="gdmap" style="width:100%;height:280px"></div>
+        </div>
+    </div>
+    <!--附近的门店-->
+    <div class="shop-list" v-if="!showDetail" style="margin-top:370px;">
+        <ul class="ui-list  mgB10"style="background-color: transparent!important;">
+            <li>
+                <p class="f12 c6 mgT5">附近门店</p>
+            </li>
+        </ul>
+
+        <ul class="ui-list">
+            <li class="ui-border-b" v-for="shop in shopList" @click="openShopDetail(shop.merchantId, $index)">
+                <div class="ui-list-thumb ui-flex ui-flex-align-center" style="width: 100px">
+                    <p class="f16 cff6900 ui-nowrap"><i class="specailFunIcons icon-position-orange"></i>{{shop.awayFrom}}</p>
+                </div>
+                <div class="ui-list-info">
+                    <p class="f14 c3 ui-nowrap">{{shop.merchantShopName}}</p>
+                    <p class="f12 c80 ui-nowrap">{{shop.address}}</p>
+                </div>
+                <span class="ui-panel-title-tips f13 c808080 mgT25 r10"><i class="f13 c9 icons2 icons2-arrow-r"></i></span>
+            </li>
+        </ul>
+    </div>
+    <!--无数据时-->
+    <div class="ui-row-flex ui-whitespace" v-if="shopList.length==0">
+        <div class="ui-col ui-col text-center mgT10 mgB10">
+            <i class="specailFunIcons  icon-shop-empty"></i>
+            <p class="f12 c6">暂无匹配门店~</p>
+        </div>
+    </div>
+    <!-- 门店详情 -->
+    <div class=" mgT15 whiteBlock" v-if="showDetail" style="margin-top:295px">
+        <form class="ui-form">
+            <div class="ui-form-item ui-form-item-show ui-border-b">
+                <p class="f14 c3">{{currentShopInfo.merchantShopName}}</p>
+            </div>
+            <div class="ui-form-item ui-form-item-show ui-border-b">
+                <p><i class="specailFunIcons icon-position"></i><span class="f12 c80">{{currentShopInfo.address}}</span></p>
+            </div>
+            <div class="ui-form-item ui-form-item-show ui-border-b">
+                <a href="tel:{{currentShopInfo.phone}}" class="f12 c80 disB"><i class="specailFunIcons icon-phone"></i>{{currentShopInfo.phone}}</a>
+            </div>
+            <div class="ui-form-item ui-form-item-show">
+                <p><i class="specailFunIcons icon-clock"></i><span class="f12 c80">{{businessTime[0].beginTime}}~{{businessTime[0].endTime}}</span></p>
+            </div>
+        </form>
+        <div class="ui-notice-btn pdT5" v-if="isFromPay">
+
+            <button class="ui-btn-primary ui-btn-lg" @click="selectShop(currentShopInfo.merchantId)">选择</button>
+        </div>
+        <button class="ui-btn-primary ui-btn-lg marT15" v-if="isApp" @click="navigate">导航</button>
+    </div>
+
+</section>
+
+<script type="text/javascript" src="/cms/view/frontier_guide/h5/templateJS.json"></script>
+<script src="${staticPath}/libs/frozenui/lib/zepto.min.js?v=${version}"></script>
+<script src="${staticPath}/libs/frozenui/js/frozen.js?v=${version}"></script>
+<script type="text/javascript" src="http://webapi.amap.com/maps?v=1.3&key=${mapKey}&plugin=AMap.ToolBar"></script>
+<script src="${staticPath}/libs/vendor.js?v=${version}"></script>
+<script src="${staticPath}/common.js?v=${version}"></script>
+<script src="${staticPath}/specialFun/findShop.js?v=${version}"></script>
+
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="x5-orientation" content="portrait">
+    <meta name="msapplication-tap-highlight" content="no">
+    <title></title>
+    <link rel="stylesheet" href="/libs/frozenui/css/frozen.css?v=1537883801478">
+    <link rel="stylesheet" href="/libs/swiper/swiper.min.css?v=1537883801478">
+    <link rel="stylesheet" href="/common.css?v=1537883801478">
+    <link rel="stylesheet" href="/pay/pay.css?v=1537883801478">
+</head>
+
+<body style="background:#fff!important;">
+    <ui-header title="支付失败"></ui-header>
+    <section class="ui-container" style="border-top: 0" v-cloak>
+        <div class="bgf pdB10">
+<!--头图-->
+            <div class="ui-row-flex ui-whitespace bgff4d00 mgT43 pdT15 pdB15 pdT100">
+                <div class="ui-col ui-col text-center posR">
+                    <i class="icons icons-pay-bg pay-fail-bg"></i>
+                    <i class="icons icons-pay-fail posA"></i>
+                </div>
+            </div>
+            <p class="text-center f15 c3 bold pdT16">支付未完成，请在60分钟内完成支付!</p>
+            <div class="ui-btn-wrap marT30 text-center">
+                    <button class="ui-btn radiusAll8 f18 bold bgTheme cf fail-btn" v-link-to-userpage="'/my/my-order.html'">重新支付</button>
+                </div>
+        </div>
+        
+    </section>
+    <script type="text/javascript" src="/cms/view/frontier_guide/h5/templateJS.json"></script>
+    <script src="/libs/frozenui/lib/zepto.min.js?v=1537883801478"></script>
+    <script src="/libs/swiper/swipe.js?v=1537883801478"></script>
+    <script src="/libs/frozenui/js/frozen.js?v=1537883801478"></script>
+    <script src="/libs/vendor.js?v=1537883801478"></script>
+    <script src="/common.js?v=1537883801478"></script>
+    <script src="/pay/payFail.js?v=1537883801478"></script>
+</body>
+</html>

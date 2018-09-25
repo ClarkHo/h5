@@ -1,0 +1,15 @@
+.jianbian {
+  background: linear-gradient(top, #f23030, #f23030);
+  background: -webkit-linear-gradient(top, #f23030, #f23030);
+  background: -moz-linear-gradient(top, #f23030, #f23030);
+  color: #fff!important;
+}
+.ui-container .tip {
+  text-align: center;
+  color: #333;
+  font-size: 18px;
+  margin-top: 20px;
+}
+[v-cloak] {
+  display: none;
+}

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="x5-orientation" content="portrait">
+    <meta name="msapplication-tap-highlight" content="no">
+    <title></title>
+    <link rel="stylesheet" href="/libs/frozenui/css/frozen.css?v=1537883801478">
+    <link rel="stylesheet" href="/common.css?v=1537883801478">
+    <link rel="stylesheet" href="/my/my.css?v=1537883801478">
+    <link rel="stylesheet" href="/my/bill.css?v=1537883801478">
+</head>
+<body ontouchstart="" class="bill" v-need-login>
+
+<div style="z-index: 9999999;z-index: 9999999;position: fixed;top: 0;">
+    <div class="title-bg"></div>
+    <i class="icon icon-arrow-left" onclick="history.back()"></i>
+    <a v-link-to="'/my/bill-filter.html?filterFlag='+ filterFlag"><i class="icon icon-filter"></i></a>
+</div>
+
+
+    <section v-cloak class="mgT43">
+        <div class="ui-tab" id="tab1">
+            <ul class="ui-tab-nav ui-border-b" style="z-index: 99999999;z-index: 9999999;position: fixed;top: 0;">
+                <li class="current" @click="filterFlag=1">购物账单</li>
+                <li @click="filterFlag=2">收益账单</li>
+            </ul>
+            <ul class="ui-tab-content" style="width:200%">
+                <li>
+                    <!--无数据时-->
+                    <div class="ui-row-flex ui-whitespace" v-if="myBill.length==0">
+                        <div class="ui-col ui-col text-center mgT10 mgB10">
+                            <i class="icons3  icons3-bill-no"></i>
+                            <p class="f12 c6">您还没有购物账单哦~</p>
+                        </div>
+                    </div>
+                    <!--有数据-->
+                    <ul class="ui-list mgT10" v-for="bill in myBill"  v-if="myBill.length>0">
+                        <div class="ui-row-flex ui-whitespace bgf5f5f5 pdT5 pdB5">
+                            <div class="ui-col ui-col f14 c3">{{bill.name}}</div>
+                        </div>
+                        <li v-for="q in bill.values" class="ui-border-b">
+                            <div class="" style="width: 50px;padding-top: 10px;">
+                                <h4 class="ui-nowrap f14 c9">{{q.dayOrWeek}}</h4>
+                                <p class="ui-nowrap f14 c9">{{q.time}}</p>
+                            </div>
+                            <div class="ui-avatar">
+                                <!--<span style="background-image:url(http://placeholder.qiniudn.com/100x100)"></span>-->
+                                <span :style="{'background-image':'url('+q.iconUrl+')'}"></span>
+                            </div>
+                            <div class="ui-list-info">
+                                <h4 class="ui-nowrap f16 c3 fb">{{q.amount}}</h4>
+                                <p class="ui-nowrap f14 c6">{{q.desc}}</p>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <!--无数据时-->
+                    <div class="ui-row-flex ui-whitespace" v-if="incomeBill.length==0">
+                        <div class="ui-col ui-col text-center mgT10 mgB10">
+                            <i class="icons3  icons3-bill-no"></i>
+                            <p class="f12 c6">您还没有收益账单哦~</p>
+                        </div>
+                    </div>
+                    <!--有数据-->
+                    <ul class="ui-list mgT10" v-for="bill in incomeBill"  v-if="incomeBill.length>0">
+                        <div class="ui-row-flex ui-whitespace bgf5f5f5 pdT5 pdB5">
+                            <div class="ui-col ui-col f14 c3">{{bill.name}}</div>
+                        </div>
+                        <li v-for="q in bill.values" class="ui-border-b">
+                            <div class="" style="width: 50px;padding-top: 10px;">
+                                <h4 class="ui-nowrap f14 c9">{{q.dayOrWeek}}</h4>
+                                <p class="ui-nowrap f14 c9">{{q.time}}</p>
+                            </div>
+                            <div class="ui-avatar">
+                                <span style="background-image:url(http://placeholder.qiniudn.com/100x100)"></span>
+                                <!--<span :style="{'background-image':'url('+q.bankIconUrl+')'}"></span>-->
+                            </div>
+                            <div class="ui-list-info">
+                                <h4 class="ui-nowrap f16 c3 fb">{{q.amount}}</h4>
+                                <p class="ui-nowrap f14 c6">{{q.desc}}</p>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+
+
+    </section>
+
+    <script type="text/javascript" src="/cms/view/frontier_guide/h5/templateJS.json"></script>
+    <script src="/libs/frozenui/lib/zepto.min.js?v=1537883801478"></script>
+    <script src="/libs/frozenui/js/frozen.js?v=1537883801478"></script>
+    <script src="/libs/vendor.js?v=1537883801478"></script>
+    <script src="/common.js?v=1537883801478"></script>
+    <script src="/my/bill.js?v=1537883801478"></script>
+
+</body>
+</html>

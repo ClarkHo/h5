@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="x5-orientation" content="portrait">
+    <meta name="msapplication-tap-highlight" content="no">
+    <title></title>
+    <link rel="stylesheet" href="${staticPath}/libs/frozenui/css/frozen.css?v=${version}">
+    <link rel="stylesheet" href="${staticPath}/libs/swiper/swiper.min.css?v=${version}">
+    <link rel="stylesheet" href="${staticPath}/common.css?v=${version}">
+    <link rel="stylesheet" href="${staticPath}/entrance.css?v=${version}">
+</head>
+
+<body class="nobg">
+    <!--头部-->
+    <ui-header title="找回密码" :back-event="backStep"></ui-header>
+    <!--主体部分-->
+    <section class="ui-container" :class="{hide: step == 1}">
+        <div class="ui-form">
+            <div class="ui-form-item ui-form-item-show ui-border-b">
+                <label for="#">手机号</label>
+                <input type="text" v-model="user.mobile" placeholder="请输入手机号">
+                <a href="javascript:void(0)" class="ui-icon-close" v-show="user.mobile" @click="user.mobile = ''"></a>
+            </div>
+            <div class="ui-form-item ui-form-item-show has-sms ui-border-b">
+                <label for="#">验证码</label>
+                <input type="text" v-model="user.captchas" placeholder="请输入短信验证码">
+                <button type="button" class="ui-border-l sms-btn" :disabled="smsBtnDisabled" @click="showImgViCode"><span v-cloak>{{smsBtn}}</span></button>
+                <a href="javascript:void(0)" class="ui-icon-close" v-show="user.captchas" @click="user.captchas=''"></a>
+            </div>
+            <div class="ui-form-item submit-btn">
+                <button type="button" class="ui-btn ui-btn-primary" @click="nextStep">下一步</button>
+            </div>
+        </div>
+    </section>
+    <section class="ui-container hide" :class="{show: step == 1}">
+        <div class="ui-form">
+            <div class="ui-form-item ui-form-item-show has-icon ui-border-b">
+                <label for="#">密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码</label>
+                <input type="{{spypasswd}}" v-model="user.password1" placeholder="请输入密码(6-18个字符)">
+                <a href="javascript:void(0)" class="ui-icon-close" v-show="user.password1" @click="user.password1=''"></a>
+                <i class="icon icon-eyes-close" v-if="spypasswd == 'password'" @click="spypasswd = 'text'"></i>
+                <i class="icon icon-eyes" v-if="spypasswd == 'text'" @click="spypasswd = 'password'"></i>
+            </div>
+            <div class="ui-form-item ui-form-item-show has-icon ui-border-b">
+                <label for="#">确认密码</label>
+                <input type="{{spyconfirmPassword}}" v-model="user.password2" placeholder="请再次输入密码">
+                <a href="javascript:void(0)" class="ui-icon-close" v-show="user.password2" @click="user.password2=''"></a>
+                <i class="icon icon-eyes-close" v-if="spyconfirmPassword == 'password'" @click="spyconfirmPassword = 'text'"></i>
+                <i class="icon icon-eyes" v-if="spyconfirmPassword == 'text'" @click="spyconfirmPassword = 'password'"></i>
+            </div>
+            <div class="ui-form-item submit-btn">
+                <button type="button" class="ui-btn ui-btn-primary" :disabled="sbmDisabled" @click="submitForm">完成</button>
+            </div>
+        </div>
+    </section>
+    <!-- 图片验证码 -->
+    <ui-dialog-captchas :show.sync="vicodeDialog" :mobile.sync="user.mobile" :sms-btn.sync="smsBtn" :sms-btn-disabled.sync="smsBtnDisabled"></ui-dialog-captchas>
+    <script type="text/javascript" src="/cms/view/frontier_guide/h5/templateJS.json"></script>
+    <script src="${staticPath}/libs/frozenui/lib/zepto.min.js?v=${version}"></script>
+    <script src="${staticPath}/libs/swiper/swipe.js?v=${version}"></script>
+    <script src="${staticPath}/libs/frozenui/js/frozen.js?v=${version}"></script>
+    <script src="${staticPath}/libs/md5.js?v=${version}"></script>
+    <script src="${staticPath}/libs/vendor.js?v=${version}"></script>
+    <script src="${staticPath}/common.js?v=${version}"></script>
+    <script src="${staticPath}/forget.js?v=${version}"></script>
+</body>
+</html>

@@ -1,0 +1,136 @@
+.jianbian {
+  background: linear-gradient(top, #e84b8b, #dd226a);
+  background: -webkit-linear-gradient(top, #e84b8b, #dd226a);
+  background: -moz-linear-gradient(top, #e84b8b, #dd226a);
+  color: #fff!important;
+}
+.jianbian-left {
+  background: linear-gradient(left, #e84b8b, #dd226a);
+  background: -webkit-linear-gradient(left, #e84b8b, #dd226a);
+  background: -moz-linear-gradient(left, #e84b8b, #dd226a);
+  color: #fff!important;
+}
+.swipe {
+  position: relative;
+  font-size: 0;
+  visibility: hidden;
+  overflow: hidden;
+}
+.swipe .swipe-wrap {
+  overflow: hidden;
+  position: relative;
+}
+.swipe .swipe-wrap > figure {
+  float: left;
+  width: 100%;
+  margin: 0;
+  position: relative;
+}
+.swipe .swipe-wrap > figure img {
+  width: 100%;
+}
+.swipe .swipe-point {
+  position: absolute;
+  left: 2%;
+  bottom: 14px;
+  width: 96%;
+  text-align: right;
+}
+.swipe .swipe-point li {
+  display: inline-block;
+  width: 10px;
+  height: 4px;
+  margin: 0 2px;
+  border-radius: 4px;
+  background-color: #fff;
+}
+.swipe .swipe-point .active {
+  background-color: #d6265d;
+}
+.presell {
+  margin-left: 0 !important;
+}
+.presell .ui-list-img {
+  padding: 0 10px 10px 0;
+  margin: 0;
+  width: 125px;
+  height: 125px;
+  position: relative;
+}
+.presell .ui-list-img img {
+  display: block;
+  width: 125px;
+}
+.presell .ui-list-img .noStock {
+  width: 55px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.presell .ui-list-info {
+  -webkit-box-pack: inherit;
+  -moz-box-pack: inherit;
+}
+.presell .ui-list-info .pro-title {
+  height: 40px;
+  word-break: break-all;
+}
+.presell .ui-list-info .pro-title .yushou {
+  color: #d6265d;
+  border: 1px solid #d6265d;
+  padding: 0 1px;
+}
+.presell .ui-list-info .pro-price .f23 {
+  font-size: 23px;
+}
+.presell .ui-list-info .pro-foot {
+  height: 35px;
+  overflow: hidden;
+  margin-top: 7px;
+  position: relative;
+}
+.presell .ui-list-info .pro-foot .limit {
+  float: left;
+  height: 35px;
+  position: relative;
+}
+.presell .ui-list-info .pro-foot .limit .process-gray,
+.presell .ui-list-info .pro-foot .limit .process-active,
+.presell .ui-list-info .pro-foot .limit .process-text {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 12px;
+  border-radius: 5px;
+}
+.presell .ui-list-info .pro-foot .limit .process-gray {
+  width: 100px;
+  background: #ddd;
+}
+.presell .ui-list-info .pro-foot .limit .process-text {
+  width: 100px;
+  font-size: 12px;
+  color: #fff;
+  top: -3px;
+  text-align: center;
+}
+.presell .ui-list-info .pro-foot .process-number {
+  position: absolute;
+  bottom: 0;
+  font-size: 12px;
+  color: #666;
+}
+.presell .ui-list-info .pro-foot .reserve {
+  padding: 0px 8px;
+  height: 35px;
+  line-height: 35px;
+  background: #d6265d;
+  font-size: 14px;
+  color: #fff;
+  float: right;
+  border-radius: 5px;
+}
+.presell .ui-list-info .pro-foot .reserve.bgb2 {
+  background: #b2b2b2;
+}

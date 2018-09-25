@@ -1,0 +1,374 @@
+.jianbian {
+  background: linear-gradient(top, #e84b8b, #dd226a);
+  background: -webkit-linear-gradient(top, #e84b8b, #dd226a);
+  background: -moz-linear-gradient(top, #e84b8b, #dd226a);
+  color: #fff!important;
+}
+.jianbian-left {
+  background: linear-gradient(left, #e84b8b, #dd226a);
+  background: -webkit-linear-gradient(left, #e84b8b, #dd226a);
+  background: -moz-linear-gradient(left, #e84b8b, #dd226a);
+  color: #fff!important;
+}
+.marT50 {
+  margin-top: 50px;
+}
+.marl10 {
+  margin-left: 10px !important;
+}
+.mar0 {
+  margin: 0 !important;
+}
+.pad0 {
+  padding: 0 !important;
+}
+.pad12 {
+  padding: 12px !important;
+}
+.pdtb5 {
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+.pdt5b10 {
+  padding-top: 5px;
+  padding-bottom: 10px;
+}
+.myCheck {
+  position: relative;
+}
+.myCheck button {
+  position: absolute;
+  right: 18px;
+  top: 6px;
+  padding: 0 10px;
+}
+.ui-checkbox input,
+.ui-checkbox-s input {
+  width: 20px;
+}
+.ui-checkbox input:before,
+.ui-checkbox-s input:before {
+  color: #a2a2a2;
+  font-size: 27px;
+}
+.ui-checkbox input:disabled:before,
+.ui-checkbox-s input:disabled:before {
+  color: #ddd;
+}
+.ui-card {
+  margin-left: 0;
+  margin-right: 0;
+}
+/* 提交按钮 */
+.submit-btn {
+  margin: 25px 10px 0;
+}
+.submit-btn .ui-btn {
+  width: 100%;
+  height: 50px;
+  font-size: 18px;
+}
+/* 商品信息 */
+.ui-list-thumb {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  margin-right: 12px;
+  /* 失效 */
+  /* 暂无库存 */
+  /* 图片滤镜 */
+}
+.ui-list-thumb.small {
+  width: 50px;
+  height: 50px;
+}
+.ui-list-thumb.small span {
+  background-size: 50px 50px;
+}
+.ui-list-thumb span {
+  background-size: 80px 80px;
+}
+.ui-list-thumb .failure,
+.ui-list-thumb .inventory {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 18px;
+  color: #fff;
+  font-size: 12px;
+  line-height: 18px;
+  text-align: center;
+  background-color: #707070;
+}
+.ui-list-thumb .inventory {
+  background-color: rgba(51, 51, 51, 0.7);
+}
+.ui-list-thumb .img-gray {
+  -webkit-filter: grayscale();
+}
+.name {
+  height: 32px;
+  font-size: 14px!important;
+  line-height: 16px;
+}
+.subname {
+  height: 12px;
+  margin-top: 5px;
+  font-size: 12px!important;
+  line-height: 1;
+}
+.jine {
+  height: 30px;
+  margin-top: 19px;
+}
+.jine .opt-group button.disabled {
+  color: #dddddd;
+}
+.jine li {
+  float: left;
+  width: 50%;
+}
+.price {
+  height: 20px;
+  padding-top: 10px;
+  color: #d6265d;
+  font-size: 12px;
+  font-weight: bold;
+  line-height: 20px;
+}
+.price.c9 {
+  color: #999;
+}
+.mainprice {
+  font-size: 20px;
+}
+.option {
+  position: relative;
+  height: 30px;
+}
+.option.similar {
+  padding-top: 16px;
+  height: 14px;
+  font-size: 12px;
+  text-align: right;
+  line-height: 1;
+}
+.option .limit {
+  position: absolute;
+  left: 0;
+  bottom: -15px;
+  width: 100%;
+  color: #666666;
+  font-size: 8px;
+  line-height: 1;
+  text-align: center;
+}
+.opt-group {
+  position: relative;
+  height: 28px;
+  padding: 0 33px;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  top: 0;
+}
+.opt-group button {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 33px;
+  height: 100%;
+  border: none;
+  font-size: 0;
+  text-align: center;
+  background-color: #fff;
+}
+.opt-group button:disabled {
+  color: #dddddd;
+}
+.opt-group input {
+  width: 100%;
+  height: 100%;
+  line-height: 28px;
+  text-align: center;
+  border: none;
+}
+.opt-group .jian {
+  border-right: 1px solid #ddd;
+}
+.opt-group .jia {
+  left: auto;
+  right: 0;
+  border-left: 1px solid #ddd;
+}
+/* 退货说明 */
+.remark {
+  width: 100%;
+  height: 70px;
+  padding: 0;
+  line-height: 16px;
+  border: none;
+  resize: none;
+}
+/* 上传图片 */
+.imgarr .imgbox {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  margin-right: 5px;
+  border: 1px solid #ddd;
+}
+.imgarr .ui-icon-close-progress {
+  position: absolute;
+  top: -7px;
+  right: -7px;
+  line-height: 1;
+  font-size: 16px;
+  color: #ff0000;
+}
+.imgarr .upload {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+}
+.imgtip {
+  margin: 0;
+  padding: 0 22px;
+  font-size: 12px;
+  line-height: 1;
+}
+/* 退货原因 */
+.return-list {
+  height: 250px;
+  overflow: auto;
+}
+.ui-card {
+  padding: 10px;
+}
+.ui-col,
+.ui-row {
+  line-height: 24px;
+}
+.ui-notice {
+  display: block;
+  background-color: #fff;
+  padding-bottom: 100px;
+}
+/* 退货地址 */
+.address-inner {
+  background-image: linear-gradient(135deg, transparent 12%, #f0918b 12%, #f0918b 37%, transparent 37%, transparent 62%, #a1d6f0 62%, #a1d6f0 87%, transparent 87%);
+  background-position: left bottom;
+  background-size: 70px 3px;
+  background-repeat: repeat-x;
+}
+.address-inner .label {
+  padding-right: 12px;
+  color: #666;
+  line-height: 42px;
+}
+.integral-tabs {
+  position: fixed;
+  top: 44px;
+  left: 0;
+  right: 0;
+  height: 37px;
+  text-align: center;
+  background-color: #fff;
+  z-index: 2;
+}
+.integral-tabs span {
+  display: inline-block;
+  height: 35px;
+  padding: 0 5px;
+  line-height: 37px;
+}
+.integral-tabs .active span {
+  border-bottom: 2px solid #d6265d;
+}
+.integral-tabs ~ .ui-container {
+  border-top: 81px solid transparent;
+}
+.ui-tooltips-warn .ui-tooltips-cnt {
+  color: #d6265d;
+  background-color: #ffd7d7;
+}
+/* 物流单号 */
+.logistics {
+  margin-top: 12px;
+  margin-bottom: 10px;
+}
+.logistics p {
+  color: #666;
+  line-height: 1;
+}
+.logistics .input-group {
+  position: relative;
+  margin-top: 12px;
+  padding-right: 60px;
+}
+.logistics .input-group .input {
+  display: block;
+  width: 100%;
+  height: 30px;
+  padding: 0 10px;
+  line-height: 30px;
+  font-size: 12px;
+  box-sizing: border-box;
+  border: none;
+}
+.logistics .input-group .ui-btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 60px;
+  height: 100%;
+  padding: 0;
+  font-size: 12px;
+  line-height: 100%;
+  border-radius: 0 3px 3px 0;
+}
+/* 系列属性 */
+.item-info {
+  height: 90px;
+  position: relative;
+}
+.item-info .info-img {
+  width: 80px;
+  height: 80px;
+  margin: 10px;
+  background-color: #fff;
+}
+.item-info .info-img img {
+  width: 100%;
+  height: 100%;
+  border-radius: 4px;
+}
+.item-info .info-word {
+  position: absolute;
+  left: 120px;
+  top: 20px;
+}
+.item-info .info-word .item-code {
+  font-size: 13px;
+}
+.item-info .info-word del {
+  font-size: 12px;
+  color: #999;
+  padding-left: 6px;
+}
+.ui-actionsheet .ui-pop .size-list {
+  min-height: 120px;
+  height: inherit;
+  padding-bottom: 10px;
+}
+.btn .prod-add,
+.btn .prod-buy {
+  width: 50%;
+}
+.btn .prod-soldout {
+  width: 100%;
+}

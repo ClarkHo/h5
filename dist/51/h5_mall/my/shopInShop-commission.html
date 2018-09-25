@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="x5-orientation" content="portrait">
+    <meta name="msapplication-tap-highlight" content="no">
+    <title></title>
+    <link rel="stylesheet" href="/libs/frozenui/css/frozen.css?v=1537883801478">
+    <link rel="stylesheet" type="text/css" href="/libs/datePicker.css?v=1537883801478">
+    <link rel="stylesheet" href="/common.css?v=1537883801478">
+    <link rel="stylesheet" href="/my/my.css?v=1537883801478">
+    <link rel="stylesheet" href="/my/my-income-detail.css?v=1537883801478">
+</head>
+<body ontouchstart="" class="fans" v-need-login>
+    <ui-header title="子店佣金"></ui-header>
+    <!-- main section -->
+    <section v-cloak class="mgT43 pdB10">
+
+        <!--无数据时-->
+        <div class="ui-row-flex ui-whitespace" v-if="settledSubCommissionList.length==0">
+            <div class="ui-col ui-col text-center mgT10 mgB10">
+                <i class="icons3  icons3-search-no"></i>
+                <p class="f12 c6">暂无数据...</p>
+            </div>
+        </div>
+        <!--订单-->
+        <ul class="ui-list ui-list-text mgT10" v-if="settledSubCommissionList.length>0" v-for="q in settledSubCommissionList" v-link-to="'/my/shopInShop-commission-detail.html?subDistributorId='+q.distributorId+'&subDistributorLevel='+q.level">
+            <li class="ui-border-t">
+                <!--<h4 class="ui-nowrap f14 c3">店铺ID：DS5465456456456</h4>-->
+                <h4 class="ui-nowrap f14 c3">店铺ID：{{q.distributorId}}</h4>
+                <!--<div class="ui-txt-info f14 cb38a32 mgR10">2级店</div>-->
+                <div class="ui-txt-info f14 cb38a32 mgR10">{{q.level}}级店</div>
+            </li>
+            <li class="ui-border-t ui-form-item-link">
+                <div class="ui-row-flex ui-whitespace">
+                    <div class="ui-col ui-col">
+                        <p><span class="f14 c3">联系人：{{q.distributorName}}</span></p>
+                        <!--<p><span class="f14 c3">销售额：</span><span class="f14 cb38a32">¥625.00</span></p>-->
+                        <!--<p><span class="f14 c3">佣   金：</span><span class="f14 cb38a32">¥62.00</span></p>-->
+                        <p><span class="f14 c3">佣   金：</span><span class="f14 cb38a32">¥{{q.commission}}</span></p>
+                    </div>
+                    <div class="ui-col ui-col">
+                        <!--<p><span class="f14 c3">联系方式：150****652</span></p>-->
+                        <p><span class="f14 c3">联系方式：{{q.distributorMobile}}</span></p>
+                        <!--<p><span class="f14 c3">成交订单：</span><span class="f14 cb38a32">6</span></p>-->
+                        <p><span class="f14 c3">成交订单：</span><span class="f14 cb38a32">{{q.orderCount}}</span></p>
+
+                    </div>
+                </div>
+            </li>
+        </ul>
+
+    </section>
+
+    <script type="text/javascript" src="/cms/view/frontier_guide/h5/templateJS.json"></script>
+    <script src="/libs/frozenui/lib/zepto.min.js?v=1537883801478"></script>
+    <script src="/libs/frozenui/js/frozen.js?v=1537883801478"></script>
+    <script src="/libs/iscroll.js?v=1537883801478"></script>
+    <script src="/libs/datePicker.js?v=1537883801478"></script>
+    <script src="/libs/vendor.js?v=1537883801478"></script>
+    <script src="/common.js?v=1537883801478"></script>
+    <script src="/my/shopInShop-commission.js?v=1537883801478"></script>
+</body>
+</html>

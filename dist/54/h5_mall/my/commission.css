@@ -1,0 +1,111 @@
+.jianbian {
+  background: linear-gradient(top, #f23030, #f23030);
+  background: -webkit-linear-gradient(top, #f23030, #f23030);
+  background: -moz-linear-gradient(top, #f23030, #f23030);
+  color: #fff!important;
+}
+/* 积分 */
+.commission-score {
+  color: #fff;
+  text-align: center;
+  line-height: 1;
+  left: 0;
+  top: 50%;
+  margin-top: -35px;
+}
+.commission-score .num {
+  margin-top: 5px;
+  white-space: nowrap;
+}
+.commission-score-side {
+  padding: 5% 0 0 30%;
+}
+.commission-detail-label {
+  padding: 10px 0 7px 15px;
+}
+.commission-score-content .ui-btn {
+  min-width: 75px;
+  height: 26px;
+  line-height: 24px;
+  background-color: transparent;
+  border: solid 1px #fff;
+  border-radius: 20px;
+}
+.commission-type {
+  padding: 9px 0;
+  background-color: #fff;
+  text-align: center;
+}
+.commission-type .title {
+  color: #666;
+  font-size: 12px;
+  line-height: 1;
+}
+.commission-type .num {
+  margin-top: 10px;
+  font-size: 18px;
+  line-height: 1;
+}
+.top-up {
+  color: #f23030;
+  text-align: center;
+  font-size: 15px;
+  line-height: 50px;
+  background-color: #fff;
+}
+.commission-detail .title {
+  padding-left: 10px;
+  color: #999;
+  font-size: 11px;
+}
+.commission-tabs {
+  height: 37px;
+  text-align: center;
+}
+.commission-tabs span {
+  display: inline-block;
+  height: 35px;
+  padding: 0 5px;
+  line-height: 37px;
+}
+.commission-tabs .active span {
+  color: #f23030;
+  border-bottom: 2px solid #f23030;
+}
+.timeline {
+  position: relative;
+  margin-left: 12px;
+  padding-bottom: 30px;
+}
+.timeline .ui-border-b {
+  background-image: none!important;
+}
+.timeline > li {
+  position: relative;
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+.timeline h3 {
+  height: 30px;
+  margin-top: 5px;
+  margin-right: 90px;
+  color: #999;
+  font-size: 12px;
+  line-height: 15px;
+}
+.timeline .date {
+  margin-top: 5px;
+  color: #999;
+  font-size: 12px;
+  line-height: 15px;
+}
+.timeline .ui-list-text li {
+  padding: 0 10px 0 0;
+  margin-left: 0;
+}
+.timeline .ui-list-text h4 {
+  line-height: 22px;
+}
+.commission-rules {
+  padding: 0 10px;
+}

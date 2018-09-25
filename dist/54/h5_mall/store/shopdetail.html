@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="x5-orientation" content="portrait">
+    <meta name="msapplication-tap-highlight" content="no">
+    <title></title>
+    <link rel="stylesheet" href="/libs/frozenui/css/frozen.css?v=1537884480835">
+    <link rel="stylesheet" href="/common.css?v=1537884480835">
+    <link rel="stylesheet" href="/store/shopdetail.css?v=1537884480835">
+    <style>
+    .w30{
+        width: 30%;
+    }
+    .flexBox{
+        justify-content: space-around;
+        display: flex;
+        flex-wrap: wrap;
+    }
+    </style>
+</head>
+<body>
+
+<ui-header title="店铺详情">
+    <a href="javascript:;" @touchstart="rightNavFlag=!rightNavFlag" class="handle h-nav icon"></a>
+</ui-header>
+
+<section class="ui-container">
+    <div class="mall" v-cloak>
+        <div class="ui-row-flex ui-whitespace mall-desc bgf">
+            <div class="mall-item posR">
+                <div class="pic">
+                    <img class="img" :src="shopInfo.logo||'http://static.galileo.xiaojukeji.com/static/tms/seller_avatar_256px.jpg'" alt="">
+                </div>
+                <div class="mall-se">
+                    <div class="title">
+                        <span class="f14 c3 ">{{shopInfo.shopName}}</span>
+                        <span class="promotion-icon-text bgff6900 f10 ">旗舰店</span>
+                    </div>
+                    <div class="f12 cff6900"><span class="c8">{{shopInfo.dsrScore || '暂无评分'}}</span></div>
+                </div>
+                <div class="mall-right">
+                    <div class="about text-center">
+                        <span class="f12 c8 disB">{{shopInfo.favoriteNum | hundredCut}}</span>
+                        <span class="f12 c8">关注</span>
+                    </div>
+                    <!--<div class="collect bgf text-center">-->
+                    <div class="collect radius10px bgff6900 text-center">
+                        <!--<span class="icon icon-search"></span>-->
+                        <span class="cf f12" v-if="!hasFavorite" @click="addFavorite()">关注</span>
+                        <span class="cf f12" v-if="hasFavorite" @click="delFavorite()">已关注</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <ul class="ui-tiled bgf pd5 ui-border-t">
+            <li class="f12"><div class="cff6900">- -<span class="c8"></span></div><i class="c8">暂无评分</i></li>
+            <li class="f12"><div class="cff6900">- -<span class="c8"></span></div><i class="c8">暂无评分</i></li>
+            <li class="f12"><div class="cff6900">- -<span class="c8"></span></div><i class="c8">暂无评分</i></li>
+        </ul>
+    </div>
+
+    <div class="nav-layer" :class="{'active':rightNavFlag}" @clilck="rightNavFlag=false">
+        <div class="nav" @touchstart="$event.stopPropagation()">
+            <i class="arrow"></i>
+            <a class="ui-border-b" v-link-to.literal="/index.html" style="border:0"><i class="icon icon-home-sm"></i>首页</a>
+            <a class="ui-border-b" v-link-to.literal="/my/home.html"><i class="icon icon-user-sm"></i>&nbsp;&nbsp;我&nbsp;&nbsp;</a>
+        </div>
+    </div>
+
+    <div class="bgf marT10" v-cloak>
+        <div class="ui-form-item ui-form-item-show ui-border-b" @click="showPhone=true" >
+            <p><label class="f14 c3">联系商家</label><span class="f14 c3 fl pl75 mgR20">{{shopInfo.contactMobile}}</span></p>
+            <span class="ui-panel-title-tips f13 c808080 r10"><i class="f13 c9 icons2 icons2-arrow-r"></i></span>
+        </div>
+        <div class="ui-form-item ui-form-item-show" v-if="itemImages.length>0" @click="showFullPic=true">
+            <p><label class="f14 c3">证照信息</label><span class="f14 c3 fr mgR20" ></span></p>
+            <span class="ui-panel-title-tips f13 c808080 r10"><i class="f13 c9 icons2 icons2-arrow-r"></i></span>
+        </div>
+        <div class="ui-form-item ui-form-item-show" v-if="itemImages.length <= 0">
+            <p><label class="f14 c3">证照信息</label><span class="f14 c3 fr mgR20" >暂无信息</span></p>
+            <span class="ui-panel-title-tips f13 c808080 r10"><i class="f13 c9 icons2 icons2-arrow-r"></i></span>
+        </div>
+    </div>
+    <div class="bgf marT10" v-cloak>
+        <div class="ui-form-item ui-form-item-show ui-border-b">
+            <p><label class="f14 c3">店铺介绍</label><span class="f14 fr c3 pl75 mgR20" >{{shopInfo.shopDesc}}</span></p>
+        </div>
+        <div class="ui-form-item ui-form-item-show ui-border-b">
+            <p><label class="f14 c3">所在地区</label><span class="f14 c3 pl75 mgR20" >{{shopInfo.detailAddressAll}}</span></p>
+        </div>
+        <div class="ui-form-item ui-form-item-show ">
+            <p><label class="f14 c3">开店时间</label><span class="f14 c3 pl75 mgR20" >{{shopInfo.openTime | date}}</span></p>
+        </div>
+    </div>
+    <div class="bgf marT10 brandlist" v-cloak>
+        <div class="ui-form-item ui-form-item-show ui-border-b">
+            <p><label class="f14 c3">授权品牌</label><span class="f14 c3 pl75 mgR20" ></span></p>
+        </div>
+        <div class="flexBox ui-whitespace marT10 text-center">
+            <div class="w30" v-for="item in shopInfo.brands">
+                <img class="img" :src="item.logoUrl||'http://cdn.oudianyun.com/lyf/prod/ad-whale/1497611826033_874_dAjVN7B87e.jpg'" alt="">
+                <p class="f12 c8">{{item.brandName}}</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+ <ui-actionsheet-pop title="拨打电话" :show.sync="showPhone" v-if="shopInfo.contactMobile">
+     <a class="shop-phone" href="tel:{{shopInfo.contactMobile}}">{{shopInfo.contactMobile}}</a>
+ </ui-actionsheet-pop>
+<ui-image-viewer :show.sync="showFullPic" :images="itemImages" :current-index="0" :needindex="true"></ui-image-viewer>
+<script type="text/javascript" src="/cms/view/frontier_guide/h5/templateJS.json"></script>
+<script src="/libs/frozenui/lib/zepto.min.js?v=1537884480835"></script>
+<script src="/libs/frozenui/js/frozen.js?v=1537884480835"></script>
+<script src="/libs/vendor.js?v=1537884480835"></script>
+<script src="/common.js?v=1537884480835"></script>
+<script src="/store/shopdetail.js?v=1537884480835"></script>
+
+</body>
+</html>

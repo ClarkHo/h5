@@ -1,0 +1,12 @@
+{
+  "code": "0",
+  "data": {
+    "sale": {
+      "month": 151,
+      "today": 161,
+      "week": 171,
+      "yesterday": 181
+    }
+  },
+  "message": "请求成功"
+}

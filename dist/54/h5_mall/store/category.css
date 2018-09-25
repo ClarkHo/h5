@@ -1,0 +1,174 @@
+.jianbian {
+  background: linear-gradient(top, #f23030, #f23030);
+  background: -webkit-linear-gradient(top, #f23030, #f23030);
+  background: -moz-linear-gradient(top, #f23030, #f23030);
+  color: #fff!important;
+}
+/* 头部 */
+.ui-header {
+  background: #fff;
+}
+.ui-header .location {
+  float: left;
+}
+.ui-header .location span {
+  max-width: 48px;
+  float: left;
+  font-size: 12px;
+}
+.ui-header .location i {
+  float: left;
+  margin-left: 5px;
+  margin-top: 20px;
+}
+.ui-header .search {
+  left: 70px;
+  right: 72px;
+  padding-left: 10px;
+  color: #666;
+  line-height: 30px;
+  background-color: #f0f0f0;
+  border: none;
+}
+.ui-header .search i {
+  float: none;
+  display: inline-block;
+  margin: 0 5px 0 0;
+  vertical-align: sub;
+}
+.ui-header .lyf-scan-gray {
+  margin-right: 5px;
+}
+.ui-header ~ .ui-container {
+  border-top: 44px solid transparent;
+}
+.category {
+  position: absolute;
+  top: 44px;
+  bottom: 0;
+  width: 100%;
+}
+.category .category-tab {
+  float: left;
+  width: 90px;
+  height: 100%;
+  overflow-y: hidden;
+}
+.category .category-tab ul {
+  width: 100%;
+  background-color: #fff;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  text-align: center;
+}
+.category .category-tab ul li p {
+  padding: 0 5px;
+  font-size: 13px;
+}
+.category .category-tab ul li .cnt {
+  position: relative;
+  height: 40px;
+  padding: 8px 0;
+}
+.category .category-tab ul li .current {
+  background: #fafafa;
+  color: #f23030;
+  border-bottom: 1px solid transparent;
+  font-weight: bold;
+  border-bottom: 1px #ddd solid;
+}
+.category .category-tab ul li .current:before {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 4px;
+  left: 0;
+  margin-top: -3px;
+  width: 2px;
+  height: 100%;
+  background-color: #f23030;
+}
+.category .category-tab ul li .current:after {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 50%;
+  right: 0;
+  margin-top: -3px;
+  width: 0;
+  height: 0;
+  border-top: 6px solid transparent;
+  border-bottom: 6px solid transparent;
+  border-right: 6px solid #f0f0f0;
+}
+.category .category-content {
+  margin-left: 90px;
+  height: 100%;
+  overflow-y: hidden;
+}
+.category .category-content .category-content-wrapper {
+  min-height: 480px;
+  padding-bottom: 50px;
+  padding-right: 15px;
+  padding-top: 20px;
+}
+.category .category-content .category-content-wrapper .title {
+  position: absolute;
+  padding: 8px 10px;
+  top: -18px;
+  left: 0;
+  background-color: #f0f0f0;
+  z-index: 20;
+}
+.category .category-content .category-content-wrapper .ui-row {
+  padding: 20px 0 10px 0;
+}
+.category .category-content .category-content-wrapper .item {
+  margin: 0 0 10px 10px;
+  background-color: #fff;
+  padding: 8px;
+  text-align: center;
+}
+.category .category-content .category-content-wrapper .item p {
+  font-size: 11px;
+}
+/* 轮播 */
+.swipe {
+  position: relative;
+  padding-left: 10px;
+  font-size: 0;
+  visibility: hidden;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+.swipe .swipe-wrap {
+  overflow: hidden;
+  position: relative;
+}
+.swipe .swipe-wrap > figure {
+  float: left;
+  width: 100%;
+  margin: 0;
+  position: relative;
+}
+.swipe .swipe-wrap > figure img {
+  width: 100%;
+}
+.swipe .swipe-point {
+  position: absolute;
+  left: 2%;
+  bottom: 14px;
+  width: 96%;
+  text-align: right;
+}
+.swipe .swipe-point li {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  margin: 0 2px;
+  border-radius: 4px;
+  background-color: #fff;
+}
+.swipe .swipe-point .active {
+  background-color: #f23030;
+}

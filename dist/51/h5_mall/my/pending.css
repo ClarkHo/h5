@@ -1,0 +1,10 @@
+.pending .headIcon1 {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}
+.pending .headIcon2 {
+  position: absolute;
+  right: 40px;
+  top: 12px;
+}

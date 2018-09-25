@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="x5-orientation" content="portrait">
+    <meta name="msapplication-tap-highlight" content="no">
+    <title></title>
+    <link rel="stylesheet" href="${staticPath}/libs/frozenui/css/frozen.css?v=${version}">
+    <link rel="stylesheet" href="${staticPath}/common.css?v=${version}">
+    <link rel="stylesheet" href="${staticPath}/my/preferential.css?v=${version}">
+</head>
+<!---->
+<body v-need-login>
+<ui-header title="本周代理销量排行榜">
+</ui-header>
+<div class="ui-tab">
+    <ul class="ui-tiled nav-tabs" style="border-bottom:1px solid #dddddd;">
+        <li :class="{avtive: detailTab == 'collect2'}" @click="detailTab = 'collect2' ">订单量</li>
+        <li class="avtive" :class="{avtive: detailTab == 'collect1'}"  @click="detailTab = 'collect1' ">销售额</li>
+        <li :class="{avtive: detailTab == 'collect3'}"  @click="detailTab = 'collect3' ">佣金奖励</li>
+    </ul>
+    <!-- main section -->
+    <div class="ui-container">
+        <ul class="ui-tab-content">
+            <!-- -->
+            <!-- 销售额 -->
+            <!--无数据时-->
+           <!-- <div class="ui-row-flex ui-whitespace" v-if="goodList.length==0" v-show="detailTab == 'collect1' ">
+                <div class="ui-col ui-col text-center mgT10 mgB10">
+                    <i class="icons3  icons3-search-no"></i>
+                    <p class="f12 c6">暂无数据...</p>
+                </div>
+            </div>-->
+            <ul class="ui-list "  v-show="detailTab == 'collect1' ">
+                <li class="li-list">
+                    <div class="ui-list-thumb list-left">
+                        <img src="${staticPath}/images/rangking2.png?v=${version}" width="40" height="40" style="margin-top:50px;">
+                    </div>
+                    <div class="pro-info list-right text-center">
+                        <img src="${staticPath}/images/list.png?v=${version}" width="80" height="80">
+                        <h4 class="ui-nowrap-multi h4-title">Mius家miustudio欧美潮流女</h4>
+                       <i></i> <span>2,588,009 </span>
+                    </div>
+                </li>
+                <li class="li-list">
+                    <div class="ui-list-thumb list-left">
+                        <img src="${staticPath}/images/rangking3.png?v=${version}" width="40" height="40">
+                    </div>
+                    <div class="pro-info list-right list-float">
+                        <img src="${staticPath}/images/list1.png?v=${version}" >
+                        <div style="margin-left:15px;">
+                        <h4 class="ui-nowrap-multi h4-title">Mius家miustudio欧美潮流女</h4>
+                        <i></i> <span>2,588,009 </span>
+                        </div>
+                    </div>
+                </li>
+                <li class="li-list">
+                    <div class="ui-list-thumb list-left">
+                        <img src="${staticPath}/images/rangking4.png?v=${version}" width="40" height="40">
+                    </div>
+                    <div class="pro-info list-right list-float ">
+                        <img src="${staticPath}/images/list.png?v=${version}">
+                        <div style="margin-left:15px;">
+                            <h4 class="ui-nowrap-multi h4-title">Mius家miustudio欧美潮流女</h4>
+                            <i></i> <span>2,588,009 </span>
+                        </div>
+                    </div>
+                </li>
+                <li class="li-list">
+                    <div class="ui-list-thumb list-left ">
+                       <p>4</p>
+                    </div>
+                    <div class="pro-info list-right list-float img-size">
+                        <img src="${staticPath}/images/list.png?v=${version}" width="60" height="60">
+                        <div style="margin-left:15px;">
+                            <h4 class="ui-nowrap-multi h4-title">Mius家miustudio欧美潮流女</h4>
+                            <i></i> <span>2,588,009 </span>
+                        </div>
+                    </div>
+                </li>
+                <li class="li-list">
+                    <div class="ui-list-thumb list-left img-size">
+                        <p>5</p>
+                    </div>
+                    <div class="pro-info list-right list-float img-size">
+                        <img src="${staticPath}/images/list.png?v=${version}" width="60" height="60">
+                        <div style="margin-left:15px;">
+                            <h4 class="ui-nowrap-multi h4-title">Mius家miustudio欧美潮流女</h4>
+                            <i></i> <span>2,588,009 </span>
+                        </div>
+                    </div>
+                </li>
+                <li class="li-list">
+                    <div class="ui-list-thumb list-left">
+                        <p>6</p>
+                    </div>
+                    <div class="pro-info list-right list-float img-size">
+                        <img src="${staticPath}/images/list.png?v=${version}" width="60" height="60">
+                        <div style="margin-left:15px;">
+                            <h4 class="ui-nowrap-multi h4-title">Mius家miustudio欧美潮流女</h4>
+                            <i></i> <span>2,588,009 </span>
+                        </div>
+                    </div>
+                </li>
+                <li class="li-list">
+                    <div class="ui-list-thumb list-left">
+                        <p>7</p>
+                    </div>
+                    <div class="pro-info list-right list-float img-size">
+                        <img src="${staticPath}/images/list.png?v=${version}" width="60" height="60">
+                        <div style="margin-left:15px;">
+                            <h4 class="ui-nowrap-multi h4-title">Mius家miustudio欧美潮流女</h4>
+                            <i></i> <span>2,588,009 </span>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            <!-- 订单量 -->
+            <div v-show="detailTab == 'collect2' ">
+              <!--  <ul class="ui-list ">
+                    <li class="ui-border-b">
+                        <div class="ui-list-thumb mediumimg">
+                            <span style="background-image:url(http://placeholder.qiniudn.com/150x150)"></span>
+                        </div>
+                        <div class="article">
+                            <h4 class="ui-nowrap-multi"><span class="theme">[置顶]</span> #韩国美食# “咖啡陪你”魔性的哈 密瓜系列~共有5种甜品，分别是“哈密列~共有5种甜品，分别是“哈密</h4>
+                            <p class="date">2016-07-16 18:00</p>
+                        </div>
+                    </li>
+                    <li class="ui-border-b">
+                        <div class="ui-list-thumb mediumimg">
+                            <span style="background-image:url(http://placeholder.qiniudn.com/150x150)"></span>
+                        </div>
+                        <div class="article">
+                            <h4 class="ui-nowrap-multi"><span class="theme">[置顶]</span> #韩国美食# “咖啡陪你”魔性的哈 密瓜系列~共有5种甜品，分别是“哈密列~共有5种甜品，分别是“哈密</h4>
+                            <p class="date">2016-07-16 18:00</p>
+                        </div>
+                    </li>
+                    <li class="ui-border-b">
+                        <div class="ui-list-thumb mediumimg">
+                            <span style="background-image:url(http://placeholder.qiniudn.com/150x150)"></span>
+                        </div>
+                        <div class="article">
+                            <h4 class="ui-nowrap-multi"><span class="theme">[置顶]</span> #韩国美食# “咖啡陪你”魔性的哈 密瓜系列~共有5种甜品，分别是“哈密列~共有5种甜品，分别是“哈密</h4>
+                            <p class="date">2016-07-16 18:00</p>
+                        </div>
+                    </li>
+                    <li class="ui-border-b">
+                        <div class="ui-list-thumb mediumimg">
+                            <span style="background-image:url(http://placeholder.qiniudn.com/150x150)"></span>
+                        </div>
+                        <div class="article">
+                            <h4 class="ui-nowrap-multi"><span class="theme">[置顶]</span> #韩国美食# “咖啡陪你”魔性的哈 密瓜系列~共有5种甜品，分别是“哈密列~共有5种甜品，分别是“哈密</h4>
+                            <p class="date">2016-07-16 18:00</p>
+                        </div>
+                    </li>
+                    <li class="ui-border-b">
+                        <div class="ui-list-thumb mediumimg">
+                            <span style="background-image:url(http://placeholder.qiniudn.com/150x150)"></span>
+                        </div>
+                        <div class="article">
+                            <h4 class="ui-nowrap-multi"><span class="theme">[置顶]</span> #韩国美食# “咖啡陪你”魔性的哈 密瓜系列~共有5种甜品，分别是“哈密列~共有5种甜品，分别是“哈密</h4>
+                            <p class="date">2016-07-16 18:00</p>
+                        </div>
+                    </li>
+                    <li class="ui-border-b">
+                        <div class="ui-list-thumb mediumimg">
+                            <span style="background-image:url(http://placeholder.qiniudn.com/150x150)"></span>
+                        </div>
+                        <div class="article">
+                            <h4 class="ui-nowrap-multi"><span class="theme">[置顶]</span> #韩国美食# “咖啡陪你”魔性的哈 密瓜系列~共有5种甜品，分别是“哈密列~共有5种甜品，分别是“哈密</h4>
+                            <p class="date">2016-07-16 18:00</p>
+                        </div>
+                    </li>
+                </ul>-->
+            </div>
+            <!-- 佣金奖励 -->
+            <div v-show="detailTab == 'collect3' ">
+             <!--   <div class="group ">
+                    <div class="group-date">07-25</div>
+                    <ul class="ui-list">
+                        <li class="ui-border-b wuhuo">
+                            <div class="ui-list-thumb bigimg">
+                                <span style="background-image:url(http://placeholder.qiniudn.com/100x100)"></span>
+                                <div class="state">无货</div>
+                            </div>
+                            <div class="pro-info">
+                                <h4 class="ui-nowrap-multi">雪纺连衣裙夏季中裙修身显瘦韩版学生 女装中长款小清新裙子</h4>
+                                <p class="label">
+                                    &lt;!&ndash; <span class="manjian">满减</span>
+                                    <span class="manzeng">满赠</span>
+                                    <span class="youhuiquan">优惠券</span>
+                                    <span class="shoujizhuanxiang">手机专享</span> &ndash;&gt;
+                                </p>
+                                <p class="jine">
+                                    <span class="price">￥<span class="main-price">89</span>.00</span>
+                                    <span class="ogn-price">￥945.00</span>
+                                </p>
+                                <p class="sales">
+                                    已售849笔
+                                </p>
+                            </div>
+                        </li>
+                        <li class="ui-border-b wuhuo">
+                            <div class="ui-list-thumb bigimg">
+                                <span style="background-image:url(http://placeholder.qiniudn.com/100x100)"></span>
+                                <div class="state">该商品已下架</div>
+                            </div>
+                            <div class="pro-info">
+                                <h4 class="ui-nowrap-multi">雪纺连衣裙夏季中裙修身显瘦韩版学生 女装中长款小清新裙子</h4>
+                                <p class="label">
+                                    &lt;!&ndash; <span class="manjian">满减</span>
+                                    <span class="manzeng">满赠</span>
+                                    <span class="youhuiquan">优惠券</span>
+                                    <span class="shoujizhuanxiang">手机专享</span> &ndash;&gt;
+                                </p>
+                                <p class="jine">
+                                    <span class="price">￥<span class="main-price">89</span>.00</span>
+                                    <span class="ogn-price">￥945.00</span>
+                                </p>
+                                <p class="sales">
+                                    已售849笔
+                                </p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="group ">
+                    <div class="group-date">07-24</div>
+                    <ul class="ui-list">
+                        <li class="ui-border-b">
+                            <div class="ui-list-thumb bigimg">
+                                <span style="background-image:url(http://placeholder.qiniudn.com/100x100)"></span>
+                            </div>
+                            <div class="pro-info">
+                                <h4 class="ui-nowrap-multi">雪纺连衣裙夏季中裙修身显瘦韩版学生 女装中长款小清新裙子</h4>
+                                <p class="label">
+                                    &lt;!&ndash; <span class="manjian">满减</span>
+                                    <span class="manzeng">满赠</span>
+                                    <span class="youhuiquan">优惠券</span>
+                                    <span class="shoujizhuanxiang">手机专享</span> &ndash;&gt;
+                                </p>
+                                <p class="jine">
+                                    <span class="price">￥<span class="main-price">89</span>.00</span>
+                                    <span class="ogn-price">￥945.00</span>
+                                </p>
+                                <p class="sales">
+                                    已售849笔
+                                </p>
+                            </div>
+                        </li>
+                        <li class="ui-border-b">
+                            <div class="ui-list-thumb bigimg">
+                                <span style="background-image:url(http://placeholder.qiniudn.com/100x100)"></span>
+                            </div>
+                            <div class="pro-info">
+                                <h4 class="ui-nowrap-multi">雪纺连衣裙夏季中裙修身显瘦韩版学生 女装中长款小清新裙子</h4>
+                                <p class="label">
+                                    &lt;!&ndash; <span class="manjian">满减</span>
+                                    <span class="manzeng">满赠</span>
+                                    <span class="youhuiquan">优惠券</span>
+                                    <span class="shoujizhuanxiang">手机专享</span> &ndash;&gt;
+                                </p>
+                                <p class="jine">
+                                    <span class="price">￥<span class="main-price">89</span>.00</span>
+                                    <span class="ogn-price">￥945.00</span>
+                                </p>
+                                <p class="sales">
+                                    已售849笔
+                                </p>
+                            </div>
+                        </li>
+                        <li class="ui-border-b">
+                            <div class="ui-list-thumb bigimg">
+                                <span style="background-image:url(http://placeholder.qiniudn.com/100x100)"></span>
+                            </div>
+                            <div class="pro-info">
+                                <h4 class="ui-nowrap-multi">雪纺连衣裙夏季中裙修身显瘦韩版学生 女装中长款小清新裙子</h4>
+                                <p class="label">
+                                    &lt;!&ndash; <span class="manjian">满减</span>
+                                    <span class="manzeng">满赠</span>
+                                    <span class="youhuiquan">优惠券</span>
+                                    <span class="shoujizhuanxiang">手机专享</span> &ndash;&gt;
+                                </p>
+                                <p class="jine">
+                                    <span class="price">￥<span class="main-price">89</span>.00</span>
+                                    <span class="ogn-price">￥945.00</span>
+                                </p>
+                                <p class="sales">
+                                    已售849笔
+                                </p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>-->
+            </div>
+        </ul>
+    </div>
+</div>
+<!--返回顶部-->
+<ui-scroll-top :show.sync="showScrollToTop"style="opacity:1;"></ui-scroll-top>
+<!--  </section>-->
+<script type="text/javascript" src="/cms/view/frontier_guide/h5/templateJS.json"></script>
+<script src="${staticPath}/libs/frozenui/lib/zepto.min.js?v=${version}"></script>
+<script src="${staticPath}/libs/frozenui/js/frozen.js?v=${version}"></script>
+<script src="${staticPath}/libs/vendor.js?v=${version}"></script>
+<script src="${staticPath}/common.js?v=${version}"></script>
+<script src="${staticPath}/my/rankingList.js?v=${version}"></script>
+</body>
+</html>

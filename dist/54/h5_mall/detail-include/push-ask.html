@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="x5-orientation" content="portrait">
+    <meta name="msapplication-tap-highlight" content="no">
+    <title></title>
+    <link rel="stylesheet" href="/libs/frozenui/css/frozen.css?v=1537884480835">
+    <link rel="stylesheet" href="/common.css?v=1537884480835">
+    <link rel="stylesheet" href="/detail-include/push-ask.css?v=1537884480835">
+</head>
+
+<body v-cloak v-need-login>
+    <ui-header title="发布问题">
+    </ui-header>
+    <section class="ui-container bgf">
+        <div class="pro-info">
+            <div class="pro-img">
+                <img :src="mainPic" width="55" height="55" alt="">
+            </div>
+            <div class="pro-title" :style="{'width':windowWidth - 90 + 'px'}">
+                {{itemInfo.name}}
+            </div>
+        </div>
+        <div class="ask-content ui-border-t">
+            <textarea name="" id="" cols="30" rows="10" placeholder="请写下你的问题" v-model="askContent"></textarea>
+        </div>
+        <div class="commit ui-border-b">
+            <span @click="pushAsk">发布</span>
+        </div>
+
+    </section>
+
+    <script type="text/javascript" src="/cms/view/frontier_guide/h5/templateJS.json"></script>
+    <script>if(/MicroMessenger/i.test(navigator.userAgent)) document.write('<script src="//res.wx.qq.com/open/js/jweixin-1.1.0.js"><\/script>');</script>
+    <script src="/libs/frozenui/lib/zepto.min.js?v=1537884480835"></script>
+    <script src="/libs/frozenui/js/frozen.js?v=1537884480835"></script>
+    <script src="/libs/vendor.js?v=1537884480835"></script>
+    <script src="/common.js?v=1537884480835"></script>
+    <script src="/detail-include/push-ask.js?v=1537884480835"></script>
+</body>
+</html>

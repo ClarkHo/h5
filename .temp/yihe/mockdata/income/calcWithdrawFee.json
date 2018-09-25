@@ -1,0 +1,8 @@
+{
+  "code": "0",
+  "message": "操作成功",
+  "data": {
+    "withdrawFee": 2.00,
+    "actualWithdrawAmount": 123.00
+  }
+}

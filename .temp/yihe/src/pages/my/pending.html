@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="x5-orientation" content="portrait">
+    <meta name="msapplication-tap-highlight" content="no">
+    <title></title>
+    <link rel="stylesheet" href="${staticPath}/libs/frozenui/css/frozen.css?v=${version}">
+    <link rel="stylesheet" href="${staticPath}/common.css?v=${version}">
+    <link rel="stylesheet" href="${staticPath}/my/pending.css?v=${version}">
+</head>
+<body ontouchstart="" class="pending" v-need-login>
+    <ui-header title="待处理订单">
+        <i class="icons2 icons2-pending-dot headIcon1"></i>
+        <i class="icons2 icons2-pending-search headIcon2"></i>
+    </ui-header>
+    <!-- main section -->
+    <section v-cloak>
+
+        <div class="ui-tab mgT43">
+            <ul class="ui-tab-nav ui-border-b">
+                <li class="current">取消订单申请</li>
+                <li>退换货申请</li>
+            </ul>
+            <ul class="ui-tab-content" style="width:300%">
+                <li class="current">
+                    <!--订单-->
+                    <ul class="ui-list ui-list-text ui-list-active ui-list-cover ui-border-tb mgT10">
+                        <li class="ui-border-t">
+                            <p><span class="f14 c3">订单号：94003893892</span><span class="f14 cb38a32 fr">取消订单</span></p>
+                        </li>
+                        <li class="ui-border-t" style="padding-right: 0">
+                            <div class="ui-list-info">
+                                <img src="../images/p6.png" alt="" class="w70pxh70px">
+                                <img src="../images/p6.png" alt="" class="w70pxh70px">
+                                <img src="../images/p6.png" alt="" class="w70pxh70px">
+                                <span class="f14 c3 fr mgT25">共6件商品 <i class="icons2 icons2-arrow-r"></i></span>
+                            </div>
+                        </li>
+                        <li class="ui-border-t text-right" style="display:block">
+                            <p><span class="f14 c3">合计：</span> <span class="f14 cb38a32">￥50.00</span><span class="f14 c3">（含运费：¥ 0.00）</span></p>
+                            <p class="mgT10"><span class="f14 c6 ui-border radiusAll4 pd5a15  mgL10">拒绝申请</span><span class="f14 c6 ui-border radiusAll4 pd5a15 mgL10">同意申请</span></p>
+                        </li>
+                    </ul>
+                    <ul class="ui-list ui-list-text ui-list-active ui-list-cover ui-border-tb mgT10">
+                        <li class="ui-border-t">
+                            <p><span class="f14 c3">订单号：94003893892</span><span class="f14 cb38a32 fr">取消订单</span></p>
+                        </li>
+                        <li class="ui-border-t" style="padding-right: 0">
+                            <div class="ui-list-info">
+                                <img src="../images/p6.png" alt="" class="w70pxh70px">
+                                <img src="../images/p6.png" alt="" class="w70pxh70px">
+                                <img src="../images/p6.png" alt="" class="w70pxh70px">
+                                <span class="f14 c3 fr mgT25">共6件商品 <i class="icons2 icons2-arrow-r"></i></span>
+                            </div>
+                        </li>
+                        <li class="ui-border-t text-right" style="display:block">
+                            <p><span class="f14 c3">合计：</span> <span class="f14 cb38a32">￥50.00</span><span class="f14 c3">（含运费：¥ 0.00）</span></p>
+                            <p class="mgT10"><span class="f14 c6 ui-border radiusAll4 pd5a15  mgL10">拒绝申请</span><span class="f14 c6 ui-border radiusAll4 pd5a15 mgL10">同意申请</span></p>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <ul class="ui-list ui-list-text ui-list-active ui-list-cover ui-border-tb mgT10">
+                        <li class="ui-border-t">
+                            <p><span class="f14 c3">订单号：94003893892</span><span class="f14 cb38a32 fr">申请退货</span></p>
+                        </li>
+                        <li class="ui-border-t" style="padding-right: 0">
+                            <div class="ui-list-info">
+                                <img src="../images/p6.png" alt="" class="w70pxh70px">
+                                <img src="../images/p6.png" alt="" class="w70pxh70px">
+                                <img src="../images/p6.png" alt="" class="w70pxh70px">
+                                <span class="f14 c3 fr mgT25">共6件商品 <i class="icons2 icons2-arrow-r"></i></span>
+                            </div>
+                        </li>
+                        <li class="ui-border-t text-right" style="display:block">
+                            <p><span class="f14 c3">合计：</span> <span class="f14 cb38a32">￥50.00</span><span class="f14 c3">（含运费：¥ 0.00）</span></p>
+                            <p class="mgT10"><span class="f14 c6 ui-border radiusAll4 pd5a15  mgL10">拒绝申请</span><span class="f14 c6 ui-border radiusAll4 pd5a15 mgL10">同意申请</span></p>
+                            <!--<p class="mgT10"><span class="f14 c5c471a radiusAll4 bgTf4cc53Tb48b32 pd5a15">立即退款</span></p>-->
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    </section>
+
+    <script type="text/javascript" src="/cms/view/frontier_guide/h5/templateJS.json"></script>
+    <script src="${staticPath}/libs/frozenui/lib/zepto.min.js?v=${version}"></script>
+    <script src="${staticPath}/libs/frozenui/js/frozen.js?v=${version}"></script>
+    <script src="${staticPath}/libs/vendor.js?v=${version}"></script>
+    <script src="${staticPath}/common.js?v=${version}"></script>
+    <script src="${staticPath}/my/pending.js?v=${version}"></script>
+
+</body>
+</html>

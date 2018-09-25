@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="x5-orientation" content="portrait">
+    <meta name="msapplication-tap-highlight" content="no">
+    <title></title>
+    <link rel="stylesheet" href="/libs/frozenui/css/frozen.css?v=1537883801478">
+    <link rel="stylesheet" href="/libs/swiper/swiper.min.css?v=1537883801478">
+    <link rel="stylesheet" href="/common.css?v=1537883801478">
+    <link rel="stylesheet" href="/pay/pay.css?v=1537883801478">
+</head>
+
+<body>
+    <ui-header title="找人代付"></ui-header>
+    <section class="ui-container">
+        <div class="ui-center ui-center-fix parB50">
+            <i class="icon icon-big-hook marT30"></i>
+            <p class="f14 c6 marT15">订单提交成功！</p>
+        </div>
+        <div class="qrcode ui-center">
+            <img width="135" height="135" src="http://qr.api.cli.im/qr?data=%25E9%2598%25BF%25E6%2596%25AF%25E8%2592%2582%25E8%258A%25AC&level=H&transparent=false&bgcolor=%23ffffff&forecolor=%23000000&blockpixel=12&marginblock=1&logourl=&size=280&kid=cliim&key=e6ae16836c32e013ab6871d5d57e58de" alt="">
+            <p class="f14 c6 marT10">请用微信(支付宝)扫描二维码进行付款</p>
+            <button class="ui-btn marT30 border-btn" v-link-to="'/my/order-detail.html?orderCode='+orderCode"> 查看订单</button>
+            <button class="ui-btn marT30 border-btn on marL15" v-link-to.literal="/index.html">继续购买</button>
+        </div>
+    </section>
+    <script type="text/javascript" src="/cms/view/frontier_guide/h5/templateJS.json"></script>
+    <script src="/libs/frozenui/lib/zepto.min.js?v=1537883801478"></script>
+    <script src="/libs/swiper/swipe.js?v=1537883801478"></script>
+    <script src="/libs/frozenui/js/frozen.js?v=1537883801478"></script>
+    <script src="/libs/vendor.js?v=1537883801478"></script>
+    <script src="/common.js?v=1537883801478"></script>
+    <script src="/pay/get-paid.js?v=1537883801478"></script>
+</body>
+</html>

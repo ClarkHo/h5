@@ -1,0 +1,10 @@
+{
+    "code": 0,
+    "message": "successful",
+    "data": {
+        "mobileMallName": "测试商城名",
+        "websiteName": "测试网站名",
+        "websiteTitle": "测试网站标题",
+        "websiteLogo": "/image/logo.png"
+    }
+}

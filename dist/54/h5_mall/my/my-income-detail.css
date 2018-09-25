@@ -1,0 +1,13 @@
+/*fix table*/
+.ui-table td,
+.ui-table th {
+  border-bottom: 0px solid #e0e0e0;
+  border-right: 0px solid #e0e0e0;
+}
+.ui-table td,
+.ui-table th {
+  padding: 10px 0px;
+}
+.ui-table tbody tr:nth-child(2n) {
+  background: #fbfbfb;
+}

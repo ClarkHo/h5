@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <title>拼团</title>
+    <link rel="stylesheet" href="/libs/frozenui/css/frozen.css?v=1537884480835">
+    <link rel="stylesheet" href="/common.css?v=1537884480835">
+    <link rel="stylesheet" href="/group/style-index.css?v=1537884480835">
+</head>
+
+<body>
+    <ui-header title="拼团"></ui-header>
+    <!-- main section -->
+    <ui-drop-down :on-pull-down="dropDown" :stop.sync="stopDropDown" :top="'-35'">
+        <section class="ui-container" style="padding-bottom: 50px" v-cloak>
+
+            <div id="slider" class="swipe">
+                <div class="swipe-wrap">
+                    <figure v-for="img in swiperList">
+                        <a href="{{img.linkUrl || 'javascript:void(0)'}}"><img :src="img.imageUrl" alt=""></a>
+                    </figure>
+                </div>
+                <ul class="swipe-point" v-show="swiperList.length > 1">
+                    <li :class="{active: $index == 0}" v-for="li in swiperList"></li>
+                </ul>
+            </div>
+
+            <div class="text-center mgT10" v-if="items.length<=0">
+                <img src="/images/no-pintuan.png?v=1537884480835" width="100%">
+            </div>
+
+            <div class="bgw marT10 pt-list" v-for="item in items" @click="groupDetail(item)">
+                <div class="pic">
+                    <img style="width: 100%" :src="item.patchGrouponMainPicUrl" alt="">
+                </div>
+                <h5 class="ui-nowrap-multi">{{item.patchGrouponTitle}}</h5>
+                <div class="foot" style="padding-top:0px;">
+                    <i class="icons icons-group"></i> {{item.totalMembers}}人团 <span class="price" v-money="item.patchGrouponPrice"></span>
+                    <button class="ui-btn ui-btn-primary fr" :disabled="item.disabled">{{item.disabled ? '暂不销售':'去开团'}} <i style="position: absolute;right: 5px;top: 10px;" v-if="!item.disabled" class="icons icons-right"></i></button>
+                </div>
+            </div>
+        </section>
+    </ui-drop-down>
+    <!--底部工具-->
+    <ui-scroll-top v-ref:scrollTop></ui-scroll-top>
+    <script type="text/javascript" src="/cms/view/frontier_guide/h5/templateJS.json"></script>
+    <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <script src="/libs/frozenui/lib/zepto.min.js?v=1537884480835"></script>
+    <script src="/libs/swiper/swipe.js?v=1537884480835"></script>
+    <script src="/libs/frozenui/js/frozen.js?v=1537884480835"></script>
+    <script src="/libs/vendor.js?v=1537884480835"></script>
+    <script src="/common.js?v=1537884480835"></script>
+    <script src="/group/index.js?v=1537884480835"></script>
+</body>
+</html>

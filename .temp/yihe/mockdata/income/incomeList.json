@@ -1,0 +1,27 @@
+{
+  "code": "0",
+  "message": "请求成功",
+  "errMsg": null,
+  "data": {
+    "data": [
+      {
+        "reconCode": "2",
+        "totalCommission": 4.00,
+        "zeroLevelCommission": 1.00,
+        "firstLevelCommission": 1.00,
+        "secondLevelCommission": 2.00
+      },
+      {
+        "reconCode": "1",
+        "totalCommission": 2.00,
+        "zeroLevelCommission": 0.00,
+        "firstLevelCommission": 2.00,
+        "secondLevelCommission": 0.00
+      }
+    ],
+    "totalCount": 0,
+    "pageSize": 10,
+    "totalPage": 0
+  },
+  "trace": "124!$1#@168%&192!$,74770,61762763892045501870905"
+}

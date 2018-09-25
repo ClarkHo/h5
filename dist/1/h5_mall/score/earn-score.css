@@ -1,0 +1,28 @@
+.jianbian {
+  background: linear-gradient(top, #e84b8b, #dd226a);
+  background: -webkit-linear-gradient(top, #e84b8b, #dd226a);
+  background: -moz-linear-gradient(top, #e84b8b, #dd226a);
+  color: #fff!important;
+}
+.jianbian-left {
+  background: linear-gradient(left, #e84b8b, #dd226a);
+  background: -webkit-linear-gradient(left, #e84b8b, #dd226a);
+  background: -moz-linear-gradient(left, #e84b8b, #dd226a);
+  color: #fff!important;
+}
+/* 图标位置*/
+.icons2 {
+  display: inline-block;
+  vertical-align: middle;
+  background-image: url('../images/icons2.png?v=1509005492723');
+  background-repeat: no-repeat;
+  background-size: 375px auto;
+}
+.icons2-arrow-r {
+  width: 10px;
+  height: 15px;
+  background-position: -36px -248px;
+}
+.marR25 {
+  margin-right: 5px;
+}

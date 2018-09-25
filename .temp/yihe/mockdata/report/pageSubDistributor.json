@@ -1,0 +1,52 @@
+{
+  "code": "0",
+  "data": [
+    {
+      "distributorCode": "sdsdsdsds",
+      "distributorId": 12121,
+      "level": 1,
+      "pv": {
+        "month": 15,
+        "today": 16,
+        "week": 17,
+        "yesterday": 18
+      },
+      "sale": {
+        "month": 151,
+        "today": 161,
+        "week": 171,
+        "yesterday": 181
+      },
+      "share": {
+        "month": 115,
+        "today": 116,
+        "week": 117,
+        "yesterday": 118
+      }
+    },
+    {
+      "distributorCode": "aaaaaaaaaa",
+      "distributorId": 1211121,
+      "level": 2,
+      "pv": {
+        "month": 215,
+        "today": 216,
+        "week": 217,
+        "yesterday": 218
+      },
+      "sale": {
+        "month": 2151,
+        "today": 2161,
+        "week": 2171,
+        "yesterday": 2181
+      },
+      "share": {
+        "month": 2115,
+        "today": 2116,
+        "week": 2117,
+        "yesterday": 2118
+      }
+    }
+  ],
+  "message": "请求成功"
+}

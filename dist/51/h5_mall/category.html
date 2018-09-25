@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="x5-orientation" content="portrait">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="heimdall" content="分类页">        
+    <title></title>
+    <link rel="stylesheet" href="/libs/frozenui/css/frozen.css?v=1537883801478">
+    <link rel="stylesheet" href="/common.css?v=1537883801478">
+    <link rel="stylesheet" href="/libs/mob-share.css?v=1537883801478">
+    <link rel="stylesheet" href="/category.css?v=1537883801478">
+</head>
+<body ontouchstart="">
+    <div v-if="!showLocation">
+        <!-- header -->
+        <header class="ui-header ui-header-stable ui-border-b" v-cloak>
+            <div class="location" @click="showLocation=true">
+                <span class="ui-nowrap">{{locationCity}}</span>
+                <i class="icons icons-down"></i>
+            </div>
+            <div class="search" style="right: 67px;" v-link-to.literal="/search.html"><i class="icons icons-headSearch"></i>{{placeholder || '搜索您想找的商品'}}</div>
+            <div class="fr">
+                <a><i class="icons icons-share" @click="showShare = true"></i></a>
+                <a href="javascript:void(0)" v-link-to-userpage.literal="/message/message-center.html"><i class="icons icons-msg-gray"></i></a>
+            </div>
+        </header>
+
+        <!-- section -->
+        <section class="ui-container" v-cloak>
+            <div class="category">
+                <div class="category-tab">
+                    <ul>
+                       <li class="ui-nowrap ui-border-b" v-if="!noRecommend">
+                            <div class="cnt" :class="{current: currentCategoryId == 0}" @click="getRecommend()">
+                                <p class="ui-nowrap">推荐分类</p>
+                            </div>
+                        </li>
+                        <li class="ui-nowrap ui-border-b"  v-for="parent in parentCategories" @click="getChildrenCategories(parent.categoryId)">
+                            <div class="cnt"  :class="{current: parent.categoryId == currentCategoryId}">
+                                <p class="ui-nowrap">{{parent.categoryName}}</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="category-content bgf">
+                    <!--推荐-->
+                    <div class="category-content-wrapper" v-if="currentCategoryId == 0">
+                        <div class="swipe" v-if="lunbo.length > 0">
+                            <div class="swipe-wrap">
+                                <figure v-for="img in lunbo">
+                                    <a href="{{img.linkUrl || 'javascript:void(0)'}}"><img :src="img.imageUrl|imgSize('xl',90)" alt=""></a>
+                                </figure>
+                            </div>
+                            <ul class="swipe-point">
+                                <li :class="{active: $index == 0}" v-for="li in lunbo"></li>
+                            </ul>
+                        </div>
+                        <div class="posR" v-if="hotTitle.title">
+                            <div class="title">
+                                <h1 class="f12 c3 bold">{{hotTitle.title}}</h1>
+                            </div>
+                            <ul class="ui-row">
+                                <li class="ui-col ui-col-33" v-for="h in hotProduct">
+                                    <div class="item" v-link-to="'/detail.html?itemId='+h.refId">
+                                        <img v-lazy="h.imageUrl|imgSize 's' 90" width="100%">
+                                        <p class="text-center  ui-nowrap">{{h.name}}</p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="posR" v-if="commonTitle.title">
+                            <div class="title">
+                                <h1 class="f12 c3 bold">{{commonTitle.title}}</h1>
+                            </div>
+                            <ul class="ui-row">
+                                <li class="ui-col ui-col-33" v-for="c in commonProduct">
+                                    <div class="item" v-link-to="'/detail.html?itemId='+c.refId">
+                                        <img v-lazy="c.imageUrl|imgSize 's' 90" width="100%">
+                                        <p class="text-center  ui-nowrap">{{c.name}}</p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="category-content-wrapper" v-if="currentCategoryId != 0">
+                        <div class="posR" v-for="cc in childrenCategories">
+                            <div class="title">
+                                <h1 class="f12 c3 bold">{{cc.categoryName}}</h1>
+                            </div>
+                            <ul class="ui-row">
+                                <li class="ui-col ui-col-33" v-for="c in cc.children">
+                                    <div class="item" v-link-to="'/search.html?from=c&categoryId=' + c.categoryId">
+                                        <img v-lazy="c.pictureUrl|imgSize 's' 90" width="100%">
+                                        <p class="text-center  ui-nowrap">{{c.categoryName}}</p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- footer -->
+        <ui-footer current="category"></ui-footer>
+    </div>
+    <ui-share :show.sync="showShare" :config.sync="shareConfig"></ui-share>
+    <ui-set-position :show.sync="showLocation" :call-back="updateLocation"></ui-set-position>
+    <ui-message fixed="true" top="7" right="5"></ui-message>
+    <script type="text/javascript" src="/cms/view/frontier_guide/h5/templateJS.json"></script>
+    <script>if(!/MicroMessenger/i.test(navigator.userAgent)) document.write('<script src="https://g.alicdn.com/aliww/h5.openim.sdk/1.0.6/scripts/wsdk.js"><\/script>');</script>
+    <script type="text/javascript" src="http://webapi.amap.com/maps?v=1.3&key=4cbe65ccdb8919a83e3fa235b93b0fa9"></script>
+    <script src="/libs/swiper/swipe.js?v=1537883801478"></script>
+    <script src="/libs/frozenui/lib/zepto.min.js?v=1537883801478"></script>
+    <script src="/libs/frozenui/js/frozen.js?v=1537883801478"></script>
+    <script src="/libs/mob-share.js?v=1537883801478" async></script>
+    <script src="/libs/vendor.js?v=1537883801478"></script>
+    <script src="/common.js?v=1537883801478"></script>
+    <script src="/category.js?v=1537883801478"></script>
+</body>
+</html>

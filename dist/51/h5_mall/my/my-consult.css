@@ -1,0 +1,10 @@
+.ask-list {
+  overflow: hidden;
+  background: #fff;
+  padding: 15px 10px;
+  margin-top: 10px;
+}
+.wb {
+  word-wrap: break-word;
+  word-break: normal;
+}

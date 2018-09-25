@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="x5-orientation" content="portrait">
+    <meta name="msapplication-tap-highlight" content="no">
+    <title></title>
+    <link rel="stylesheet" href="${staticPath}/libs/frozenui/css/frozen.css?v=${version}">
+    <link rel="stylesheet" href="${staticPath}/common.css?v=${version}">
+    <link rel="stylesheet" href="${staticPath}/detail-include/ask-answer.css?v=${version}">
+</head>
+
+<body v-cloak>
+    <ui-header title="问题详情">
+    </ui-header>
+    <section class="ui-container">
+        <div class="pro bgf">
+            <div class="pro-info ui-next" v-link-to="'/detail.html?itemId=' + askObj.merchantProductId">
+                <div class="pro-img">
+                    <img :src="askObj.pictureUrl || '${staticPath}/images/pro-img.png?v=${version}'" width="55" height="55" alt="">
+                </div>
+                <div class="pro-title" :style="{'width':windowWidth - 120 + 'px'}">
+                    {{askObj.chineseName}}
+                </div>
+                <i class="icons icons-next"></i>
+            </div>
+            <div class="wen">
+                <i class="icons icons-wen-l" style="position: relative;top: -1px;"></i>
+                <span>{{askObj.content}}</span>
+            </div>
+        </div>
+        <div class="answer-list bgf" :style="{'min-height':windowHeight - 168 + 'px'}">
+            <div class="da">
+                <i class="icons icons-da-l" style="position: relative;top: -2px;"></i>
+                <span class="f16 c3">共{{askObj.total}}个答案</span>
+            </div>
+            <ul class="list">
+                <li class="ui-border-t" v-for="item in answerList">
+                    <div class="answer-title">
+                        <span class="fl" v-if="item.userName">{{item.userName}}</span>
+                        <span class="fl" v-else>{{item.userTelephone | phoneFilter}}</span>
+                        <span class="fr">{{item.createTime | dateTime}}</span>
+                    </div>
+                    <div class="answer-content">
+                        {{item.content}}
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="commit">
+            <div>
+                <input type="text" class="commit-input" v-model="content" :disabled="!limitRight" placeholder="只有被邀请的人才能回答问题">
+                <span class="fr f15 c6 mgR15" @click="answerQuestion">发送</span>
+            </div>
+        </div>
+    </section>
+
+    <script type="text/javascript" src="/cms/view/frontier_guide/h5/templateJS.json"></script>
+    <script>if(/MicroMessenger/i.test(navigator.userAgent)) document.write('<script src="//res.wx.qq.com/open/js/jweixin-1.1.0.js"><\/script>');</script>
+    <script src="${staticPath}/libs/frozenui/lib/zepto.min.js?v=${version}"></script>
+    <script src="${staticPath}/libs/frozenui/js/frozen.js?v=${version}"></script>
+    <script src="${staticPath}/libs/vendor.js?v=${version}"></script>
+    <script src="${staticPath}/common.js?v=${version}"></script>
+    <script src="${staticPath}/detail-include/ask-answer.js?v=${version}"></script>
+</body>
+</html>

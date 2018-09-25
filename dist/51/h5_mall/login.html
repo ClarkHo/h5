@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="x5-orientation" content="portrait">
+    <meta name="msapplication-tap-highlight" content="no">
+    <title></title>
+    <link rel="stylesheet" href="/libs/frozenui/css/frozen.css?v=1537883801478">
+    <!-- <link rel="stylesheet" href="/libs/swiper/swiper.min.css?v=1537883801478"> -->
+    <link rel="stylesheet" href="/common.css?v=1537883801478">
+    <link rel="stylesheet" href="/entrance.css?v=1537883801478">
+    <link rel="stylesheet" href="/login.css?v=1537883801478">
+</head>
+<body class="nobg">
+<!--头部-->
+<ui-header title="登录">
+    <!-- <a v-if="step == 0" class="handle" @click="regis()">注册</a> -->
+    <a :href="getShareLink" v-if="step == 0" class="handle" @click="regis">注册</a>
+    <a href="/index.html" v-if="step == 1" class="handle">跳过</a>
+</ui-header>
+
+<!--主体部分-->
+<section class="ui-container" v-show="step == 0">
+	 <p class="tip" v-cloak v-if="getShareName">登录成为{{getShareName}}的亲友号</p>
+    <ul class="login-tab">
+        <li class="w50 text-center heiti c6 f17" :class="{active:loginTab == 1}" @click="loginTab = 1">普通登录</li>
+        <li class="w50 text-center heiti c6 f17" :class="{active:loginTab == 2}" @click="loginTab = 2">快速登录</li>
+    </ul>
+      
+    <div class="ui-form" v-show="loginTab == 1">
+        <div class="ui-form-item ui-form-item-show ui-border-b">
+            <label for="#">账号</label>
+            <input  id="focusInput" v-model="username" @blur="checkExists" @keyup="checkBtnDisabled" maxlength="11" placeholder="手机号/员工号">
+            <a href="javascript:void(0)" class="ui-icon-close" @click="username = ''" v-show="username"></a>
+        </div>
+        <div class="ui-form-item ui-form-item-show has-icon ui-border-b">
+            <label for="#">密码</label>
+            <input id="passwdInput" type="{{ spypasswd }}" v-model="password" @keyup="checkBtnDisabled" placeholder="请输入密码">
+            <a href="javascript:void(0)" class="ui-icon-close" @click="password = ''" v-show="password"></a>
+            <i class="icons icons-eyes-close" v-if="spypasswd == 'password'" @click="spypasswd = 'text'"></i>
+            <i class="icons icons-eyes" v-if="spypasswd == 'text'" @click="spypasswd = 'password'"></i>
+        </div>
+        <div class="ui-form-item ui-form-item-show has-imgcode ui-border-b hide" :class="{show: startImgCode}" v-if="startImgCode">
+            <label for="#">验证码</label>
+            <input type="text" v-model="checkImageCode" placeholder="请输入验证码">
+            <a href="javascript:void(0)" class="ui-icon-close" @click="checkImageCode = ''" v-show="checkImageCode"></a>
+            <span class="imgcode" :style="{'background-image': imgurl }" @click="updImgCode"></span>
+        </div>
+        <div class="ui-form-item submit-btn">
+        	<button type="button" class="ui-btn ui-btn-primary" :disabled="loginDisabled || checkDisabled || checkExistsDisabled" @click="login"><span v-cloak>{{loginBtn}}</span></button>
+        </div>
+        <div class="ui-form-item jump-link">
+            <!-- <a class="link" href="/qlogin.html">短信验证码登录</a> -->
+            <a class="link right" href="/forget.html">忘记密码?</a>
+        </div>
+    </div>
+    <div class="ui-form" v-show="loginTab == 2">
+        <div class="ui-form-item ui-form-item-show ui-border-b">
+            <label for="#">手机号</label>
+            <input  v-model="user.mobile" placeholder="请输入手机号">
+            <a href="javascript:void(0)" class="ui-icon-close" v-show="user.mobile" @click="user.mobile = ''"></a>
+        </div>
+        <div class="ui-form-item ui-form-item-show has-sms ui-border-b">
+            <label for="#" style="font-size: 14px">验证码</label>
+            <input type="number" v-model="user.captchas" placeholder="请输入短信验证码">
+            <button type="button" class="ui-border-l sms-btn" :disabled="smsBtnDisabled" @click="smsSend"><span v-cloak>{{smsBtn}}</span></button>
+            <a href="javascript:void(0)" class="ui-icon-close" v-show="user.captchas" @click="user.captchas=''"></a>
+        </div>
+        <div class="ui-form-item ui-form-item-show has-imgcode ui-border-b hide" :class="{show: user.startImgCode}" v-if="user.startImgCode">
+            <label for="#" style="font-size: 14px">图形验证码</label>
+            <input type="text" v-model="user.checkImageCode" placeholder="请输入验证码">
+            <a href="javascript:void(0)" class="ui-icon-close" @click="user.checkImageCode = ''" v-show="user.checkImageCode"></a>
+            <span class="imgcode" :style="{'background-image': imgurl }" @click="updImgCode"></span>
+        </div>
+        <div class="ui-form-item submit-btn">
+            <button type="button" class="ui-btn ui-btn-primary" :disabled="user.mobile == '' || user.captchas == ''" @click="qlogin">登录</button>
+        </div>
+        <div class="ui-form-item jump-link">
+            <!-- <a class="link" href="/qlogin.html">短信验证码登录</a> -->
+            <a class="link right" href="/forget.html">忘记密码?</a>
+        </div>
+    </div>
+    <div class="joint-login ui-border-t" v-if="uniteLoginFlag">
+        <h6>一键登录</h6>
+        <ul class="ui-tiled" v-cloak>
+            <li v-for="item in iconInvisible">
+                <template v-if="item == 1">
+                    <i class="icons icons-share-QQ"  @click="getRelatedParams(1)"></i>
+                </template>
+                <template v-if="item == 2">
+                    <i class="icons icons-share-Wechat"  @click="getRelatedParams(2)"></i>
+                </template>
+                <template v-if="item == 3">
+                    <i class="icons icons-share-WeWeibo"  @click="getRelatedParams(3)"></i>
+                </template>
+                <template v-if="item == 4">
+                    <i class="icons icons-share-alipay"  @click="getRelatedParams(4)"></i>
+                </template>
+            </li>
+        </ul>
+    </div>
+</section>
+<section class="ui-container" v-show="step == 1">
+    <div class="ui-form">
+        <div class="ui-form-item ui-form-item-show has-icon ui-border-b long-label bgf">
+            <label for="#">密&nbsp;&nbsp;&nbsp;码</label>
+            <input type="{{spypasswd}}" v-model="user.password" placeholder="请输入密码(6-18个字符)">
+            <a href="javascript:void(0)" class="ui-icon-close" v-show="user.password" @click="user.password=''"></a>
+            <i class="icons icons-eyes-close" v-if="spypasswds == 'password'" @click="spypasswds = 'text'"></i>
+            <i class="icons icons-eyes" v-if="spypasswds == 'text'" @click="spypasswds = 'password'"></i>
+        </div>
+        <div class="ui-form-item ui-form-item-show has-icon ui-border-b long-label bgf">
+            <label for="#">确认密码</label>
+            <input type="{{spyconfirmPassword}}" v-model="user.confirmPassword" placeholder="请再次输入密码">
+            <a href="javascript:void(0)" class="ui-icon-close" v-show="user.confirmPassword" @click="user.confirmPassword=''"></a>
+            <i class="icons icons-eyes-close" v-if="spyconfirmPassword == 'password'" @click="spyconfirmPassword = 'text'"></i>
+            <i class="icons icons-eyes" v-if="spyconfirmPassword == 'text'" @click="spyconfirmPassword = 'password'"></i>
+        </div>
+        <div class="ui-form-item submit-btn">
+            <button type="button" class="ui-btn ui-btn-primary"  :disabled="sbmDisabled" @click="setPassword">完成</button>
+        </div>
+    </div>
+  
+</section>
+<!-- 内部员工初次登录，绑定手机 -->
+<section class="ui-container" v-show="step == 2">
+    <div class="ui-form">
+        <div class="ui-form-item ui-form-item-show ui-border-b">
+            <label for="#">手机号</label>
+            <input type="number" v-model="user.bindMobile" placeholder="请输入手机号">
+            <a href="javascript:void(0)" class="ui-icon-close" v-show="user.bindMobile" @click="user.bindMobile = ''"></a>
+        </div>
+        <div class="ui-form-item ui-form-item-show has-sms ui-border-b">
+            <label for="#">验证码</label>
+            <input type="number" v-model="user.bindCaptchas" placeholder="请输入短信验证码">
+            <button type="button" class="ui-border-l sms-btn" :disabled="smsBtnDisabled" @click="smsSend('bind')"><span v-cloak>{{smsBtn}}</span></button>
+            <a href="javascript:void(0)" class="ui-icon-close" v-show="user.bindCaptchas" @click="user.bindCaptchas=''"></a>
+        </div>
+
+        <div class="ui-form-item ui-form-item-show has-sms ui-border-b" v-if="showpassword">
+            <label for="#">密码</label>
+            <input  v-model="user.password" placeholder="请输入密码">
+        </div>
+        <div class="ui-form-item submit-btn">
+            <button type="button" class="ui-btn ui-btn-primary" :disabled="user.bindMobild == '' || user.bindCaptchas == ''" @click="bindPhone">完成</button>
+        </div>
+    </div>
+</section>
+<div class="ui-dialog" :class="{'show':showFoucsWeixin}">
+    <div class="ui-dialog-cnt foucsWeixin">
+        <img class="" width="75" src="/images/foucsWeixin.png?v=1537883801478" alt="">
+
+        <div class="ui-dialog-bd">
+            <div>
+            <h4></h4>
+            <div class="f14 c6 text-center"><p>为了给你最优质的购物体验，</p><p>请先关注我们的微信公众号，谢谢！</p></div>
+        </div>
+
+        </div>
+        <div class="ui-dialog-ft ui-btn-group">
+            <button type="button" data-role="button"  class="select" style="color:#999;" id="dialogButton<%=i%>" >稍后再说</button> 
+            <button type="button" data-role="button"  class="select" >立即关注</button> 
+        </div>
+    </div>        
+</div>
+<script type="text/javascript" src="/cms/view/frontier_guide/h5/templateJS.json"></script>
+<script src="/libs/frozenui/lib/zepto.min.js?v=1537883801478"></script>
+<script src="/libs/swiper/swipe.js?v=1537883801478"></script>
+<script src="/libs/frozenui/js/frozen.js?v=1537883801478"></script>
+<script src="/libs/md5.js?v=1537883801478"></script>
+<script src="/libs/vendor.js?v=1537883801478"></script>
+<script src="/common.js?v=1537883801478"></script>
+<script src="/login.js?v=1537883801478"></script>
+
+</body>
+</html>

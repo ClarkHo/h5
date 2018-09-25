@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="x5-orientation" content="portrait">
+    <meta name="msapplication-tap-highlight" content="no">
+    <title></title>
+    <link rel="stylesheet" href="${staticPath}/libs/frozenui/css/frozen.css?v=${version}">
+    <link rel="stylesheet" href="${staticPath}/common.css?v=${version}">
+    <link rel="stylesheet" href="${staticPath}/specialFun/specialFun.css?v=${version}">
+</head>
+<body ontouchstart=""  v-need-login>
+
+    <ui-header title="查询门店"></ui-header>
+
+    <section v-cloak class="mgT53">
+        <ul class="ui-list">
+            <li class="ui-border-b" v-for="shop in shopList"  v-link-to="'/specialFun/findShop-detail.html?merchantId='+shop.merchantId">
+                <div class="ui-list-thumb ui-flex ui-flex-align-center" style="width: 100px">
+                    <p class="f16 cff6900 ui-nowrap"><i class="specailFunIcons icon-position-orange"></i>{{shop.awayFrom}}</p>
+                </div>
+                <div class="ui-list-info">
+                    <p class="f14 c3 ui-nowrap">{{shop.merchantShopName}}</p>
+                    <p class="f12 c80 ui-nowrap">{{shop.address}}</p>
+                </div>
+            </li>
+        </ul>
+        <!--无数据时-->
+        <div class="ui-row-flex ui-whitespace" v-if="shopList.length==0">
+            <div class="ui-col ui-col text-center mgT10 mgB10">
+                <i class="icons3  icons3-search-no"></i>
+                <p class="f12 c6">暂无数据...</p>
+            </div>
+        </div>
+    </section>
+
+    <script type="text/javascript" src="/cms/view/frontier_guide/h5/templateJS.json"></script>
+    <script src="${staticPath}/libs/frozenui/lib/zepto.min.js?v=${version}"></script>
+    <script src="${staticPath}/libs/frozenui/js/frozen.js?v=${version}"></script>
+    <script src="${staticPath}/libs/vendor.js?v=${version}"></script>
+    <script src="${staticPath}/common.js?v=${version}"></script>
+    <script src="${staticPath}/specialFun/findShop-list.js?v=${version}"></script>
+
+</body>
+</html>

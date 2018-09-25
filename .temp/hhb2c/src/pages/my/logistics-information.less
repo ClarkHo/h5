@@ -1,0 +1,62 @@
+@import (reference) "../../common/variables.less";
+.switch-tab {
+    position: fixed;
+    top: 44px;
+    left: 0;
+    right: 0;
+    background-color: #fff;
+    overflow: hidden;
+    z-index: 99;
+    ul::-webkit-scrollbar {
+        display: none;
+    }
+    ul {
+        padding: 10px 15px;
+        display: -webkit-box;
+        width: 100%;
+        overflow-x: scroll;
+        box-sizing: border-box;
+        li {
+            margin-left: 10px;
+            i {
+                position: relative;
+                left: 6px;
+            }
+            &.current {
+                color: @themeColor;
+            }
+        }
+    }
+}
+
+.logistics-tracking {
+    height: 45px;
+    line-height: 45px;
+    display: -webkit-flex;
+    position: relative;
+    .active {
+        color: @themeColor;
+        position: relative;
+    }
+    .active:after {
+        content: '';
+        position: absolute;
+        bottom: 0px;
+        height: 2px;
+        width: 40px;
+        z-index: 10;
+        background: @themeColor;
+        left: 38%;
+    }
+}
+
+.box-pack-i {
+    -webkit-box-pack: inherit;
+    position: relative;
+    .name {
+        position: absolute;
+        bottom: 7px;
+        right: 18px;
+        color: #666;
+    }
+}

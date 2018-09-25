@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="x5-orientation" content="portrait">
+    <meta name="msapplication-tap-highlight" content="no">
+    <title>来伊份</title>
+    <link rel="stylesheet" href="/libs/frozenui/css/frozen.css?v=1537884480835">
+    <link rel="stylesheet" href="/common.css?v=1537884480835">
+    <link rel="stylesheet" href="/libs/mob-share.css?v=1537884480835">
+    <link rel="stylesheet" href="/brand/brand.css?v=1537884480835">
+</head>
+<body v-cloak>
+    <section class="brand">
+        <ui-header title="" class="text-center" :back-event="goBackToApp">
+            <img :src="brandLogo|| '/images/logo_default.png?v=1537884480835'" alt="" class="brand-title-img" style="margin-left: 50px">
+            <i class="fr icons2 icons2-header-share header-icon mgT10 mgL10" style="width:20px;height:20px;" @click="clickShare"></i>
+            <i class="fr icons-au icons-au-brand-category" v-link-to="'/brand/category.html?brandIds='+brandIds"></i>
+        </ui-header>
+        <div class="ui-row-flex ui-whitespace mgT43 ui-border-b bgf brand-nav">
+            <div class="ui-col ui-col text-center" :class="{ active: navActive==0 }" v-if="isIndex" @click="navActive=0" v-link-to="'/brand/brand.html?brandIds='+ brandIds">品牌首页</div>
+            <div class="ui-col ui-col text-center" :class="{ active: navActive==1 }" @click="navActive=1,searchActive=0,recommend(),rememberTab(1)">全部商品</div>
+            <div class="ui-col ui-col text-center" :class="{ active: navActive==2 }" @click="navActive=2,pageNo=1,isEnd=false,noData=false,brandHotListItem=[],brandHotList(),rememberTab(2)">热销</div>
+            <div class="ui-col ui-col text-center" :class="{ active: navActive==3 }" @click="navActive=3,newList(),rememberTab(3)">上新</div>
+            <div class="ui-col ui-col text-center" :class="{ active: navActive==4 }" @click="navActive=4,pageNo=1,isEnd=false,noData=false,brandPromotionListItem=[],brandPromotionList(1012),brandActionSearch=0,rememberTab(4)">品牌活动</div>
+        </div>
+        <div class="ui-row-flex ui-whitespace ui-border-b bgf brand-search" v-if="navActive==1">
+            <div class="ui-col ui-col text-center" :class="{ active: searchActive==0 }" @click="searchActive=0,recommend()">推荐</div>
+            <div class="ui-col ui-col text-center" :class="{ active: searchActive==1 }" @click="searchActive=1,sortSale()">销量优先</div>
+            <div class="ui-col ui-col text-center" :class="{ active: searchActive==2 }" @click="searchActive=2,newGoods()">新品</div>
+            <div class="ui-col ui-col text-center" :class="{ active: searchActive==3 }" @click="sortPrice();">
+                价格
+                <span style="display: inline-block;width:12px;">
+                    <i class="icon" v-if="searchActive == 3" :class="{'icon-arrow-up1':priceState, 'icon-arrow-down1':!priceState}"></i>
+                </span>
+            </div>
+            <div class="ui-col ui-col text-center ui-border-l"><i class="icon" :class="{'icon-layout-grid':!displayStyle,'icon-layout-list':displayStyle}" @click="displayStyle = !displayStyle"></i></div>
+        </div>
+        <div class="ui-row-flex ui-whitespace ui-border-b bgf brand-search" v-if="navActive==4">
+            <div class="ui-col ui-col text-center" :class="{ active: brandActionSearch == 0 }" @click="brandPromotionListItem=[],pageNo=1,isEnd=false,noData=false,brandPromotionList(1012),brandActionSearch=0" >秒杀</div>
+            <div class="ui-col ui-col text-center" :class="{ active: brandActionSearch == 1 }" @click="brandPromotionListItem=[],pageNo=1,isEnd=false,noData=false,brandPromotionList(3001),brandActionSearch=1" v-if="!isWeixin">砍价</div>
+            <div class="ui-col ui-col text-center" :class="{ active: brandActionSearch == 2 }" @click="brandPromotionListItem=[],pageNo=1,isEnd=false,noData=false,brandPromotionList(2001),brandActionSearch=2" v-if="!isWeixin">拼团</div>
+
+            <div class="ui-col ui-col text-center ui-border-l"><i class="icon" :class="{'icon-layout-grid':!displayStyle,'icon-layout-list':displayStyle}" @click="displayStyle = !displayStyle"></i></div>
+        </div>
+        <!--<div class="ui-actionsheet-price" v-if="priceStateBox">-->
+            <!--<div class="ui-row-flex ui-whitespace pdT10 pdB10">-->
+                <!--<div class="ui-col ui-col" @click="priceState=0,sortPriceDESC(),priceStateBox=false" :class="{ active:priceState==0 }"><span class="f12">价格从高到低</span></div>-->
+            <!--</div>-->
+            <!--<div class="ui-row-flex ui-whitespace pdT10 pdB10">-->
+                <!--<div class="ui-col ui-col" @click="priceState=1,sortPriceASC(),priceStateBox=false" :class="{ active:priceState==1 }"><span class="f12">价格从低到高</span></div>-->
+            <!--</div>-->
+        <!--</div>-->
+
+        <!--全部商品 上新-->
+        <div v-if="navActive==1 || navActive==3">
+            <!--方块显示-->
+            <div class="good-box" v-if="!displayStyle" :class="{marginTop127:navActive==0||navActive==1||navActive==4,marginTop84:navActive==3||navActive==2}">
+                <ul class="ui-row brand-list">
+                    <li class="ui-col ui-col-50 mgT5 bgf pd5" style="position: relative;" v-for="item in allProductList" @click="gotoDetail(item.mpId)">
+                        <div class="img-warp">
+                            <img width="100%" height="100%" v-lazy="item.url400x400">
+                            <div class="sub-icon l-r" v-if="showMark">
+                                <img src="/images/mark.png"  style="height:50px!important">
+                            </div>
+                            <span v-if="item.isPresell" style="position: absolute;top: 0;right: 0;width: 35px;height: 35px;background-image: url(/images/presell.png?v=1537884480835);background-size: 100% 100%"></span>
+                            <div class="presell-tag" v-if="item.isPresell && item.presellTotalPrice">
+                                <div class="presell-price ui-nowrap">¥ <span class="mainprice">{{item.presellTotalPrice|cut true}}.</span><span class="tail">{{item.presellTotalPrice|cut}}</span></div>
+                                <div class="presell-deposit">{{item.presellDownPrice|cut true}}抵{{item.presellOffsetPrice|cut true}}</div>
+                            </div>
+                            <!--已售完-->
+                            <div class="saleOut-mask" v-if="item.stockNum == 0">
+                                <span>已售罄</span>
+                            </div>
+                        </div>
+                        <div class="good-info">
+                            <p class="f14 c3 ui-nowrap-multi">
+                                {{item.name}}
+                            </p>
+                        </div>
+                        <div class="good-tag">
+                            <span v-for="text in formatPromotionText(item)" track-by="$index">{{text}}</span>
+                        </div>
+                        <div class="ui-row-flex" style="padding: 0 5px">
+                            <div class="ui-col ui-col">
+                                <span class="f12 cb38a32">¥</span><span class="f20 cb38a32">{{(item.promotionPrice?item.promotionPrice:item.price)|currency '' 2}}</span>
+                                <!-- <span class="f12 c9 line-through mgL10" v-if="item.promotionPrice">¥{{item.price}}</span> -->
+                            </div>
+                            <div class="ui-col ui-col" style="text-align: right;padding-top: 7px"><span class="f10 c9">已售{{item.volume4sale || 0}}笔</span></div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <!--条纹显示-->
+            <div class="good-stripe" v-if="displayStyle" :class="{marginTop127:navActive==0||navActive==1||navActive==4,marginTop84:navActive==3||navActive==2}">
+                <ul class="ui-list  brand-list-horizon">
+                    <li class="ui-border-t" v-for="item in allProductList" @click="gotoDetail(item.mpId)">
+                        <div class="ui-list-img">
+                            <div class="img-warp">
+                                <img width="100%" height="100%" v-lazy="item.url400x400">
+                                <div class="sub-icon l-r" v-if="showMark">
+                                    <img src="/images/mark.png"  style="height:36px!important">
+                                </div>
+                                <span v-if="item.isPresell" style="position: absolute;top: 0;right: 0;width: 35px;height: 35px;background-image: url(/images/presell.png?v=1537884480835);background-size: 100% 100%"></span>
+                                <div class="presell-tag shrink" v-if="item.isPresell && item.presellTotalPrice">
+                                    <div class="presell-price ui-nowrap">¥ <span class="mainprice">{{item.presellTotalPrice|cut true}}.</span><span class="tail">{{item.presellTotalPrice|cut}}</span></div>
+                                    <div class="presell-deposit">{{item.presellDownPrice|cut true}}抵{{item.presellOffsetPrice|cut true}}</div>
+                                </div>
+                                <!--已售完-->
+                                <div class="saleOut-mask" v-if="item.stockNum == 0">
+                                    <span>已售罄</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ui-list-info">
+                            <div class="good-info">
+                                <p class="f14 c3 ui-nowrap-multi">
+                                    {{item.name}}
+                                </p>
+                            </div>
+                            <div class="good-tag">
+                                <span v-for="text in formatPromotionText(item)" track-by="$index">{{text}}</span>
+                            </div>
+                            <div class="good-price">
+                                <span class="f12 cb38a32">¥</span>
+                                <span class="f20 cb38a32">{{(item.promotionPrice?item.promotionPrice:item.price)|currency '' 2}}</span>
+                                <span class="f12 c9 line-through mgL10" v-if="item.promotionPrice">¥{{item.price|currency '' 2}}</span>
+                            </div>
+                            <div class="good-sale">
+                                <span class="f10 c9">已售{{item.volume4sale || 0}}笔</span>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <!--the end-->
+            <div class="ui-row-flex ui-whitespace text-center mgT30 mgB30" v-if="isEnd">
+                <div class="ui-col ui-col">
+                    <span class="f12 c6">没有更多了哦~</span>
+                </div>
+            </div>
+
+            <!--no data-->
+            <div class="ui-row-flex ui-whitespace text-center mgT30 mgB30" v-if="noData">
+                <div class="ui-col ui-col">
+                    <span class="f12 c6">暂无数据哦~</span>
+                </div>
+            </div>
+        </div>
+
+        <!--品牌活动-->
+        <div v-if="navActive==4">
+            <!--方块显示-->
+            <div class="good-box" v-if="!displayStyle" :class="{marginTop127:navActive==0||navActive==1||navActive==4,marginTop84:navActive==3||navActive==2}">
+                <ul class="ui-row brand-list">
+                    <li class="ui-col ui-col-50 mgT5 bgf pd5 posR" v-for="item in brandPromotionListItem" @click="gotoDetail(item.mpId,item.promotionId)">
+                        <img width="100%" v-lazy="item.url400x400">
+                        <div class="sub-icon l-r" v-if="showMark" style="right:5px;top:5px;">
+                            <img src="/images/mark.png"  style="height:50px!important">
+                        </div>
+                        <div class="good-info">
+                            <p class="f14 c3 ui-nowrap-multi">
+                                {{item.name}}
+                            </p>
+                        </div>
+                        <div class="good-tag">
+                            <span v-if="brandActionSearch==1">砍价</span>
+                            <span v-if="brandActionSearch==2">拼团</span>
+                            <span v-for="text in formatPromotionText(item)" track-by="$index">{{text}}</span>
+                        </div>
+                        <div class="good-price">
+                            <span class="f12 cb38a32">¥</span>
+                            <span class="f20 cb38a32">{{(item.promotionPrice?item.promotionPrice:item.price)|currency '' 2}}</span>
+                            <span class="f12 c9 line-through mgL10" v-if="item.promotionPrice">¥{{item.price|currency '' 2}}</span>
+                        </div>
+                        <div class="good-sale">
+                            <span class="f10 c9">已售{{item.volume4sale || 0}}笔</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <!--条纹显示-->
+            <div class="good-stripe" v-if="displayStyle" :class="{marginTop127:navActive==0||navActive==1||navActive==4,marginTop84:navActive==3||navActive==2}">
+                <ul class="ui-list  brand-list-horizon">
+                    <li class="ui-border-t" v-for="item in brandPromotionListItem" @click="gotoDetail(item.mpId,item.promotionId)">
+                        <div class="ui-list-img">
+                            <img width="100%" v-lazy="item.url400x400">
+                            <div class="sub-icon l-r" v-if="showMark">
+                                <img src="/images/mark.png"  style="height:36px!important">
+                            </div>
+                        </div>
+                        <div class="ui-list-info">
+                            <div class="good-info">
+                                <p class="f14 c3 ui-nowrap-multi">
+                                    {{item.name}}
+                                </p>
+                            </div>
+                            <div class="good-tag">
+                                <span v-if="brandActionSearch==1">砍价</span>
+                                <span v-if="brandActionSearch==2">拼团</span>
+                                <span v-for="text in formatPromotionText(item)" track-by="$index">{{text}}</span>
+                            </div>
+                            <div class="good-price">
+                                <span class="f12 cb38a32">¥</span>
+                                <span class="f20 cb38a32">{{(item.promotionPrice?item.promotionPrice:item.price)|currency '' 2}}</span>
+                                <span class="f12 c9 line-through mgL10" v-if="item.promotionPrice">¥{{item.price|currency '' 2}}</span>
+                            </div>
+                            <div class="good-sale">
+                                <span class="f10 c9">已售{{item.volume4sale || 0}}笔</span>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <!--the end-->
+            <div class="ui-row-flex ui-whitespace text-center mgT60 mgB30" v-if="isEnd">
+                <div class="ui-col ui-col">
+                    <span class="f12 c6">没有更多了哦~</span>
+                </div>
+            </div>
+
+            <!--no data-->
+            <div class="ui-row-flex ui-whitespace text-center mgT60 mgB30" v-if="noData">
+                <div class="ui-col ui-col">
+                    <span class="f12 c6">暂无数据哦~</span>
+                </div>
+            </div>
+
+        </div>
+
+        <!--热销-->
+        <div v-if="navActive==2">
+            <!--条纹显示-->
+            <div class="good-stripe" :class="{marginTop127:navActive==0||navActive==1||navActive==4,marginTop84:navActive==3||navActive==2}">
+                <ul class="ui-list  brand-list-horizon">
+                    <li class="ui-border-t" v-for="item in brandHotListItem" @click="gotoDetail(item.mpId,item.patchGrouponId)">
+                        <div class="ui-list-img">
+                            <img width="100%" v-lazy="item.url400x400">
+                            <div class="sub-icon l-r" v-if="showMark">
+                                <img src="/images/mark.png"  style="height:50px!important">
+                            </div>
+                        </div>
+                        <div class="ui-list-info">
+                            <div class="good-info">
+                                <p class="f14 c3 ui-nowrap-multi">
+                                    {{item.name}}
+                                </p>
+                            </div>
+                            <div class="good-tag">
+                                <span v-for="text in formatPromotionText(item)" track-by="$index">{{text}}</span>
+                            </div>
+                            <div class="good-price">
+                                <span class="f12 cb38a32">¥</span>
+                                <span class="f20 cb38a32">{{(item.promotionPrice?item.promotionPrice:item.price)|currency '' 2}}</span>
+                                <span class="f12 c9 line-through mgL10" v-if="item.promotionPrice">¥{{item.price|currency '' 2}}</span>
+                            </div>
+                            <div class="good-sale">
+                                <span class="f10 c9">已售{{item.volume4sale || 0}}笔</span>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <!--the end-->
+            <div class="ui-row-flex ui-whitespace text-center mgT30 mgB30" v-if="isEnd">
+                <div class="ui-col ui-col">
+                    <span class="f12 c6">没有更多了哦~</span>
+                </div>
+            </div>
+
+            <!--no data-->
+            <div class="ui-row-flex ui-whitespace text-center mgT30 mgB30 pdT30" v-if="noData">
+                <div class="ui-col ui-col">
+                    <span class="f12 c6">暂无数据哦~</span>
+                </div>
+            </div>
+        </div>
+
+    </section>
+</body>
+    <!-- 分享组件 -->
+    <ui-share :show.sync="showShare" :config.sync="shareConfig"></ui-share>
+    <script type="text/javascript" src="/cms/view/frontier_guide/h5/templateJS.json"></script>
+    <script>if(/MicroMessenger/i.test(navigator.userAgent)) document.write('<script src="//res.wx.qq.com/open/js/jweixin-1.1.0.js"><\/script>');</script>
+    <script src="/libs/frozenui/lib/zepto.min.js?v=1537884480835"></script>
+    <script src="/libs/frozenui/js/frozen.js?v=1537884480835"></script>
+    <script>document.write('<script src="/libs/mob-share.js?v=1537884480835"><\/script>');</script>
+    <script src="/libs/vendor.js?v=1537884480835"></script>
+    <script src="/common.js?v=1537884480835"></script>
+    <script src="/brand/brand.js?v=1537884480835"></script>
+    
+</html>

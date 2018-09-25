@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="x5-orientation" content="portrait">
+    <meta name="msapplication-tap-highlight" content="no">
+    <title></title>
+    <link rel="stylesheet" href="/libs/frozenui/css/frozen.css?v=1537884480835">
+    <link rel="stylesheet" href="/common.css?v=1537884480835">
+    <link rel="stylesheet" href="/specialFun/specialFun.css?v=1537884480835">
+</head>
+<body ontouchstart="" class="bgf">
+
+    <ui-header title="查询伊点卡"></ui-header>
+
+    <section v-cloak>
+        <div class="ui-flex ui-flex-pack-center mgT80">
+            <i class="specailFunIcons freePointLogo"></i>
+        </div>
+
+        <!--查询条件-->
+        <div class="ui-form ui-border-t">
+            <form>
+                <div class="ui-form-item ui-form-item-show ui-border-b">
+                    <label class="f14 fb2b2b2">卡号</label>
+                    <input type="number" value="" placeholder="请输入卡号" v-model="ybean.cardCode">
+                </div>
+                <div class="ui-form-item ui-form-item-show ui-border-b">
+                    <label class="f14 fb2b2b2">密码</label>
+                    <input type="password" value="" placeholder="请输入密码" v-model="ybean.cardPwd">
+                </div>
+            </form>
+            <div class="ui-notice-btn pdT20">
+                <button class="ui-btn-gray ui-btn-lg" v-if="!inquireState">查询</button>
+                <button class="ui-btn-primary ui-btn-lg" v-if="inquireState" @click="getYbean()">查询</button>
+            </div>
+        </div>
+
+        <!--查询结果-->
+        <div class="ui-flex findFreePoint-list" v-if="ecard.cardCode">
+            <ul class="fpl-list-ul">
+                <!--有效-->
+                <li class="fpl-list-li posR">
+                    <div class="item">
+                        <ul class="ui-row">
+                            <li class="ui-col ui-col-67 pd2 h90px">
+                                <p class="mgT5"><span class="f14 c3 fb">伊点卡</span></p>
+                                <p class="f13 c6 mgT5">有效期至：{{ecard.effectiveDate}}</p>
+                                <p class="mgT5"><span class="f12 c939191">卡号: {{ecard.cardCode}}</span></p>
+                            </li>
+                            <li class="ui-col ui-col-33 pd2 borRT7 h90px posR bgff6900">
+                                <i class="specailFunIcons listBg"></i>
+                                <p class="f14 cfe mgT5">卡内可使用余额</p>
+                                <p class="mgT5"><span class="f14 cfe">¥</span><span class="f30 cfe">{{ecard.balance}}</span></p>
+                                <img class="overdue" src="/images/overdue.png?v=1537884480835" alt="" v-if="ecard.status==4">
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="inset"></div>
+                </li>
+            </ul>
+        </div>
+
+    </section>
+
+    <script type="text/javascript" src="/cms/view/frontier_guide/h5/templateJS.json"></script>
+    <script src="/libs/frozenui/lib/zepto.min.js?v=1537884480835"></script>
+    <script src="/libs/frozenui/js/frozen.js?v=1537884480835"></script>
+    <script src="/libs/vendor.js?v=1537884480835"></script>
+    <script src="/common.js?v=1537884480835"></script>
+    <script src="/specialFun/findFreePoint.js?v=1537884480835"></script>
+
+</body>
+</html>

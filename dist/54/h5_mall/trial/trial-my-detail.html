@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="x5-orientation" content="portrait">
+    <meta name="msapplication-tap-highlight" content="no">
+    <title></title>
+    <link rel="stylesheet" href="/libs/frozenui/css/frozen.css?v=1537884480835">
+    <link rel="stylesheet" href="/common.css?v=1537884480835">
+    <link rel="stylesheet" href="/trial/trial-my-detail.css?v=1537884480835">
+         
+</head>
+
+<body>
+    <header class="ui-header ui-header-stable">
+        <i class="ui-icon-return"></i>
+        <h1>填写试用报告</h1>
+        <span class="came-btn">
+            <button @click="camePop()">
+                发布
+            </button>
+            <!--<button disabled>
+                发布
+            </button>-->
+        </span>
+    </header>
+    <!--主体部分-->
+    <section class="ui-container">
+        <div class="pdL10 pdB10 mgB10 mgT10 bgw">
+            <h3 class="ui-border-b lineH40px f14 fb">试用心得</h3>
+            <div class="problem-descri">
+                <div class="problem-descri-textarea pdR10">
+                    <textarea placeholder="请在此输入试用心得..."></textarea>
+                    <span>0/500</span>
+                    <p class="cf23030">请输入试用心得</p>
+                </div>
+            </div>
+        </div>
+        <div class="pdL10 pdB10 mgB10 mgT10 bgw">
+            <h3 class="ui-border-b lineH40px f14 fb">试用过程与体验</h3>
+            <div class="problem-descri">
+                <div class="problem-descri-textarea pdR10">
+                    <textarea placeholder="请在此输入试用过程与体验！..."></textarea>
+                    <span>0/500</span>
+                    <p class="cf23030">请输入试用心得</p>
+                </div>
+                <div class="fault-img ui-border-t">
+                    <span>
+                        <em class="icons icons-photo"></em>
+                    </span>
+                    <span>
+                        <img class="disB" width="50" src="../../images/product-img.png" style="margin-bottom: 0px;">
+                        <i class="icons icons-delete"></i>
+                    </span>
+                    <span>
+                        <img class="disB" width="50" src="../../images/product-img.png" style="margin-bottom: 0px;">
+                        <i class="icons icons-delete"></i>
+                    </span>
+                    <span>
+                        <img class="disB" width="50" src="../../images/product-img.png" style="margin-bottom: 0px;">
+                        <i class="icons icons-delete"></i>
+                    </span>
+                </div>
+                <p class="f12 c9">每张图不超过5M，支持JPG、BMP、PNG，最多上传3张</p>
+            </div>
+        </div>
+    </section>
+    <!--发布弹框-->
+    <div class="ui-actionsheet">
+        <div class="ui-actionsheet-cnt">
+            <button>保存草稿</button>
+            <button>立即提交</button>
+            <button>取消</button>
+        </div>
+    </div>
+    <script type="text/javascript" src="/cms/view/frontier_guide/h5/templateJS.json"></script>
+    <script src="/libs/frozenui/lib/zepto.min.js?v=1537884480835"></script>
+    <script src="/libs/swiper/swipe.js?v=1537884480835"></script>
+    <script src="/libs/frozenui/js/frozen.js?v=1537884480835"></script>
+    <script src="/libs/vendor.js?v=1537884480835"></script>
+    <script src="/common.js?v=1537884480835"></script>
+    <script src="/trial/trial-my-detail.js?v=1537884480835"></script>
+</body>
+</html>

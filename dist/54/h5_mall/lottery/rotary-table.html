@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="x5-orientation" content="portrait">
+    <meta name="msapplication-tap-highlight" content="no">
+    <title></title>
+    <link rel="stylesheet" href="/libs/frozenui/css/frozen.css?v=1537884480835">
+    <link rel="stylesheet" href="/common.css?v=1537884480835">
+    <link rel="stylesheet" href="/libs/mob-share.css?v=1537884480835">
+    <link rel="stylesheet" href="/lottery/lottery.css?v=1537884480835">
+</head>
+
+<body class="bg">
+<ui-header title="幸运大转盘" class="bgf" :back-event="back">
+    <i class="specailFunIcons specailFunIcons-share" style="right: 10px;" v-if="themeId" @click.stop="clickShare()"></i>
+    <span class="handle c3" v-link-to-userpage="'/lottery/rules.html?themeId='+themeId">活动说明</span>
+</ui-header>
+<!-- main section -->
+<section class="ui-container" v-cloak>
+    <div class="rotaryTable-header">
+        <p class="text-center number">今天还有{{totalDrawNum||0}}次抽奖机会</span></p>
+        <p class="text-center time">{{lotteryInfo.startTime | date2}} - {{lotteryInfo.endTimeStr | date2}}</p>
+    </div>
+    <div class="rotaryTable-content">
+        <div class="table">
+            <div class="layer" :class="['layer_' + ($index+1)]" v-for="award in awardsList | limitBy 6">
+                <p class="ui-nowrap">{{award.awardsName}}</p>
+                <p><img :src="award.picUrl" class="award-img"></p>
+            </div>
+        </div>
+        <img src="/images/go.png" class="go" @click="go" />
+        <img src="/images/lottery-yuan.png" class="di" alt="">
+    </div>
+    <div class="rotaryTable-bottom text-center">
+        <p class="f14 cf " v-if="this.lotteryInfo.themeType==1">
+            <span v-if="lotteryInfo.consumeNum>0">{{lotteryInfo.consumeNum}}积分/每次 </span>
+            <span v-if="loggedIn"> 我的积分: {{lotteryInfo.pointAmount || 0}}</span>
+        </p>
+        <p v-if="this.lotteryInfo.themeType==2">&nbsp;</p>
+        <span class="winning-list" v-link-to="'/my/my-awards.html'">我的奖品</span>
+    </div>
+    <div class="line">
+        <div class="left"></div>
+        <div class="right"></div>
+        中奖榜单
+    </div>
+    <!-- 中奖人员名单 -->
+    <div class="rotaryTable-List" style="position:relative;" id="rotaryTable-List">
+        <div class="cover"></div>
+        <ul>
+            <li class="ui-nowrap text-center" v-for="receive in receiveList">{{receive.name}} <span class="pdL25">恭喜抽中{{receive.awardsName}}</span></li>
+        </ul>
+    </div>
+</section>
+
+<!--中奖提示-->
+<ui-rotary-dialog :show="drawResultCode==DrawResultCodes.winning" @close="hideResult">
+    <header class="ui-dialog-hd" style="position:relative!important;color:#fff;" class="cf">中奖啦！</header>
+    <div class="ui-dialog-bd">
+        <div class=" text-center mgB15">
+            <p class="cf mgT5 f14 ui-nowrap">恭喜您获得{{award.awardsName}}</p>
+            <!--商品-->
+            <p class="cf mgT5 f12 ui-nowrap" v-if="award.awardsType==1">已存入您的购物车内，快去查看吧！</p>
+            <!--积分-->
+            <p class="cf mgT5 f12 ui-nowrap" v-if="award.awardsType==2">已存入账户，在我的积分中可以查看！</p>
+            <!--优惠券-->
+            <p class="cf mgT5 f12 ui-nowrap" v-if="award.awardsType==3">有效期：{{award.validityDateFrom | date2}} - {{award.validityDateTo | date2}}</p>
+            <!--线下奖品-->
+            <p class="cf mgT5 f12 ui-nowrap" v-if="award.awardsType==4">快去领取吧！</p>
+            <img :src="award.picUrl" class="award-pic border-ddd" />            
+        </div>
+        <!--<div class="btn btn-wq-lg cf text-center bgff6900" v-if="award.awardsType==1" v-link-to-userpage.literal="/cart.html">查看购物车</div>-->
+        <div class="btn btn-wq-lg cf text-center " v-if="award.awardsType==1" @click="goShoppingCar(),drawResultCode=''">查看购物车</div>
+        <div class="btn btn-wq-lg cf text-center " v-if="award.awardsType==2" @click="drawResultCode=''" v-link-to-userpage="'/my/integral.html' ">查看积分</div>
+        <div class="btn btn-wq-lg cf text-center " v-if="award.awardsType==3" @click="drawResultCode=''" v-link-to-userpage="'/my/coupons-list.html' ">查看优惠券</div>
+        <div class="btn btn-wq-lg cf text-center " v-if="award.awardsType==4" @click="drawResultCode=''" v-link-to-userpage=" '/lottery/receive-award.html?id=' + receiveRecordId+ '&themeId=' + themeId">立即领取</div>
+    </div>
+</ui-rotary-dialog>
+
+<!--未中奖提示（含谢谢参与）-->
+<ui-rotary-dialog :show="drawResultCode==DrawResultCodes.notWinning || drawResultCode==DrawResultCodes.thankParticipation" @close="hideResult">
+    <header class="ui-dialog-hd" style="position:relative!important;color:#fff;">很遗憾未中奖~</header>
+    <div class="ui-dialog-bd">
+        <div class=" text-center mgB15">
+            <p class="cf mgT5">调整姿势再来一次！</p>
+        </div>
+        <div class="btn btn-wq-lg cf text-center" @click="tryAgain">
+            再来一次
+        </div>
+    </div>
+</ui-rotary-dialog>
+
+<!--今日机会已用完（限每日抽奖次数限制的抽奖）-->
+<ui-rotary-dialog :show="drawResultCode==DrawResultCodes.todayNoTimes" @close="hideResult">
+    <header class="ui-dialog-hd header-bg">
+        <h4 class="f18 cf">温馨提示</h4>
+    </header>
+    <div class="ui-dialog-bd">
+        <div class=" text-center mgB15">
+            <p class="cf mgT5">今天的抽奖机会已用完，明天再来吧</p>
+            <!--<p class="c3 mgT5">-->
+            <!--每天抽奖机会上限为<span class="theme">{{lotteryInfo.amountNum}}</span>次</p>-->
+        </div>
+        <div class="btn btn-wq-lg cf text-center bgff6900 f16" @click="hideResult">
+            知道了
+        </div>
+    </div>
+</ui-rotary-dialog>
+
+<!--抽奖机会已用完 -->
+<ui-rotary-dialog :show="drawResultCode==DrawResultCodes.noLotteryTimes" @close="hideResult">
+    <header class="ui-dialog-hd header-bg">
+        <h4 class="f18 cf">温馨提示</h4>
+    </header>
+    <div class="ui-dialog-bd">
+        <div class=" text-center mgB15">
+            <p class="cf mgT5">您的抽奖机会已用完，</p>
+            <p class="cf mgT5">
+                去看看别的吧~
+            </p>
+        </div>
+        <div class="btn btn-wq-lg cf text-center bgff6900 f16" @click="goHomepage">
+            去首页逛逛
+        </div>
+    </div>
+</ui-rotary-dialog>
+
+<!--活动未开始提示-->
+<ui-rotary-dialog :show="drawResultCode==DrawResultCodes.activityNotStarted" @close="hideResult">
+    <header class="ui-dialog-hd header-bg">
+        <h4 class="f18 cf">温馨提示</h4>
+    </header>
+    <div class="ui-dialog-bd">
+        <div class=" text-center mgB15">
+            <p class="cf mgT5">活动还未开始，</p>
+            <p class="cf f13 mgT5">
+                活动时间：{{lotteryInfo.startTime | date2}} - {{lotteryInfo.endTime | date2}}
+            </p>
+        </div>
+        <div class="btn btn-wq-lg cf text-center bgff6900 f16" @click="hideResult">
+            知道了
+        </div>
+    </div>
+</ui-rotary-dialog>
+
+<!--活动结束提示-->
+<ui-rotary-dialog :show="drawResultCode==DrawResultCodes.activityHasEnd" @close="hideResult">
+    <header class="ui-dialog-hd header-bg">
+        <h4 class="f18 cf">温馨提示</h4>
+    </header>
+    <div class="ui-dialog-bd">
+        <div class=" text-center mgB15">
+            <p class="cf mgT5">活动已经结束了哦，</p>
+            <p class="cf mgT5">
+                去看看别的吧~
+            </p>
+        </div>
+        <div class="btn btn-wq-lg cf text-center bgff6900 f16" @click="goHomepage">
+            去首页逛逛
+        </div>
+    </div>
+</ui-rotary-dialog>
+
+<!--积分不足提示-->
+<ui-rotary-dialog :show="drawResultCode==DrawResultCodes.notEnoughPoint" @close="hideResult">
+    <header class="ui-dialog-hd header-bg">
+        <h4 class="f18 cf">温馨提示</h4>
+    </header>
+    <div class="ui-dialog-bd">
+        <div class=" text-center mgB15">
+            <p class="cf mgT5 mgB30">积分不足，先去赚积分吧~</p>
+            <div class="btn btn-wq-lg cf text-center bgff6900 f16" @click="hideResult">
+                知道了
+            </div>
+        </div>
+    </div>
+</ui-rotary-dialog>
+
+<!--需要下单才可以抽奖的提示-->
+<ui-rotary-dialog :show="drawResultCode==DrawResultCodes.needOrder" @close="hideResult">
+    <header class="ui-dialog-hd header-bg">
+        <h4 class="f18 cf">温馨提示</h4>
+    </header>
+    <div class="ui-dialog-bd">
+        <div class=" text-center mgB15">
+            <p class="cf mgT5">下单过才能抽奖哦</p>
+            <p class="cf mgT5">
+                丰富大奖等你来拿！</p>
+        </div>
+        <div class="btn btn-wq-lg cf text-center bgff6900 f16" @click="goHomepage">
+            去首页逛逛
+        </div>
+    </div>
+</ui-rotary-dialog>
+
+<!--抽奖耗5积分-->
+<ui-rotary-dialog @close="hideResult">
+    <header class="ui-dialog-hd header-bg">
+        <h4 class="f18 cf">温馨提示</h4>
+    </header>
+    <div class="ui-dialog-bd">
+        <div class=" text-center mgB20">
+            <p class="c3 mgT10">每次抽奖将消耗5积分</p>
+        </div>
+        <div class="ui-row-flex ui-whitespace">
+            <div class="ui-col ui-col bgff6900 f16 cf text-center height45px lineH45px radius4px mgR10">
+                确认抽奖
+            </div>
+            <div class="ui-col ui-col f16 bg9 cf text-center height45px lineH45px radius4px">
+                考虑一下
+            </div>
+        </div>
+    </div>
+</ui-rotary-dialog>
+
+<!--活动不存在-->
+<ui-rotary-dialog :show="drawResultCode==DrawResultCodes.nonExistent" @close="hideResult">
+    <header class="ui-dialog-hd header-bg">
+        <h4 class="f18 cf">温馨提示</h4>
+    </header>
+    <div class="ui-dialog-bd">
+        <div class=" text-center mgB15">
+            <p class="cf mgT5">活动已结束</p>
+        </div>
+        <div class="btn btn-wq-lg cf text-center bgff6900 f16"  v-link-to-index>
+            返回首页
+        </div>
+    </div>
+</ui-rotary-dialog>
+
+<!--未登录提示-->
+<ui-rotary-dialog :show="drawResultCode==DrawResultCodes.needLogin" @close="hideResult">
+    <header class="ui-dialog-hd header-bg">
+        <h4 class="f18 cf">温馨提示</h4>
+    </header>
+    <div class="ui-dialog-bd">
+        <div class=" text-center mgB15">
+            <p class="cf mgT5">您还未登录</p>
+        </div>
+        <div class="btn btn-wq-lg cf text-center bgff6900 f16" @click="goLoginpage">
+            去登录
+        </div>
+    </div>
+</ui-rotary-dialog>
+<!-- 分享 -->
+<ui-share :show.sync="showShare" :config.sync="shareConfig"></ui-share>
+<script type="text/javascript" src="/cms/view/frontier_guide/h5/templateJS.json"></script>
+<script src="/libs/frozenui/lib/zepto.min.js?v=1537884480835"></script>
+<script src="/libs/frozenui/js/frozen.js?v=1537884480835"></script>
+<script src="/libs/zepto-fx.js?v=1537884480835"></script>
+<script src="/libs/zepto-rotate.js?v=1537884480835"></script>
+<script src="/libs/vendor.js?v=1537884480835"></script>
+<script src="/libs/mob-share.js?v=1537884480835" async></script>
+<script src="/common.js?v=1537884480835"></script>
+<script src="/lottery/rotary-table.js?v=1537884480835"></script>
+</body>
+
+</html>

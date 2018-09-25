@@ -1,0 +1,59 @@
+{
+	"common":{
+		
+	},
+	"pages":{
+		"name":"页面",
+		"index":{
+			"name":"首页"
+		},
+		"search":{
+			"name":"搜索页"
+		},
+		"category":{
+			"name":"类目页"
+		},
+		"detail":{
+			"name":"商品详情页"
+		},
+		"cart":{
+
+		},
+		"settlement":{
+
+		},
+		"pay":{
+
+		},
+		"login":{
+
+		},
+		"signIn":{
+
+		}
+	},
+	"functions":{
+		"name":"功能",
+		"ad":{
+			"name":"广告"
+		},
+		"afterSale":{
+			"name":"售后",
+			"rel":[
+
+			]
+		}
+	},
+	"activities":{
+		"name":"活动",
+		"cut":{
+			"name":"砍价"
+		},
+		"group":{
+			"name":"拼团"
+		},
+		"seckill":{
+			"name":"秒杀"
+		}
+	}
+}

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="x5-orientation" content="portrait">
+    <meta name="msapplication-tap-highlight" content="no">
+    <title></title>
+    <link rel="stylesheet" href="/libs/frozenui/css/frozen.css?v=1537884480835">
+    <link rel="stylesheet" href="/common.css?v=1537884480835">
+    <link rel="stylesheet" href="/my/aftersale.css?v=1537884480835">
+</head>
+<body v-need-login>
+    <!--头部-->
+    <ui-header title="退换货详情"></ui-header>
+    <!--尾部-->
+    <footer class="ui-footer ui-footer-stable ui-border-t"   v-cloak>
+        <div class="ui-flex ui-flex-pack-end">
+            <!--退货审核中-->
+            <template v-if="afterSaleDetails.returnStatus == 1 && orderListType != 3">
+                <button class="ui-btn marT10 marR10 f14" @click="cancelReturnProduct()">取消{{ afterSaleDetails.type == 4 ? '换货' : '退货' }}</button>
+            </template>
+            <!--退货审核不通过-->
+            <template v-if="(afterSaleDetails.returnStatus == 3 || afterSaleDetails.returnStatus == 6) && orderListType != 3 && enableAfterSale">
+                <button class="ui-btn marT10 marR10 f14" v-if="enableAfterSale" v-link-to="'/my/aftersale.html?re=1&orderCode=' + afterSaleDetails.orderCode">重新申请</button>
+            </template>
+            <template v-if="afterSaleDetails.type == 4 && afterSaleDetails.returnStatus == 5 && afterSaleDetails.exchangeStatus == 2">
+                <button class="ui-btn marT10 marR10 f14" v-link-to="'/my/logistics-information.html?returnCode='+ afterSaleDetails.returnCode +'&orderCode='+ afterSaleDetails.orderCode + '&exchangeCode=' + afterSaleDetails.exchangeCode">查看物流</button>
+                <button class="ui-btn marT10 marR10 f14" @click="confirmComplete">确认收货</button>
+            </template>
+            <!-- 换货完成 -->
+            <template v-if="afterSaleDetails.type == 4 && afterSaleDetails.returnStatus == 8">
+                <button class="ui-btn marT10 marR10 f14" v-link-to="'/my/logistics-information.html?returnCode='+ afterSaleDetails.returnCode +'&orderCode='+ afterSaleDetails.orderCode + '&exchangeCode=' + afterSaleDetails.exchangeCode">查看物流</button>
+            </template>
+            <button class="ui-btn marT10 marR10 f14" v-if="afterSaleDetails.canUpdate == 1" v-link-to="'/my/aftersale.html?orderCode=' + afterSaleDetails.orderCode + '&orderAfterSalesId=' + afterSaleDetails.id ">修改</button>
+        </div>
+    </footer>
+    <!--主体部分-->
+    <section class="ui-container" v-cloak>
+        <div class="ui-tooltips ui-tooltips-warn" v-if="showCourierInput">
+            <div class="ui-tooltips-cnt">
+                {{afterSaleDetails.typeName}}审核通过，请填写物流单号
+            </div>
+        </div>
+        <!--退货信息-->
+        <div class="ui-card">
+            <div class="return-status">
+                <i class="icons icons-wuliu marR10" ></i>
+                <span class="theme ">{{afterSaleDetails.statusDescribe}}</span>
+            </div>
+            
+            <!-- <ul class="ui-list ui-list-text" v-if="afterSaleDetails.returnCourierNumber">
+                <li class="ui-border-b">
+                    <h4 class="ui-nowrap">物流单号：{{afterSaleDetails.returnCourierNumber}}</h4>
+                </li>
+            </ul> -->
+            <ul class="ui-list ui-list-text ui-border-b" v-if="afterSaleDetails && (afterSaleDetails.serviceDesc || afterSaleDetails.merchantPicUrlList)">
+                <li class="c9" v-if="afterSaleDetails.serviceDesc">
+                    说明：{{afterSaleDetails.serviceDesc}}
+                </li>
+                <img :src="pic" width="50" height="50" class="mgR10 mgB10" v-for="pic in afterSaleDetails.merchantPicUrlList">
+            </ul>
+            <ul class="ui-row c9 f12">
+                <!--审核不通过-->
+                <!-- <li v-if="afterSaleDetails.returnStatus == 6">说明: {{afterSaleDetails.serviceReturnReason}}</li>
+                <li v-if="afterSaleDetails.returnStatus == 3 || afterSale.cancelStatus==4">说明: {{afterSaleDetails.auditReason}}</li> -->
+                <!--审核不通过 end-->
+                <li>售后类型：{{afterSaleDetails.typeName}}</li>
+                <li>售后单号：{{afterSaleDetails.returnCode}}</li>
+                <li>申请时间：{{afterSaleDetails.applyTimeStr}}</li>
+                <li v-if="afterSaleDetails.type == 1 && (afterSaleDetails.cancelStatus==2 || afterSaleDetails.cancelStatus==3) || afterSaleDetails.type == 2 && (afterSaleDetails.returnStatus==5 || afterSaleDetails.returnStatus==8)">退款金额： <span class="theme">{{afterSaleDetails.actualReturnAmount | currency '¥'}}</span></li>
+                <li >{{afterSaleDetails.typeName}}原因：{{afterSaleDetails.returnReason}}</li>
+                <li >{{afterSaleDetails.typeName}}说明：{{afterSaleDetails.returnRemark}}</li>
+            </ul>
+            <img :src="pic" width="50" height="50" style="margin-right: 10px;margin-top: 10px" v-for="pic in afterSaleDetails.picUrlList">
+        </div>
+        <div class="logistics mgT10 mgB10" v-if="showCourierInput">
+            <div class="ui-form">
+                <div class=" ui-form-item ui-form-item-show ui-border-b">
+                    <label for="#" class="c3">物流信息</label>
+                </div>
+                <div class="ui-next ui-form-item ui-form-item-show ui-border-b">
+                    <label for="#" class="c3">物流公司</label>
+                    <input type="text" maxlength="60" class="input ui-border-b wid95 text-right pdR15 c6" @click="showLogistics = true" v-model="logisticsCompany" readonly placeholder="请选择物流公司">
+                    <i class="icons icons-next"></i>
+                </div>
+                <div class="ui-next ui-form-item ui-form-item-show myCheck ui-border-b">
+                    <label for="#" class="c3">物流单号</label>
+                    <input type="text" class="input ui-border-b wid95 text-right pdR15 c6" maxlength="20" v-model="courierNumber" placeholder="请输入物流单号">
+                    <i class="icons icons-next"></i>
+                </div>
+                <div class=" ui-form-item ui-form-item-show">
+                    <button type="button" class="ui-btn fr mgT10 on" @click="saveCourierNo()">确认提交</button>
+                </div>
+            </div>
+        </div>
+        <!--申请售后的商品-->
+        <div class="ui-card pad0">
+            <div class="ui-flex ui-flex-pack-start pad12 ui-border-b">
+                申请售后的商品
+            </div>
+            <ul class="ui-list ui-list-customize">
+                <li class="ui-border-b pdtb5" v-for="product in afterSaleDetails.merchantProductVOs">
+                    <div class="ui-list-thumb small">
+                        <span :style="{'background-image':'url('+product.productPicPath+')'}"></span>
+                    </div>
+                    <div class="ui-list-info">
+                        <p class="ui-nowrap">{{product.chineseName}}</p>
+                        <ul class="ui-row-flex price">
+                            <li class="ui-col ui-flex ui-flex-pack-start">{{product.productPayPrice | currency '¥'}}</li>
+                            <li class="ui-col ui-flex ui-flex-pack-end c9">X{{product.returnProductItemNum}}</li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+            <div class="ui-card">
+                <ul class="ui-row c9 f12 padB10">
+                    <!-- <li>交易金额：{{orderAmount | currency '¥'}}</li> -->
+                    <li>订单编号：{{afterSaleDetails.orderCode}}</li>
+                    <li>下单时间：{{afterSaleDetails.orderCreateTimeStr}}</li>
+                </ul>
+            </div>
+        </div>
+        <!-- 判断退货状态 是否显示 -->
+        <div class="ui-card address-inner" v-if="showCourierInput">
+            <div class="ui-flex ui-flex-pack-start">
+                <div class="label">退货至</div>
+                <div class="placeholder addr">
+                    <p>{{afterSaleDetails.consigneeName}}&nbsp;&nbsp;&nbsp;&nbsp;{{afterSaleDetails.consigneeMobile}}</p>
+                    <p class="c6 f12">{{afterSaleDetails.consigneeAddress}}</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <ui-logistics :show.sync="showLogistics" :selected-event="selectedLogistics"></ui-logistics>
+    <script type="text/javascript" src="/cms/view/frontier_guide/h5/templateJS.json"></script>
+    <script src="/libs/frozenui/lib/zepto.min.js?v=1537884480835"></script>
+    <script src="/libs/frozenui/js/frozen.js?v=1537884480835"></script>
+    <script src="/libs/vendor.js?v=1537884480835"></script>
+    <script src="/common.js?v=1537884480835"></script>
+    <script src="/my/aftersale-detail.js?v=1537884480835"></script>
+</body>
+</html>

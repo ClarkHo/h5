@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="x5-orientation" content="portrait">
+    <meta name="msapplication-tap-highlight" content="no">
+    <title></title>
+    <link rel="stylesheet" href="/libs/frozenui/css/frozen.css?v=1537883801478">
+    <link rel="stylesheet" href="/common.css?v=1537883801478">
+    <link rel="stylesheet" href="/serviceCenter/repair.css?v=1537883801478">
+         
+</head>
+
+<body class="" v-need-login>
+    <ui-header title="售后维修">
+    </ui-header>
+    <!--主体部分-->
+    <section class="ui-container" v-cloak>
+        <div class="ui-tab fixed">
+            <ul class="ui-tab-nav repair-tab padL40 padR40">
+                <li :class="{'current':sysSource == 'apply'}" @click="switchTab('apply')">
+                    维修申请
+                </li>
+                <li :class="{'current':sysSource == 'process'}" @click="switchTab('process')">
+                    维修进度
+                </li>
+            </ul>
+        </div>
+        <div class="mgT50">
+            <ui-order-list-simple :orders.sync="orderList" :btn-title="btnTitle" :event="goRepair" v-if="sysSource=='apply'"></ui-order-list-simple>
+            <ui-aftersale-list :order-type.sync="2" :after-sale-list.sync="orderList" maintain="1"  v-if="sysSource=='process'"></ui-aftersale-list>
+        </div>
+    </section>
+    <script type="text/javascript" src="/cms/view/frontier_guide/h5/templateJS.json"></script>
+    <script src="/libs/frozenui/lib/zepto.min.js?v=1537883801478"></script>
+    <script src="/libs/swiper/swipe.js?v=1537883801478"></script>
+    <script src="/libs/frozenui/js/frozen.js?v=1537883801478"></script>
+    <script src="/libs/vendor.js?v=1537883801478"></script>
+    <script src="/common.js?v=1537883801478"></script>
+    <script src="/serviceCenter/repair.js?v=1537883801478"></script>
+</body>
+</html>
+<script type="text/javascript">
+    $('.ui-searchbar').tap(function(){
+        $('.ui-searchbar-wrap').addClass('focus');
+        $('.ui-searchbar-input input').focus();
+    });
+    $('.ui-searchbar-cancel').tap(function(){
+        $('.ui-searchbar-wrap').removeClass('focus');
+    });
+</script>

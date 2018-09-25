@@ -1,0 +1,138 @@
+.jianbian {
+  background: linear-gradient(top, #e84b8b, #dd226a);
+  background: -webkit-linear-gradient(top, #e84b8b, #dd226a);
+  background: -moz-linear-gradient(top, #e84b8b, #dd226a);
+  color: #fff!important;
+}
+.jianbian-left {
+  background: linear-gradient(left, #e84b8b, #dd226a);
+  background: -webkit-linear-gradient(left, #e84b8b, #dd226a);
+  background: -moz-linear-gradient(left, #e84b8b, #dd226a);
+  color: #fff!important;
+}
+.h12 {
+  height: 12px;
+}
+.h36 {
+  height: 36px;
+}
+/*常用内外边距*/
+.pt0 {
+  padding-top: 0;
+}
+.pt10 {
+  padding-top: 10px;
+}
+.pb10 {
+  padding-bottom: 10px;
+}
+.pr10 {
+  padding-right: 10px;
+}
+.pl10 {
+  padding-left: 10px;
+}
+.pad10 {
+  padding: 10px;
+}
+.mt0 {
+  margin-top: 0;
+}
+.mt5 {
+  margin-top: 5px;
+}
+.mt10 {
+  margin-top: 10px;
+}
+.mt20 {
+  margin-top: 20px;
+}
+.mt25 {
+  margin-top: 25px;
+}
+.mt30 {
+  margin-top: 30px;
+}
+.mb10 {
+  margin-bottom: 10px;
+}
+.mb20 {
+  margin-bottom: 20px;
+}
+.mb30 {
+  margin-bottom: 30px;
+}
+.ml10 {
+  margin-left: 10px;
+}
+.mr10 {
+  margin-right: 10px;
+}
+.mar10 {
+  margin: 10px;
+}
+/* 行高 */
+.lhbase {
+  line-height: 1;
+}
+.lh18 {
+  line-height: 18px;
+}
+/* 高度 */
+.h36 {
+  height: 36px;
+}
+.price {
+  height: 20px;
+  padding-top: 6px;
+  color: #d6265d;
+  font-size: 10px;
+  line-height: 18px;
+}
+.price .mainprice {
+  font-size: 18px;
+}
+.nav-tabs {
+  position: fixed;
+  top: 44px;
+  left: 0;
+  right: 0;
+  height: 40px;
+  padding: 0 21px;
+  line-height: 40px;
+  background-color: #fff;
+  z-index: 100;
+}
+.nav-tabs ~ .ui-container {
+  border-top: 84px solid transparent;
+}
+.nav-tabs.isapp {
+  top: 0;
+}
+.nav-tabs.isapp ~ .ui-container {
+  border-top: 40px solid transparent;
+}
+.nav-tabs li {
+  height: 40px;
+  box-sizing: border-box;
+}
+.nav-tabs .active {
+  border-bottom: 2px solid #d6265d;
+}
+.ui-list li h4 {
+  font-size: 14px;
+}
+.ui-list-thumb {
+  width: 80px;
+  height: 80px;
+}
+.foot {
+  padding: 10px;
+  background-color: #fff;
+}
+.ui-btn-primary {
+  background: #fff;
+  color: #d6265d !important;
+  border: 1px solid #d6265d;
+  border-radius: 0;
+}

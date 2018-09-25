@@ -1,0 +1,21 @@
+.jianbian {
+  background: linear-gradient(top, #e84b8b, #dd226a);
+  background: -webkit-linear-gradient(top, #e84b8b, #dd226a);
+  background: -moz-linear-gradient(top, #e84b8b, #dd226a);
+  color: #fff!important;
+}
+.jianbian-left {
+  background: linear-gradient(left, #e84b8b, #dd226a);
+  background: -webkit-linear-gradient(left, #e84b8b, #dd226a);
+  background: -moz-linear-gradient(left, #e84b8b, #dd226a);
+  color: #fff!important;
+}
+/*fix*/
+.ui-center-fix {
+  height: auto;
+  padding-bottom: 30px;
+}
+.ui-checkbox input:checked:before,
+.ui-checkbox-s input:checked:before {
+  color: #d6265d;
+}

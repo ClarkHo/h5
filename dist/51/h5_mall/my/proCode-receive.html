@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="x5-orientation" content="portrait">
+    <meta name="msapplication-tap-highlight" content="no">
+    <title></title>
+    <link rel="stylesheet" href="/libs/frozenui/css/frozen.css?v=1537883801478">
+    <link rel="stylesheet" href="/common.css?v=1537883801478">
+    <link rel="stylesheet" href="/my/proCode-receive.css?v=1537883801478">
+</head>
+<style>
+    body{
+        background:url('/images/coupons-bg.png?v=1537883801478');
+        background-size:cover;
+        background-position:center;
+    }
+</style>
+<body :style="{'height':screenHeight + 'px'}">
+<ui-header :title="'领取优惠码'" :hide-back='true'></ui-header>
+<!-- main section -->
+<section class="ui-container receive-coupon pdB30" v-cloak>
+    <!-- 表单 -->
+    <div class="mgT170" v-if="step == 0">
+        <div class="ui-form-item ui-form-item-pure bgf pdL10 radius4px mgL15 mgR15 line45">
+            <input type="tel" placeholder="请输入手机号" maxlength="11" v-model="mobile">
+            <a href="javascript:void(0)" class="ui-icon-close" v-if="mobile" @click="mobile=''"></a>
+        </div>
+        <div class="mgL15 mgR15 posR mgT10 overflowhidden">
+            <div class="coupon-input radius4px">
+                <input type="number"  placeholder="请输入短信验证码"  v-model="captchas"/>
+            </div>
+            <button type="button" class="btn-send radius4px f14 theme" :disabled="sendBtnDisabled" @click="sendCaptchasCodeForm">{{sendCaptchasWords}}</button>
+        </div>
+       <!-- <div class="mgL15 mgR15 posR mgT10 overflowhidden">
+            <div class="ui-form-item ui-form-item-show has-imgcode ui-border-b  long-label bgf  show" style="margin: 0">
+                <input type="text" v-model="checkImageCode" placeholder="请输入图片验证码" style="padding-left: 10px!important;">
+                <a href="javascript:void(0)" class="ui-icon-close" @click="checkImageCode = ''" v-show="checkImageCode"></a>
+                <span class="imgcode" :style="{backgroundImage: 'url(data:image/png;base64,'+image+')' }" @click="firstSend"></span>
+            </div>
+        </div>-->
+    </div>
+    <div class="submit-btn mgT10" style="margin: 10px 15px" v-if="step == 0">
+        <button class="ui-btn btn-wq-lg" style="color: #fff" @click="checkCaptchasForm">立即领取</button>
+    </div>
+    <!--已领取状态-->
+    <div class="mgT10 pdT10" v-if="step == 1">
+        <div class="group mgL15 mgR15 mgT170">
+            <p class="cf text-center mgT10 f14">优惠码已放入至账户<span class="pdL10">{{mobile}}</span></p>
+            <p class="text-center mgT10 f14 cf">登录 欧普官方商城 即可使用</p>
+            <div class=" mgT20">
+                <button class="ui-btn ui-btn-primary start-use" style="color:#fff" @click="ImmediateUse">立即使用</button>
+            </div>
+        </div>
+    </div>
+    <div class="c6 induction marT30">
+        <img src="/images/coupon-top.png?v=1537883801478" alt="" width="101%" style="display:inherit"/>
+        <div class="bgfefcf3 pdT20 pdB30 pdL15 pdR15">
+        <div class="surpriseMerchandise  mgB20">
+            <div>领取说明</div>
+        </div>
+        <div class="c6 f12">
+            <p class="line200">1、领取到的优惠码可以在“我的优惠码”中查看使用</p>
+            <p class="line200">2、非会员领取优惠码时设置的手机号即为登录账号</p>
+        </div>
+        </div>
+        <img src="/images/coupon-bottom.png?v=1537883801478" alt="" width="100%" style="display:inherit"/>
+    </div>
+    <div class="ui-dialog" :class="{show: startImgCode}" v-if="startImgCode" style="z-index:100 !important;">
+        <div class="ui-dialog-cnt">
+            <div class="ui-dialog-bd">
+                <h4>请输入图片验证码</h4>
+                <div>
+                    <div class="ui-form-item ui-form-item-show has-imgcode ui-border-b  long-label bgf mgT20 show">
+                        <input type="text" v-model="checkImageCode" placeholder="请输入验证码" style="padding-left: 10px!important;">
+                        <a href="javascript:void(0)" class="ui-icon-close" @click="checkImageCode = ''" v-show="checkImageCode"></a>
+                        <span class="imgcode" :style="{backgroundImage: 'url(data:image/png;base64,'+image+')' }" @click="firstSend"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="ui-dialog-ft">
+                <button type="button" data-role="button" @click="cancel()">取消</button>
+                <button type="button" data-role="button" @click="overLimitSmsSend()">确认</button>
+            </div>
+        </div>
+    </div>
+</section>
+<script type="text/javascript" src="/cms/view/frontier_guide/h5/templateJS.json"></script>
+<script src="/libs/frozenui/lib/zepto.min.js?v=1537883801478"></script>
+<script src="/libs/frozenui/js/frozen.js?v=1537883801478"></script>
+<script src="/libs/vendor.js?v=1537883801478"></script>
+<script src="/common.js?v=1537883801478"></script>
+<script src="/my/proCode-receive.js?v=1537883801478"></script>
+</body>
+</html>

@@ -1,0 +1,92 @@
+@import url(../common/variables.less);
+
+.main{
+  position: fixed;
+  top: @headerHeight;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-image: url('./images/m-bg.png?v=${version}');
+  background-size: 100% 100%;
+
+  .qrcode{
+    display: block;
+    width: 135px;
+    height: 135px;
+    padding: 5px;
+    margin: 50px auto 24px;
+    background-color: #fff;
+  }
+  p{
+    padding: 0 12px;
+    color: #fff;
+    font-size: 15px;
+    text-align: center;
+  }
+  .userinfo{
+    margin: 50px 50px 0;
+    color: #fff;
+    line-height: 1;
+
+    img{
+      width: 60px;
+      height: 60px;
+      border-radius: 40px;
+      border: 3px solid #c2ab78;
+    }
+    h3{
+      font-size: 14px;
+    }
+    h5{
+      margin-top: 6px;
+      font-size: 10px;
+    }
+  }
+  .wel{
+    display: block;
+    margin: 68px auto 0;
+  }
+}
+@media screen and (max-width: 320px) {
+  .main{
+
+    .qrcode{
+      margin: 30px auto 14px;
+      background-color: #fff;
+    }
+    .wel{
+      margin: 38px auto 0;
+    }
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

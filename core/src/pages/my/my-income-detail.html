@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="x5-orientation" content="portrait">
+    <meta name="msapplication-tap-highlight" content="no">
+    <title></title>
+    <link rel="stylesheet" href="${staticPath}/libs/frozenui/css/frozen.css?v=${version}">
+    <link rel="stylesheet" href="${staticPath}/common.css?v=${version}">
+    <link rel="stylesheet" href="${staticPath}/my/my.css?v=${version}">
+    <link rel="stylesheet" href="${staticPath}/my/my-income-detail.css?v=${version}">
+</head>
+<body ontouchstart="" class="fans" v-need-login>
+    <ui-header title="我的收益明细"></ui-header>
+    <!-- main section -->
+    <section v-cloak class="mgT43">
+
+        <div class="ui-row-flex ui-whitespace" v-if="incomeList.length==0">
+            <div class="ui-col ui-col text-center mgT10 mgB10">
+                <i class="icons3  icons3-search-no"></i>
+                <p class="f12 c6">暂无数据...</p>
+            </div>
+        </div>
+        <table class="ui-table ui-border-tb bgf" v-if="incomeList.length>0">
+            <thead class="ui-border-b">
+            <tr>
+                <th class="f12 c3">对账单号</th>
+                <th class="f12 c3">我的佣金</th>
+                <th class="f12 c3">自销佣金</th>
+                <th class="f12 c3">一级提供佣金</th>
+                <th class="f12 c3">二级提供佣金</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!--<tr>-->
+                <!--<td class="f12 c3">00003</td>-->
+                <!--<td class="f12 c3">¥6255.00</td>-->
+                <!--<td><span class="f12 cb38a32 text-underline">¥6255.00</span></td>-->
+                <!--<td><span class="f12 cb38a32 text-underline">¥6255.00</span></td>-->
+                <!--<td><span class="f12 cb38a32 text-underline">¥6255.00</span></td>-->
+            <!--</tr>-->
+            <tr v-for="incomeDetail in incomeList">
+                <td class="f12 c3">{{incomeDetail.reconCode}}</td>
+                <td class="f12 c3">¥{{incomeDetail.totalCommission}}</td>
+                <td><span class="f12 cb38a32 text-underline" v-link-to="'/my/my-income-detail-selfCommission.html?orderCode='+incomeDetail.reconCode">¥{{incomeDetail.zeroLevelCommission}}</span></td>
+                <td><span class="f12 cb38a32 text-underline" v-link-to="'/my/my-income-detail-oneCom.html?orderCode='+incomeDetail.reconCode+'&commissionLevel='+ 1">¥{{incomeDetail.firstLevelCommission}}</span></td>
+                <td><span class="f12 cb38a32 text-underline" v-link-to="'/my/my-income-detail-oneCom.html?orderCode='+incomeDetail.reconCode+'&commissionLevel='+ 2">¥{{incomeDetail.secondLevelCommission}}</span></td>
+            </tr>
+            </tbody>
+        </table>
+
+    </section>
+
+    <script type="text/javascript" src="/cms/view/frontier_guide/h5/templateJS.json"></script>
+    <script src="${staticPath}/libs/frozenui/lib/zepto.min.js?v=${version}"></script>
+    <script src="${staticPath}/libs/frozenui/js/frozen.js?v=${version}"></script>
+    <script src="${staticPath}/libs/vendor.js?v=${version}"></script>
+    <script src="${staticPath}/common.js?v=${version}"></script>
+    <script src="${staticPath}/my/my-income-detail.js?v=${version}"></script>
+
+</body>
+</html>

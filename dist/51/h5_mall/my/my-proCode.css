@@ -1,0 +1,64 @@
+.proCode-tab {
+  height: 40px;
+  background: #fff;
+  padding-bottom: 10px;
+}
+.proCode-tab .tab-li {
+  width: 120px;
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+  background: #f0f0f0;
+  color: #999;
+  font-size: 14px;
+}
+.proCode-tab .tab-li.active {
+  color: #fff;
+  background: #f23030;
+}
+.proCode-tab .tab-li.left {
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+.proCode-tab .tab-li.right {
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+.coupon {
+  position: relative;
+  min-height: 55px;
+  background-color: #fff;
+  margin: 10px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px #ccc;
+  width: auto;
+}
+.coupon .ui-icon-checked-s,
+.coupon .ui-icon-unchecked-s,
+.coupon .ui-icon-warn {
+  font-size: 28px;
+}
+.coupon .ui-row-flex {
+  padding: 15px 0 15px 15px;
+}
+.coupon .ui-row-flex .desc {
+  text-align: center;
+  color: #999;
+  font-size: 12px;
+}
+.coupon .ui-row-flex .desc .ui-icon-unfold {
+  display: inline-block;
+  line-height: 20px;
+  vertical-align: middle;
+  transform: rotate(0);
+  transition: transform .6s;
+}
+.coupon .ui-row-flex.bgGray {
+  background: #fafafa;
+}
+.coupon .ui-row-flex.bgGray .ui-icon-unfold {
+  transform: rotate(180deg);
+}
+.coupon h5 {
+  line-height: 1;
+}

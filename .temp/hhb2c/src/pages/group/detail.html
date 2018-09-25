@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <title>拼团</title>
+    <link rel="stylesheet" href="${staticPath}/libs/frozenui/css/frozen.css?v=${version}">
+    <link rel="stylesheet" href="${staticPath}/common.css?v=${version}">
+    <link rel="stylesheet" href="${staticPath}/libs/mob-share.css?v=${version}">
+    <link rel="stylesheet" href="${staticPath}/group/style-index.css?v=${version}">
+</head>
+<body :style="{overflow: (showSizePop || showShare || showServicePop) ?'hidden':'auto'}">
+    <ui-header v-if="!weixin" no-prev="/group/index.html" title="拼团详情">
+        <!-- <a href="javascript:void(0)" @click="goHome" class="handle" v-if="isIndex">首页</a>
+         -->
+        <i class="icons icons-share share" @click="clickShare($event)"></i>
+    </ui-header>
+    <footer class="ui-footer" v-cloak v-if="!groupInfo.grouponType">
+        <div class="foot-inner">
+            <div class="s-btn ui-border-r" @click="addCollect">
+                <i class="icons" :class="{'icons-heart-red': isFavorite, 'icons-heart': !isFavorite}"></i>
+                收藏
+            </div>
+            <div class="g-btn ui-badge-wrap" @click="gotoCart()">
+                <i class="icons icons-cart"></i>
+                购物车
+                <div class="ui-badge-cornernum"v-if="count>0">{{count}}</div>
+            </div>
+            <ul class="ui-row">
+                <li class="ui-col ui-col-50 left" @click="gotoDetail(groupInfo.productInfo[0].mpId)">
+                    <div class="money">{{shopInfoPrice | currency '¥'}}</div>单独购买
+                </li>
+                <!--<li class="ui-col ui-col-50 right" @click="showSizePanel(true)">-->
+                <li class="ui-col ui-col-50 right" @click="switchCut">
+                    <div class="money">{{product.grouponPrice | currency '¥'}}</div>{{groupInfo.totalMembers}}人团
+                </li>
+            </ul>
+        </div>
+    </footer>
+    <!-- main section -->
+    <section class="ui-container" v-cloak>
+        <div class="duopin" v-if="groupInfo.grouponType">
+            <div class="main-img posR">
+                <img :src="groupInfo.patchGrouponPicsUrl[0]"/>
+                <!-- <div class="i-share" @click="clickShare($event)"><i class="icon"></i></div> -->
+            </div>
+            <div class="fancy">
+                <div class="fancy-content">
+                    <div class="fancy-title">
+                        <div class="bd">
+                            <div class="txt ui-nowrap-multi">{{groupInfo.patchGrouponTitle}}</div>
+                        </div>
+                    </div>
+                    <div class="fancy-shaow"></div>
+                    <div class="inner">
+                        {{groupInfo.patchGrouponDesc}}
+                        <div class="act-countdown">
+                            距结束<span v-if="countDown.day"><i>{{countDown.day}}</i>天</span><i>{{countDown.hh}}</i>时<i>{{countDown.mm}}</i>分<span><i>{{countDown.ss}}</i>秒</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="danpin" v-if="!groupInfo.grouponType">
+            <div id="swipe" class="swipe">
+                <div class="swipe-wrap">
+                    <figure v-for="(k,v) in groupInfo.patchGrouponPicsUrl">
+                        <div class="item"><img v-bind:src="v"></div>
+                    </figure>
+                </div>
+                <ul id="swipe-pos" class="swipe-pos">
+                    <li v-bind:class="{'on':$index==0}" v-for="sl in groupInfo.patchGrouponPicsUrl"></li>
+                </ul>
+                <!-- <div class="i-share" @click="clickShare($event)"><i class="icon"></i></div> -->
+            </div>
+            <!--活动倒计时-->
+            <div class="act-countdown">
+                活动倒计时：<span  v-if="countDown.day"><i>{{countDown.day}}</i>天</span><i>{{countDown.hh}}</i>时<i>{{countDown.mm}}</i>分<i>{{countDown.ss}}</i>秒
+            </div>
+            <div class="detail-intro">
+                <p class="item-price">
+                    <span class="price" v-money="product.grouponPrice"></span>
+                    <span v-if="product.salePrice > 0">
+                        <i class="f12">{{product.salePrice | currency '¥'}}</i>
+                    </span>
+                </p>
+                <p class="home-item-title ui-nowrap-multi" v-if="groupInfo.productInfo && groupInfo.productInfo[0]">{{groupInfo.productInfo[0].name}}</p>
+                <p class="home-item-detail ui-nowrap-multi">{{groupInfo.patchGrouponTitle}}</p>
+                <p class="marT5">
+                    {{groupInfo.patchGrouponDesc ? groupInfo.patchGrouponDesc.substring(0, 100) : ''}}
+                    {{groupInfo.patchGrouponDesc && groupInfo.patchGrouponDesc.length > 100? '...' : '' }}
+                </p>
+            </div>
+        </div>
+
+        <div class="mgT10 pad padB10 good-list bgf ui-border-b" style="overflow: hidden;" v-if="groupInfo.grouponType && shopList.length > 0">
+            <ul class="ui-list bgf border-red radius4px w95 mgL4 mgR4 mgT10" v-for="p in shopList">
+                <li>
+                    <div class="ui-list-thumb bigimg" @click="gotoGraphicDetail(p)">
+                        <span style="border-radius: 4px 0 0 4px" :style="{'background-image':'url('+ (p.picUrl || '') +')'}"></span>
+                    </div>
+                    <div class="pro-info">
+                        <ul class="ui-row">
+                            <li class="ui-col ui-col-85 height100" @click="gotoGraphicDetail(p)">
+                                <p class="ui-nowrap-multi f14 c3" style="line-height: 15px;height: 30px;padding-top: 5px;">{{p.name}}</p>
+                                <p class="marT20"><span class="price" v-money="p.grouponPrice || 0"></span><del v-if="p.salePrice > 0" class="f12 marL10">{{ p.salePrice | currency '¥' }}</del></p>
+                            </li>
+                            <li class="ui-col ui-col-15">
+                                <div class="height100 text-center" :class="{bgff4444: !p.disabled, bgc4: p.disabled}" @click="selectGroup(p)">
+                                    <p class="cf f15 kaituan">去开团</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <!-- 点击加载更多 -->
+        <div style="text-align: center;padding: 10px; font-size: 12px" @click="clickLoadMore" v-if="groupInfo.grouponType && !nomore && shopList.length > 0" v-cloak>点击加载更多</div>
+
+        <p class="itme-role">
+            <i class="icons icons-tips mgR5"></i>支付并邀请
+            <span class="theme">{{groupInfo.totalMembers-1}}</span>人参团，人数不够自动退款，详见
+            <a class="theme" href="/group/progress.html">拼团流程</a><br>
+        </p>
+        <!-- <p class="itme-role marT10" v-if="groupInfo.securityInfo">
+            <span v-for="ss in groupInfo.securityInfo"><i class="icons2"></i>{{ss.title}}&nbsp;&nbsp;&nbsp;</span>
+        </p> -->
+        <ul class="ui-list ui-list-text  marT10 marB10" v-if="!groupInfo.grouponType && groupInfo.productInfo && groupInfo.productInfo[0] && groupInfo.productInfo[0].seriesId" @click="showSizePanel(false)">
+            <li class="ui-border-t">
+                <h4><span v-if="!noCheckDefault">已选&nbsp;&nbsp;</span><span>{{selectedItemInfo}}</span></h4>
+                <span class="ui-panel-title-tips f13 c808080 mgT3 r10"><i class="f13 c9 icons icons-next"></i></span>
+            </li>
+        </ul>
+        <!--<ul class="ui-list ui-list-one  marT10" v-link-to.literal="/group/index.html">-->
+        <ul class="ui-list ui-list-one marT10" v-if="groupInfo.securityInfo" @click="showServicePop = true">
+            <div class="ui-form-item ui-form-item-order ui-nowrap line30h30 icons-content">
+                <span class="f10 pdR5" v-for="ss in groupInfo.securityInfo | limitBy 4">
+                    <i class="icons icons-correct"></i><span>{{ss.title}}</span>
+                </span>
+            </div>
+        </ul>
+        <ul class="ui-list ui-list-one marT10" v-link-to="pintuanEntry.linkUrl">
+            <li class="">
+                <!--<div class="ui-list-thumb-s">-->
+                    <!--<span style="background-image:url(${staticPath}/images/pintuan.png?v=${version})"></span>-->
+                <!--</div>-->
+                <div class="ui-list-info" style="padding-top: 0;padding-bottom: 0">
+                    <h4 class="ui-nowrap">拼团</h4>
+                    <div class="ui-txt-info" style="margin-right: 15px;">查看更多商品</div>
+                    <span class="ui-panel-title-tips f13 c808080 r10"><i class="f13 c9 icons icons-next"></i></span>
+                </div>
+            </li>
+        </ul>
+        <p class="detail-tip" v-if="listObj!=null">以下小伙伴正在发起团购，您可以直接参与</p>
+        <!-- <ul class="tuijian">
+            <li v-for="group in listObj" v-link-to="'/group/group-detail.html?instId=' + group.patchGrouponId">
+                <img class="head" src="${staticPath}/images/header-1.png?v=${version}" alt="">
+                <div>
+                    <p class="ui-nowrap">{{group.catptainName}}</p>
+                    <p class="ui-nowrap"><span class="theme">还差{{group.lackMembers}}人成团</span> 剩余 <span v-if="group.day">{{group.day}}天</span>{{group.hh}}:{{group.mm}}:{{group.ss}}</p>
+                </div>
+                <a class="btn" href="javascript:void(0)">立即参团</a>
+            </li>
+        </ul> -->
+        <ul class="ui-list ui-list-text tuijian">
+            <li class="" :class="{'ui-border-t':$index>0}" v-for="group in listObj" v-link-to="'/group/group-detail.html?instId=' + group.patchGrouponId">
+                <div class="ui-avatar-s">
+                    <!-- <span :style="{'background-image':'url('+group.headPicUrl?group.headPicUrl:'${staticPath}/images/header-1.png?v=${version}'+')'}"></span> -->
+                    <img :src="group.headPicUrl?group.headPicUrl:'${staticPath}/images/header-1.png?v=${version}'" alt="">
+                </div>
+                <div class="ui-list-info">
+                    <div>
+                        <h4 class="ui-nowrap f12">{{group.catptainName}}  上海</h4>
+                        <p class="ui-nowrap f12"><span class="theme">还差{{group.lackMembers}}人成团</span> 剩余 <span v-if="group.day">{{group.day}}天</span>{{group.hh}}:{{group.mm}}:{{group.ss}}</p>
+                    </div>
+                </div>
+                <div class="ui-btn ui-btn-primary marR10">去参团</div>
+            </li>
+        </ul>
+        <div class="item-text marT10" v-if="!groupInfo.grouponType">
+            图文详情
+        </div>
+        <div id="append-img-text" v-if="!groupInfo.grouponType"></div>
+        <div style="padding-top: 30px;" v-if="groupInfo.grouponType"></div>
+    </section>
+    <!--服务说明 弹框-->
+    <ui-actionsheet-pop title="服务说明" :show.sync="showServicePop">
+        <ul class="service-list" style="padding-bottom:60px;">
+            <li v-for="sv in groupInfo.securityInfo" class="ui-border-b">
+                <div class="cont">
+                    <p class="c3 pdT10" :class="{'pdB10':!sv.content}"><i class="lyf-icons lyf-guarantee mgR12" style="background-position: -142px -248px;"></i>{{sv.title}}</p>
+                    <p class="c808080 pdB15 pdL22" v-if="sv.content">{{{sv.content}}}</p>
+                </div>
+            </li>
+        </ul>
+        <div class="btn " @click="showServicePop = false">
+            <div class="ui-btn-lg ui-btn-primary no-radius">知道了</div>
+        </div>
+    </ui-actionsheet-pop>
+    <!--选择商品系列属性弹框-->
+    <ui-serial-product :show.sync="showSizePop" @close="updateProduct()" :serial-attributes="serialAttributes" :service-pro="servicePro"
+                        :item-info.sync="itemInfo" :no-check-default.sync="noCheckDefault" :promotion-type="2000" :promotion-id.sync="patchGrouponId"
+                       page-type="group" :multi="groupInfo.grouponType" :item-amount="itemAmount">
+                       
+        <li slot="cart-num" class="ui-border-b" v-cloak>
+            <span>购买数量</span>
+            <div class="chose-num">
+                <span class="reduce" @click="plusAmount(-1)">-</span>
+                <span class="num">{{itemAmount}}</span>
+                <span class="plus" @click="plusAmount(1)">+</span>
+            </div>
+            <div style="clear:both;"></div>
+        </li>
+        <div slot="buttons">
+            <div class="ui-btn ui-btn-primary select-btn" @click="switchCut" v-if="popType==0">确定</div>
+            <div class="ui-btn ui-footer detail-bottom ui-btn-primary select-btn" @click="switchCut" v-if="popType==3">确定</div>
+        </div>
+    </ui-serial-product>
+    <ui-share :show.sync="showShare" :config.sync="shareConfig"></ui-share>
+    <ui-dialog :show.sync="showDialog" :options.sync="option"></ui-dialog>
+    <script type="text/javascript" src="/cms/view/frontier_guide/h5/templateJS.json"></script> 
+    <script>if(/MicroMessenger/i.test(navigator.userAgent)) document.write('<script src="//res.wx.qq.com/open/js/jweixin-1.1.0.js"><\/script>');</script>
+    <script src="${staticPath}/libs/frozenui/lib/zepto.min.js?v=${version}"></script>
+    <script src="${staticPath}/libs/swiper/swipe.js?v=${version}"></script>
+    <script src="${staticPath}/libs/frozenui/js/frozen.js?v=${version}"></script>
+    <script src="${staticPath}/libs/vendor.js?v=${version}"></script>
+    <script src="${staticPath}/common.js?v=${version}"></script>
+    <script src="${staticPath}/group/detail.js?v=${version}"></script>
+    <script src="${staticPath}/libs/mob-share.js?v=${version}" async></script>
+</body>
+</html>

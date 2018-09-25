@@ -1,0 +1,192 @@
+.line-height40 {
+  line-height: 40px;
+}
+.widAuto {
+  width: auto;
+}
+/*订单状态*/
+.order-status {
+  padding: 20px 10px 16px 15px;
+  color: #fff;
+}
+.order-status.success {
+  background: -webkit-linear-gradient(left, #2ac1ce, #52e8ab);
+}
+.order-status.fail {
+  background: -webkit-linear-gradient(left, #f23030, #fd8052);
+}
+.order-status.cancle {
+  background: -webkit-linear-gradient(left, #8e9eab, #eef2f3);
+}
+.order-status.ui-arrowlink:before {
+  color: #fff;
+}
+.bgImg {
+  background-image: linear-gradient(135deg, transparent 12%, #f0918b 12%, #f0918b 37%, transparent 37%, transparent 62%, #a1d6f0 62%, #a1d6f0 87%, transparent 87%);
+  background-position: left bottom;
+  background-size: 70px 3px;
+  background-repeat: repeat-x;
+}
+/*退换货详情、订单详情、我的订单、我的退货单*/
+.order-content {
+  margin-bottom: 60px;
+}
+.ui-card {
+  margin-left: 0;
+  margin-right: 0;
+  padding: 10px;
+}
+.pad0 {
+  padding: 0;
+}
+.ui-list-customize > li {
+  margin: 0;
+}
+.ui-list-customize > li .ui-list-thumb {
+  margin: 15px 12px 15px 0;
+  width: auto;
+  height: auto;
+}
+.ui-list-customize > li .ui-list-info {
+  padding: 15px 12px 15px 0;
+  -webkit-box-pack: start;
+  position: relative;
+}
+.ui-list-customize > li .ui-list-info p {
+  color: #333;
+  line-height: 24px;
+}
+.ui-list-customize > li .ui-list-info .price {
+  position: absolute;
+  width: 100%;
+  bottom: 12px;
+  font-size: 15px;
+  left: 0;
+}
+.boxStart {
+  -webkit-box-align: start !important;
+  margin-left: 15px!important;
+}
+.bgfafafa {
+  background: #fafafa;
+}
+.presell {
+  padding-bottom: 10px;
+}
+.presell li {
+  padding: 10px 10px 0 0;
+}
+.presell li .red-mark {
+  display: inline-block;
+  padding: 0 5px;
+  background: #f23030;
+  color: #fff;
+  border-radius: 3px;
+}
+.more-btn-box {
+  position: absolute;
+  background-color: #f23030;
+  border-radius: 4px;
+  z-index: 98;
+  bottom: 23px;
+  left: -24px;
+}
+.more-btn-box:after {
+  display: block;
+  position: absolute;
+  bottom: -5px;
+  left: 50%;
+  margin-left: -3px;
+  content: '';
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 6px solid #f23030;
+}
+.more-btn-box span {
+  display: block;
+  width: 48px;
+  margin: 0 10px;
+  padding: 0 2px;
+  line-height: 30px;
+  font-size: 12px;
+  color: #fff;
+}
+.more-btn-box span:last-child:after {
+  background-color: #f23030;
+}
+.logistics-detail {
+  background-color: #fff;
+  padding-left: 22px;
+  padding-top: 10px;
+  max-height: 125px;
+  overflow: hidden;
+}
+.logistics-detail .logistics-step {
+  padding-bottom: 30px;
+  position: relative;
+  border-left: 1px solid #ddd;
+  padding-left: 20px;
+}
+.logistics-detail .logistics-step .icons {
+  position: absolute;
+  top: 0px;
+  left: -9px;
+  z-index: 99;
+  background-color: #fff;
+}
+.logistics-detail .logistics-step .logistics-step-end {
+  margin-bottom: 10px;
+}
+.logistics-detail .logistics-step .aid {
+  color: #888888!important;
+}
+.logistics-detail .logistics-step .aid.hasReceipted {
+  color: #ff4d00 !important;
+}
+.logistics-detail .logistics-step:after {
+  content: "";
+  display: block;
+  position: absolute;
+  z-index: 9;
+  top: 0px;
+  left: -6px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #e5e5e5;
+}
+.logistics-detail .logistics-step:last-child {
+  border-left: none;
+}
+.logistics-wrap .desc {
+  text-align: center;
+  color: #999;
+  font-size: 14px;
+}
+.logistics-wrap .auto {
+  height: auto!important;
+  max-height: fit-content !important;
+}
+.logistics-wrap .ui-icon-unfold {
+  display: inline-block;
+  line-height: 20px;
+  vertical-align: middle;
+  transform: rotate(0);
+  transition: transform .6s;
+}
+.logistics-wrap .ui-icon-unfold.fold {
+  transform: rotate(180deg);
+}
+.logistics-more-icon {
+  height: 24px;
+  width: 24px;
+  display: block;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-stroke-width: .2px;
+}
+.logistics-more-icon:after {
+  content: "\f614";
+}

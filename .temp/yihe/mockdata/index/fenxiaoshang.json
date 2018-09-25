@@ -1,0 +1,10 @@
+{
+  "code": "0",
+  "message": "操作成功",
+  "data": {
+    "distributorId": 12345,
+	"mobile": "16898563254",
+	"headPicUrl": "",
+	"nickname":"徐蛋"
+  }
+}

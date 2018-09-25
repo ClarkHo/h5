@@ -1,0 +1,28 @@
+{
+  "code": 0,
+  "data": {
+    "data": [
+      {
+        "companyId": 2,
+        "id": 1,
+        "msgContent": "msg content",
+        "msgTitle": "msg title",
+        "sendTime": 1472014444501,
+        "sendType": 1
+      },
+      {
+        "companyId": 2,
+        "id": 2,
+        "msgContent": "msg content",
+        "msgTitle": "msg title",
+        "sendTime": 1472014444502,
+        "sendType": 1
+      }
+    ],
+    "pageNo": 5,
+    "pageSize": 15,
+    "totalCount": 57,
+    "totalPage": 4
+  },
+  "message": "this is message"
+}

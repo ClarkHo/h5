@@ -1,0 +1,71 @@
+{
+  "code": "0",
+  "message": "操作成功",
+  "data": {
+    "orderAmount": 123455,
+    "commission": 12345,
+    "orderCount": 5,
+    "orderList": [
+      {
+        "orderCreateTimeStr": "2016-03-15 15:17:34",
+        "orderCode": "160316959213124570",
+        "orderAmount": 12345,
+        "orderCommission": 12345
+      },
+      {
+        "orderCreateTimeStr": "2016-03-16 15:17:34",
+        "orderCode": "160316959213124570",
+        "orderAmount": 12345,
+        "orderCommission": 12345
+      },
+      {
+        "orderCreateTimeStr": "2016-03-16 15:17:34",
+        "orderCode": "160316959213124570",
+        "orderAmount": 12345,
+        "orderCommission": 12345
+      },
+      {
+        "orderCreateTimeStr": "2016-03-16 15:17:34",
+        "orderCode": "160316959213124570",
+        "orderAmount": 12345,
+        "orderCommission": 12345
+      },
+      {
+        "orderCreateTimeStr": "2016-03-16 15:17:34",
+        "orderCode": "160316959213124570",
+        "orderAmount": 12345,
+        "orderCommission": 12345
+      },
+      {
+        "orderCreateTimeStr": "2016-03-16 15:17:34",
+        "orderCode": "160316959213124570",
+        "orderAmount": 12345,
+        "orderCommission": 12345
+      },
+      {
+        "orderCreateTimeStr": "2016-03-16 15:17:34",
+        "orderCode": "160316959213124570",
+        "orderAmount": 12345,
+        "orderCommission": 12345
+      },
+      {
+        "orderCreateTimeStr": "2016-03-16 15:17:34",
+        "orderCode": "160316959213124570",
+        "orderAmount": 12345,
+        "orderCommission": 12345
+      },
+      {
+        "orderCreateTimeStr": "2016-03-16 15:17:34",
+        "orderCode": "160316959213124570",
+        "orderAmount": 12345,
+        "orderCommission": 12345
+      },
+      {
+        "orderCreateTimeStr": "2016-03-16 15:17:34",
+        "orderCode": "160316959213124570",
+        "orderAmount": 12345,
+        "orderCommission": 12345
+      }
+    ]
+  }
+}

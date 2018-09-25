@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="x5-orientation" content="portrait">
+    <meta name="msapplication-tap-highlight" content="no">
+    <title></title>
+    <link rel="stylesheet" href="/libs/frozenui/css/frozen.css?v=1537883801478">
+    <link rel="stylesheet" href="/common.css?v=1537883801478">
+    <link rel="stylesheet" href="/score/score-exchange-record.css?v=1537883801478">
+         
+</head>
+
+<body>
+    <ui-header title="兑换记录">
+    </ui-header>
+    <!--主体部分-->
+    <section class="ui-container" v-cloak v-need-login>
+        <div class="ui-tab">
+            <!-- <ul class="ui-tab-nav mgB10 fb f14">
+                <li :class="{'current':exType == '1'}" @click="swtichTab('1')">
+                    全部
+                    <span></span>
+                </li>
+                <li :class="{'current':exType == '0'}" @click="swtichTab(0)">
+                    实物兑换
+                    <span></span>
+                </li>
+                <li :class="{'current':exType == '3'}" @click="swtichTab(3)">
+                    虚拟兑换
+                    <span></span>
+                </li>
+            </ul> -->
+            <ul class="ui-tab-content">
+                <li class="">
+                    <ul class="ui-list ui-list-text mgB10 repair-list" v-for="item in exchangeList">
+                        <h3 class="ui-border-b f14 lineH45px pdL10 c9 pdT0">兑换编号：{{item.orderCode}}</h3>
+                        <li class="ui-border-b pdT0" v-for="v in item.productList | limitBy 1">
+                            <div class="ui-list-img" >
+                                <span :style="{'background-image':'url('+ v.url60x60 +')'}"></span>
+                            </div>
+                            <div class="ui-list-info pdR0">
+                                <h4 class="ui-nowrap-1 f14 mgT5">
+                                    {{v.name}}
+                                </h4>
+                                <p class="mgT5 c9">兑换时间：{{item.orderCreateTimeStr}}</p>
+                                <p class="mgT10">
+                                    <span class="disIB fl f14 mgT5" v-if="v.price"><em class="fb mgR5 c3">{{v.price | currency '¥'}}</em></span>
+                                    <span class="disIB fl f14 mgT5" v-if="v.price&&v.pointPrice">+</span>
+                                    <span class="disIB fl f14 mgT5" v-if="v.pointPrice"><em class="fb mgR5 c3">{{v.pointPrice}}</em>积分</span>
+                                    <span class="disIB fr c3 mgT5">X{{v.num}}</span>
+                                </p>
+                            </div>
+                        </li>
+                        <p class="pdT10 pdB10 mgR10 pdL10">
+                            <a v-if="item.orderType2 == 0" v-link-to-userpage="'/my/order-detail.html?orderCode=' + item.orderCode" class="ui-btn view-btn">
+                                查看订单
+                            </a>
+                            <span v-if="item.orderType2 == 3" class="c6">已发放到<span class="c3">"我的优惠券"</span></span>
+                        </p>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </section>
+    <script type="text/javascript" src="/cms/view/frontier_guide/h5/templateJS.json"></script>
+    <script src="/libs/frozenui/lib/zepto.min.js?v=1537883801478"></script>
+    <script src="/libs/swiper/swipe.js?v=1537883801478"></script>
+    <script src="/libs/frozenui/js/frozen.js?v=1537883801478"></script>
+    <script src="/libs/vendor.js?v=1537883801478"></script>
+    <script src="/common.js?v=1537883801478"></script>
+    <script src="/score/score-exchange-record.js?v=1537883801478"></script>
+</body>
+</html>

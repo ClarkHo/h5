@@ -1,0 +1,95 @@
+.total .money {
+  text-align: right;
+  /* padding-right: 10px; */
+  position: absolute;
+  right: 134px;
+  top: -5px;
+}
+.total .money .price {
+  height: 20px;
+  padding-top: 10px;
+  font-size: 12px;
+  line-height: 20px;
+}
+.total .amount {
+  margin-top: 3px;
+  line-height: 1;
+}
+.total .settlement {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 125px;
+  height: 49px;
+  font-size: 18px;
+  line-height: 49px;
+  text-align: center;
+  z-index: 99;
+}
+.prompt-infor {
+  position: absolute;
+  top: -24px;
+  background-color: #fffac3;
+  width: 100%;
+  height: 24px;
+  line-height: 24px;
+  color: #666;
+  text-align: left;
+  text-indent: 1em;
+  font-size: 12px;
+}
+.top3 {
+  top: 3px;
+}
+.ui-form-item-link:after {
+  right: 10px;
+}
+.repair-list .ui-list-img {
+  width: 80px;
+  height: 80px;
+  border: 1px solid #e5e5e5;
+  margin: 10px 10px 0px 0;
+}
+.repair-list .ui-nowrap {
+  max-width: 100%;
+  white-space: inherit;
+  display: -webkit-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  font-size: 14px;
+}
+.free-shipping {
+  position: absolute;
+  right: 15px;
+  top: 16px;
+  color: #999;
+  font-size: 12px;
+}
+.access-title {
+  width: 72px;
+  display: inline-block;
+  padding-top: 10px;
+}
+.ui-switch input:checked:before {
+  border-color: #64bd63;
+  -webkit-box-shadow: #64bd63 0 0 0 16px inset;
+  box-shadow: #64bd63 0 0 0 16px inset;
+  transition: border 0.4s, box-shadow 0.4s, background-color 1.2s;
+  -webkit-transition: border 0.4s, -webkit-box-shadow 0.4s, background-color 1.2s;
+  background-color: #64bd63;
+}
+.line30h30 {
+  line-height: 30px!important;
+  height: 30px!important;
+}
+.line40h40 {
+  line-height: 40px!important;
+  height: 40px!important;
+}
+.icons-posit {
+  position: absolute;
+  right: 15px;
+  top: 14px;
+}

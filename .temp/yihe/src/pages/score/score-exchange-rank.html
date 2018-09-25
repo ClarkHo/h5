@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="x5-orientation" content="portrait">
+    <meta name="msapplication-tap-highlight" content="no">
+    <title></title>
+    <link rel="stylesheet" href="${staticPath}/libs/frozenui/css/frozen.css?v=${version}">
+    <link rel="stylesheet" href="${staticPath}/common.css?v=${version}">
+    <link rel="stylesheet" href="${staticPath}/score/score-exchange-rank.css?v=${version}">
+         
+</head>
+
+<body>
+    <ui-header title="兑换排行榜">
+
+    </ui-header>
+    <!--主体部分-->
+    <section class="ui-container" v-cloak>
+        <div class="ui-tab">
+            <ul class="ui-tab-nav mgB10 fb f14">
+                <li :class="{'current':exType == 1}"  @click=swtichTab(1)>
+                    月排行
+                    <span></span>
+                </li>
+                <li :class="{'current':exType == 2}" @click=swtichTab(2)>
+                    年排行
+                    <span></span>
+                </li>
+                <li :class="{'current':exType == 3}" @click=swtichTab(3)>
+                    历史排行
+                    <span></span>
+                </li>
+            </ul>
+            <ul class="ui-tab-content">
+                <li class="">
+                    <ul class="ui-list ui-list-text mgB10 repair-list" v-for="item in exchangeRankList">
+                       <!-- 如果商品是下架状态 -->     
+                        <li class="pdT0 pdB0 mgL0" v-if="!item.managementState || item.managementState==0">
+                            <div class="ui-list-img">
+                                <i class="icons icons-score-jiaobiao posA score-jiaobiao">{{$index + 1}}</i>
+                                <img width="100%" :src="item.picUrl" alt="">
+                            </div>
+                            <div class="ui-list-info pdR0 mgT10 score-infor">
+                                <div class="ui-nowrap-multi">
+                                    {{item.productName}}
+                                </div>
+                                <p class="mgT10">
+                                    <span class="disIB fl f14 mgT5 score-jifen"><span class="fb mgR5 theme">商品已下架</span></span>
+                                    <span class="disIB fr theme mgT5 score-num">X{{item.saleNum}}件</span>
+                                </p>
+                            </div>
+                        </li>
+                        <!-- 如果商品是上架状态 -->
+                        <li class="pdT0 pdB0 mgL0" v-link-to="'/detail.html?isPointPro=1&itemId=' + item.mpId" v-if="item.managementState==1">
+                            <div class="ui-list-img">
+                                <i class="icons icons-score-jiaobiao posA score-jiaobiao">{{$index + 1}}</i>
+                                <img width="100%" :src="item.picUrl" alt="">
+                            </div>
+                            <div class="ui-list-info pdR0 mgT10 score-infor">
+                                <div class="ui-nowrap-multi">
+                                    {{item.productName}}
+                                </div>
+                                <p class="mgT10">
+                                    <span class="disIB fl f14 mgT5 score-jifen theme"><span class="fb mgR5 f15">{{item.pointPrice}}</span>积分<span v-if="item.price && item.price!=0"><span class="fb mgR5 f15">{{item.price}}元</span></span></span>
+                                    <span class="disIB fl f14 mgT5 score-num theme fb mgR5 f15">共{{item.saleNum}}件</span>
+                                </p>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </section>
+    <script type="text/javascript" src="/cms/view/frontier_guide/h5/templateJS.json"></script>
+    <script src="${staticPath}/libs/frozenui/lib/zepto.min.js?v=${version}"></script>
+    <script src="${staticPath}/libs/swiper/swipe.js?v=${version}"></script>
+    <script src="${staticPath}/libs/frozenui/js/frozen.js?v=${version}"></script>
+    <script src="${staticPath}/libs/vendor.js?v=${version}"></script>
+    <script src="${staticPath}/common.js?v=${version}"></script>
+    <script src="${staticPath}/score/score-exchange-rank.js?v=${version}"></script>
+</body>
+</html>

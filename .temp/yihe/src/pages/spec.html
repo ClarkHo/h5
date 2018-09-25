@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="x5-orientation" content="portrait">
+    <meta name="msapplication-tap-highlight" content="no">
+    <title>德升商城</title>
+    <link rel="stylesheet" href="${staticPath}/libs/frozenui/css/frozen.css?v=${version}">
+    <link rel="stylesheet" href="${staticPath}/common.css?v=${version}">
+    <link rel="stylesheet" href="${staticPath}/spec.css?v=${version}">
+</head>
+<body class="nobg" v-cloak>
+<section class="ui-container">
+    <div class="detail-content">
+        <div class="text-center spec-info" v-if="groupsInfoLoaded && size_attrs.length==0">暂无信息...</div>
+        <div v-for="ps in size_attrs" class="spec-info ui-border-b" v-if="size_attrs.length>0">
+            <p class="spec-title">{{ps.name}}</p>
+            <ul>
+                <li v-for="attr in ps.attrs" class="spec-item">{{attr.attrName.name}}: {{attr.attrVal.value}}</li>
+            </ul>
+        </div>
+    </div>
+</section>
+<!--<script type="text/javascript">-->
+<!--alert(123);-->
+<!--</script>-->
+<script type="text/javascript" src="/cms/view/frontier_guide/h5/templateJS.json"></script>
+<script src="${staticPath}/libs/frozenui/lib/zepto.min.js?v=${version}"></script>
+<script src="${staticPath}/libs/frozenui/js/frozen.js?v=${version}"></script>
+<script src="${staticPath}/libs/vendor.js?v=${version}"></script>
+<script src="${staticPath}/common.js?v=${version}"></script>
+<script src="${staticPath}/spec.js?v=${version}"></script>
+</body>
+</html>

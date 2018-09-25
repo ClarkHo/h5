@@ -1,0 +1,92 @@
+{
+    "code": 0,
+    "message": "操作成功",
+    "data": [{
+        "id": 117,
+        "name": "主体",
+        "sortValue": 17,
+        "attrs": [{
+            "attrName": {
+                "id": 118,
+                "name": "主屏",
+                "sortValue": 18
+            },
+            "attrVal": {
+                "id": 119,
+                "value": "4.7英寸 1334×750",
+                "sortValue": 19
+            }
+        }, {
+            "attrName": {
+                "id": 120,
+                "name": "摄像",
+                "sortValue": 20
+            },
+            "attrVal": {
+                "id": 121,
+                "value": "800万",
+                "sortValue": 21
+            }
+        }, {
+            "attrName": {
+                "id": 122,
+                "name": "制式",
+                "sortValue": 22
+            },
+            "attrVal": {
+                "id": 123,
+                "value": "单卡",
+                "sortValue": 23
+            }
+        }]
+    }, {
+        "id": 124,
+        "name": "网络",
+        "sortValue": 24,
+        "attrs": [{
+            "attrName": {
+                "id": 125,
+                "name": "4G网络制式",
+                "sortValue": 25
+            },
+            "attrVal": {
+                "id": 126,
+                "value": "移动4G(TD-LTE)/联通4G(FDD-LTE)/电信4G(FDD-LTE)",
+                "sortValue": 26
+            }
+        }, {
+            "attrName": {
+                "id": 127,
+                "name": "3G网络制式",
+                "sortValue": 27
+            },
+            "attrVal": {
+                "id": 128,
+                "value": "移动3G(TD-SCDMA)/联通3G(WCDMA)/电信3G（CDMA2000）",
+                "sortValue": 28
+            }
+        }, {
+            "attrName": {
+                "id": 129,
+                "name": "2G网络制式",
+                "sortValue": 29
+            },
+            "attrVal": {
+                "id": 130,
+                "value": "移动2G/联通2G(GSM)/电信2G(CDMA)",
+                "sortValue": 30
+            }
+        }, {
+            "attrName": {
+                "id": 131,
+                "name": "网络频率",
+                "sortValue": 31
+            },
+            "attrVal": {
+                "id": 132,
+                "value": "FDD-LTE (频段 1, 2, 3, 4, 5, 7, 8, 12, 13, 17, 18, 19, 20, 25, 26, 27, 28, 29)\nTD-LTE (频段 38, 39, 40, 41)\nTD-SCDMA 1900 (F), 2000 (A)\nCDMA EV-DO Rev. A (800, 1700/2100, 1900, 2100 MHz)\nUMTS(WCDMA)/HSPA+/DC-HSDPA (850, 900, 1700/2100, 1900, 2100 MHz)\nGSM/EDGE (850, 900, 1800, 1900 MHz)",
+                "sortValue": 32
+            }
+        }]
+    }]
+}

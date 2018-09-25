@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="x5-orientation" content="portrait">
+    <meta name="msapplication-tap-highlight" content="no">
+    <title></title>
+    <link rel="stylesheet" href="/libs/frozenui/css/frozen.css?v=1537884480835">
+    <link rel="stylesheet" href="/common.css?v=1537884480835">
+    <link rel="stylesheet" href="/my/my.css?v=1537884480835">
+    <link rel="stylesheet" href="/my/market.css?v=1537884480835">
+</head>
+<body v-need-login>
+    <ui-header back-url="/my/home.html" title="营销推广" app-back="true"></ui-header>
+    <!-- main section -->
+    <section v-cloak>
+        <div class="ui-searchbar-wrap ui-border-b mgT43 focus">
+            <div class="ui-searchbar ui-border-radius">
+                <i class="ui-icon-search"></i>
+                <div class="ui-searchbar-text">查询相关文章</div>
+                <div class="ui-searchbar-input"><input type="tel" placeholder="查询相关文章" v-model="keyword"></div>
+                <div class="hide" :class="{'show':keyword.length > 0}" @click="keyword = ''"><i class="ui-icon-close"></i></div>
+            </div>
+            <button class="ui-searchbar-cancel" @click="marketSearch()">搜索</button>
+        </div>
+        <div class="ui-tab" id="tab1">
+            <ul class="ui-tab-nav ui-border-b" :class="{'hide':keyword}">
+                <li :class="{'current': currentTab == 1}" @click="switchTab(1)">总部</li>
+                <li :class="{'current': currentTab == 0}" @click="switchTab(0)">公共</li>
+                <li :class="{'current': currentTab == 2}" @click="switchTab(2)">我的</li>
+            </ul>
+            <ul class="ui-tab-content">
+                <li v-if="!noArticle">
+                    <ul class="ui-list ui-border-tb mgT10">
+                        <li v-if="currentTab == 2">
+                            <!--添加文章按钮-->
+                            <div class="ui-row-flex ui-whitespace">
+                                <div class="ui-col text-center">
+                                    <p class="mgT15 mgB15">
+                                        <button class="btn-wq-lg bgTf4cc53Tb48b32" style="width: 150px;" v-link-to.literal="/my/market-article-add.html">添加新文章</button>
+                                    </p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="ui-border-t" v-for="art in articles">
+                            <div class="ui-avatar" v-link-to="art.status == 0 ? '/my/market-article-add.html?id=' + art.id : '/my/market-article-detail.html?id=' + art.id">
+                                <span style="-webkit-border-radius: 0" :style="'background-image:url('+art.createHeadPicUrl+')'" class="w100pxh100px"></span>
+                            </div>
+                            <div class="ui-list-info" v-link-to="art.status == 0 ? '/my/market-article-add.html?id=' + art.id : '/my/market-article-detail.html?id=' + art.id">
+                                <p class="f14 c3 ui-nowrap-multi"><span class="theme" v-if="art.status == 0">[草稿] </span><span class="f14 cb38a32 fb hide" :class="{'show': art.isTop == 1}">[置顶] </span>{{art.title}}</p>
+                                <p><span class="f12 c9 fr mgT45">{{art.createTime | date}}</span></p>
+                            </div>
+                            <button class="ui-btn marT10 marR10 f12 hide" :class="{'show':currentTab == 2}" @click="deleteArticle(art.id)">删除</button>
+                        </li>
+                    </ul>
+                </li>
+                <li v-if="noArticle">
+                    <!--没有相关文章时-->
+                    <div class="ui-row-flex ui-whitespace">
+                        <div class="ui-col text-center">
+                            <p><i class="icons2 icons2-no-artcle mgT80"></i></p>
+                            <p><span class="f14 c9 mgT10">还没有相关文章哦~</span></p>
+                        </div>
+                    </div>
+                    <!--添加文章按钮-->
+                    <div class="ui-row-flex ui-whitespace" :class="{'hide':keyword}" v-if="currentTab == 2">
+                        <div class="ui-col text-center">
+                            <p class="mgT15">
+                                <button class="btn-wq-lg bgTf4cc53Tb48b32" v-link-to.literal="/my/market-article-add.html" style="width: 150px;">添加新文章</button>
+                            </p>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </section>
+    <script type="text/javascript" src="/cms/view/frontier_guide/h5/templateJS.json"></script>
+    <script src="/libs/frozenui/lib/zepto.min.js?v=1537884480835"></script>
+    <script src="/libs/frozenui/js/frozen.js?v=1537884480835"></script>
+    <script src="/libs/vendor.js?v=1537884480835"></script>
+    <script src="/common.js?v=1537884480835"></script>
+    <script src="/my/market.js?v=1537884480835"></script>
+</body>
+</html>

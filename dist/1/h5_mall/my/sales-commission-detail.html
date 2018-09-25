@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="x5-orientation" content="portrait">
+    <meta name="msapplication-tap-highlight" content="no">
+    <title></title>
+    <link rel="stylesheet" href="/libs/frozenui/css/frozen.css?v=1537885372784">
+    <link rel="stylesheet" href="/common.css?v=1537885372784">
+    <link rel="stylesheet" href="/my/my.css?v=1537885372784">
+    <link rel="stylesheet" href="/my/my-income-detail.css?v=1537885372784">
+</head>
+<body ontouchstart="" class="fans" v-need-login>
+    <ui-header title="一级佣金详情"></ui-header>
+    <!-- main section -->
+    <section v-cloak class="mgT43">
+        <!--<ul class="ui-list ui-list-text ui-border-tb">-->
+            <!--<li class="ui-border-t">-->
+                <!--<h4 class="ui-nowrap f14 c3">店铺ID：DS5465456456456</h4>-->
+                <!--<div class="ui-txt-info f14 cb38a32 mgR10">2级店</div>-->
+            <!--</li>-->
+            <!--<li class="ui-border-t">-->
+                <!--<div class="ui-row-flex ui-whitespace">-->
+                    <!--<div class="ui-col ui-col">-->
+                        <!--<p><span class="f14 c3">联系人：徐萨菲</span></p>-->
+                        <!--<p><span class="f14 c3">销售额：</span><span class="f14 cb38a32">¥625.00</span></p>-->
+                        <!--<p><span class="f14 c3">佣   金：</span><span class="f14 cb38a32">¥62.00</span></p>-->
+                    <!--</div>-->
+                    <!--<div class="ui-col ui-col">-->
+                        <!--<p><span class="f14 c3">联系方式：150****652</span></p>-->
+                        <!--<p><span class="f14 c3">成交订单：</span><span class="f14 cb38a32">6</span></p>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</li>-->
+        <!--</ul>-->
+
+        <ul class="ui-list ui-list-text ui-border-tb">
+            <li class="ui-border-t">
+                <h4 class="ui-nowrap f14 c3">店铺ID：{{reconSubCommissionDetail.distributorId}}</h4>
+                <div class="ui-txt-info f14 cb38a32 mgR10">{{reconSubCommissionDetail.commissionLevel}}级店</div>
+            </li>
+            <li class="ui-border-t">
+                <div class="ui-row-flex ui-whitespace">
+                    <div class="ui-col ui-col">
+                        <!--<p><span class="f14 c3">联系人：{{reconSubCommissionDetail.distributorName}}</span></p>-->
+                        <p><span class="f14 c3">销售额：</span><span class="f14 cb38a32">¥{{reconSubCommissionDetail.orderAmount}}</span></p>
+                        <p><span class="f14 c3">佣   金：</span><span class="f14 cb38a32">¥{{reconSubCommissionDetail.commission}}</span></p>
+                    </div>
+                    <div class="ui-col ui-col">
+                        <!--<p><span class="f14 c3">联系方式：{{reconSubCommissionDetail.distributorMobile}}</span></p>-->
+                        <p><span class="f14 c3">成交订单：</span><span class="f14 cb38a32">{{reconSubCommissionDetail.orderCount}}</span></p>
+                    </div>
+                </div>
+            </li>
+        </ul>
+
+        <table class="ui-table ui-border-tb bgf mgT10">
+            <thead class="ui-border-b">
+            <tr>
+                <th class="f12 c3">订单时间</th>
+                <th class="f12 c3">订单号</th>
+                <th class="f12 c3">订单金额</th>
+                <th class="f12 c3">产生佣金</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td class="f12 c3">2016-03-25 </td>
+                <td class="f12 c3">DF5698998745</td>
+                <td class="f12 c3">¥6255.00</td>
+                <td><span class="f12 cb38a32 text-underline">¥6255.00</span></td>
+            </tr>
+            <tr>
+                <td class="f12 c3">2016-03-25 </td>
+                <td class="f12 c3">DF5698998745</td>
+                <td class="f12 c3">¥6255.00</td>
+                <td><span class="f12 cb38a32 text-underline">¥6255.00</span></td>
+            </tr>
+            <tr>
+                <td class="f12 c3">2016-03-25 </td>
+                <td class="f12 c3">DF5698998745</td>
+                <td class="f12 c3">¥6255.00</td>
+                <td><span class="f12 cb38a32 text-underline">¥6255.00</span></td>
+            </tr>
+            </tbody>
+        </table>
+
+    </section>
+
+    <script type="text/javascript" src="/cms/view/frontier_guide/h5/templateJS.json"></script>
+    <script src="/libs/frozenui/lib/zepto.min.js?v=1537885372784"></script>
+    <script src="/libs/frozenui/js/frozen.js?v=1537885372784"></script>
+    <script src="/libs/vendor.js?v=1537885372784"></script>
+    <script src="/common.js?v=1537885372784"></script>
+    <script src="/my/sales-commission-detail.js?v=1537885372784"></script>
+
+</body>
+</html>

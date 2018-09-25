@@ -1,0 +1,30 @@
+{
+  "code": "0",
+  "data": {
+    "pv": {
+      "month": 15,
+      "today": 16,
+      "week": 17,
+      "yesterday": 18
+    },
+    "share": {
+      "month": 115,
+      "today": 116,
+      "week": 117,
+      "yesterday": 118
+    },
+    "uv": {
+      "month": 215,
+      "today": 216,
+      "week": 217,
+      "yesterday": 218
+    },
+    "vip": {
+      "month": 315,
+      "today": 316,
+      "week": 317,
+      "yesterday": 318
+    }
+  },
+  "message": "请求成功"
+}

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="x5-orientation" content="portrait">
+    <meta name="msapplication-tap-highlight" content="no">
+    <title></title>
+    <link rel="stylesheet" href="/libs/frozenui/css/frozen.css?v=1537883801478">
+    <link rel="stylesheet" href="/common.css?v=1537883801478">
+    <link rel="stylesheet" href="/specialFun/specialFun.css?v=1537883801478">
+    <style>
+        .ui-form-item {
+            margin-left: 15px;
+        }
+    </style>
+</head>
+<body ontouchstart="" class="vat" v-cloak>
+
+    <ui-header title="增票资质"></ui-header>
+
+    <section v-cloak class="mgT43">
+
+        <div class="ui-row-flex ui-whitespace bgf0f0f0 vat-banner pdTB20">
+            <div class="ui-col ui-col text-center" :class="{active:navActive==0}" @click="navActive=0">
+                <span>1</span>
+                <p class="f12 cd">填写增票信息</p>
+            </div>
+            <div class="ui-col ui-col text-center posR" :class="{active:navActive==1}" @click="VATstep1()">
+                <span>2</span>
+                <p class="f12 cd">上传附件</p>
+                <img src="/images/pointRight.png?v=1537883801478" alt="" class="pointLeft">
+                <img src="/images/pointRight.png?v=1537883801478" alt="" class="pointRight">
+            </div>
+            <div class="ui-col ui-col text-center" :class="{active:navActive==2}" @click="VATstep2()">
+                <span>3</span>
+                <p class="f12 cd">填写寄送地址</p>
+            </div>
+        </div>
+
+        <!--step1-->
+        <div v-show="navActive==0">
+            <div class="ui-form">
+                <form>
+                    <div class="ui-form-item ui-form-item-show ui-border-b">
+                        <label class="f12 fb2b2b2">公司名称</label>
+                        <input type="text" value="" v-model="VATInvoice.unitName" placeholder="请填写">
+                        <a href="javascript:void(0)" class="ui-icon-close" @click="VATInvoice.unitName = ''" v-show="VATInvoice.unitName"></a>
+                    </div>
+                    <div class="ui-form-item ui-form-item-show ui-border-b">
+                        <label class="f12 fb2b2b2">纳税人识别码</label>
+                        <input type="text" value="" v-model="VATInvoice.taxpayerIdentificationCode" maxlength="50" placeholder="请填写">
+                        <a href="javascript:void(0)" class="ui-icon-close" @click="VATInvoice.taxpayerIdentificationCode = ''" v-show="VATInvoice.taxpayerIdentificationCode"></a>
+                    </div>
+                    <div class="ui-form-item ui-form-item-show ui-border-b">
+                        <label class="f12 fb2b2b2">注册地址</label>
+                        <input type="text" value="" v-model="VATInvoice.registerAddress" maxlength="50" placeholder="请填写">
+                        <a href="javascript:void(0)" class="ui-icon-close" @click="VATInvoice.registerAddress = ''" v-show="VATInvoice.registerAddress"></a>
+                    </div>
+                    <div class="ui-form-item ui-form-item-show ui-border-b">
+                        <label class="f12 fb2b2b2">注册电话</label>
+                        <input type="number" value="" v-model="VATInvoice.registerPhone" maxlength="20" placeholder="请填写">
+                        <a href="javascript:void(0)" class="ui-icon-close" @click="VATInvoice.registerPhone = ''" v-show="VATInvoice.registerPhone"></a>
+                    </div>
+                    <div class="ui-form-item ui-form-item-show ui-border-b">
+                        <label class="f12 fb2b2b2">开户银行</label>
+                        <input type="text" value="" v-model="VATInvoice.bankDeposit" maxlength="50" placeholder="请填写">
+                        <a href="javascript:void(0)" class="ui-icon-close" @click="VATInvoice.bankDeposit = ''" v-show="VATInvoice.bankDeposit"></a>
+                    </div>
+                    <div class="ui-form-item ui-form-item-show">
+                        <label class="f12 fb2b2b2">银行账户</label>
+                        <input type="number" value="" v-model="VATInvoice.bankAccount" maxlength="30" placeholder="请填写">
+                        <a href="javascript:void(0)" class="ui-icon-close" @click="VATInvoice.bankAccount = ''" v-show="VATInvoice.bankAccount"></a>
+                    </div>
+                </form>
+            </div>
+            <div class="ui-notice-btn pdT5">
+                <button class="ui-btn-primary ui-btn-lg" @click="VATstep1()">下一步</button>
+            </div>
+        </div>
+
+        <!--step2-->
+        <div v-show="navActive==1">
+            <ul class="ui-row bgf pdTB20">
+                <li class="ui-col ui-col-50 text-center">
+                    <ui-file-upload :callback.sync="uploadSuccess_RegistrationCertificatePath" compress="true" style="width: 165px;height: 120px;opacity: 0;" class="posA"></ui-file-upload>
+                    <img :src="VATInvoice.registrationCertificatePath || '/images/picUpload.png?v=1537883801478'" alt="" width="165px" height="120px" class="mg0Auto">
+                    <p class="f15 c3" style="margin-bottom: 8px">税务登记证副本</p>
+                </li>
+                <li class="ui-col ui-col-50 text-center">
+                    <ui-file-upload :callback.sync="uploadSuccess_GeneralTaxpayerCertificatePath" compress="true" style="width: 165px;height: 120px;opacity: 0;" class="posA"></ui-file-upload>
+                    <img :src="VATInvoice.generalTaxpayerCertificatePath || '/images/picUpload.png?v=1537883801478'" alt="" width="165px" height="120px" class="mg0Auto">
+                    <p class="f15 c3" style="margin-bottom: 8px">一般纳税人证书</p>
+                </li>
+                <li class="ui-col ui-col-50 text-center">
+                    <ui-file-upload :callback.sync="uploadSuccess_bankLicensePath" compress="true" style="width: 165px;height: 120px;opacity: 0;" class="posA"></ui-file-upload>
+                    <img :src="VATInvoice.bankLicensePath || '/images/picUpload.png?v=1537883801478'" alt="" width="165px" height="120px" class="mg0Auto">
+                    <p class="f15 c3">开户银行许可证</p>
+                </li>
+                <li class="ui-col ui-col-50 text-center">
+                    <ui-file-upload :callback.sync="uploadSuccess_IncreaseTicketAuthorizePath" compress="true" style="width: 165px;height: 120px;opacity: 0;" class="posA"></ui-file-upload>
+                    <img :src="VATInvoice.increaseTicketAuthorizePath || '/images/picUpload.png?v=1537883801478'" alt="" width="165px" height="120px" class="mg0Auto">
+                    <p class="f15 c3 mgB10">增票授权委托书</p>
+                </li>
+            </ul>
+            <div class="ui-notice-btn pdT5">
+                <button class="ui-btn-primary ui-btn-lg" @click="VATstep2()">下一步</button>
+            </div>
+        </div>
+
+        <!--step3-->
+        <div v-show="navActive==2">
+            <div class="ui-form">
+                <form>
+                    <div class="ui-form-item ui-form-item-show ui-border-b">
+                        <label class="f12 fb2b2b2">收票人</label>
+                        <input type="text" value="" v-model="VATInvoice.goodReceiverName" placeholder="请填写" maxlength="20">
+                        <a href="javascript:void(0)" class="ui-icon-close" @click="VATInvoice.goodReceiverName = ''" v-show="VATInvoice.goodReceiverName"></a>
+                    </div>
+                    <div class="ui-form-item ui-form-item-show ui-border-b">
+                        <label class="f12 fb2b2b2">联系方式</label>
+                        <input type="number" value="" v-model="VATInvoice.goodReceiverMobile" placeholder="请填写">
+                        <a href="javascript:void(0)" class="ui-icon-close" @click="VATInvoice.goodReceiverMobile = ''" v-show="VATInvoice.goodReceiverMobile"></a>
+                    </div>
+                    <div class="ui-form-item ui-form-item-show ui-border-b" @click="showArea = true,addrState = true">
+                        <label class="f12 fb2b2b2">所在地区</label>
+                        <input type="text" value="" placeholder="请选择" v-if="!addrState">
+                        <span class="mgL88" v-if="addrState">{{VATInvoice.goodReceiverProvince}} {{VATInvoice.goodReceiverCity}} {{VATInvoice.goodReceiverArea}}</span>
+                    </div>
+                    <div class="ui-form-item ui-form-item-show ui-border-b">
+                        <label class="f12 fb2b2b2">详细地址</label>
+                        <input type="text" value="" v-model="VATInvoice.goodReceiverAddress" placeholder="请填写">
+                        <a href="javascript:void(0)" class="ui-icon-close" @click="VATInvoice.goodReceiverAddress = ''" v-show="VATInvoice.goodReceiverAddress"></a>
+                    </div>
+                </form>
+            </div>
+            <div class="ui-notice-btn pdT5">
+                <button class="ui-btn-primary ui-btn-lg" @click="addVATInvoice()">提交</button>
+            </div>
+        </div>
+    </section>
+    <!--省市区选择-->
+    <ui-location :show.sync="showArea" :callback="chooseArea"></ui-location>
+    <script type="text/javascript" src="/cms/view/frontier_guide/h5/templateJS.json"></script>
+    <script src="/libs/frozenui/lib/zepto.min.js?v=1537883801478"></script>
+    <script src="/libs/frozenui/js/frozen.js?v=1537883801478"></script>
+    <script src="/libs/vendor.js?v=1537883801478"></script>
+    <script src="/libs/exif.js?v=1537883801478"></script>        
+    <script src="/common.js?v=1537883801478"></script>
+    <script src="/VAT/vat.js?v=1537883801478"></script>
+
+</body>
+</html>
+

@@ -1,0 +1,49 @@
+.jianbian {
+  background: linear-gradient(top, #f23030, #f23030);
+  background: -webkit-linear-gradient(top, #f23030, #f23030);
+  background: -moz-linear-gradient(top, #f23030, #f23030);
+  color: #fff!important;
+}
+.middle {
+  display: inline-block;
+  vertical-align: middle;
+}
+.pd0 {
+  padding-top: 0!important;
+  padding-bottom: 0!important;
+}
+.ui-icon-checked-s {
+  color: #f23030;
+}
+.ui-icon-unchecked-s {
+  color: #999 ;
+}
+.textarea {
+  display: block;
+  width: 92%;
+  overflow-y: auto;
+  height: 100px;
+  padding: 2%;
+  margin-left: 1%;
+  border: 0;
+  background: #fafafa;
+}
+.ui-btn-wrap {
+  padding: 15px 0;
+}
+.order-status {
+  padding: 20px 10px 16px 15px;
+  color: #fff;
+}
+.order-status.success {
+  background: -webkit-linear-gradient(left, #2ac1ce, #52e8ab);
+}
+.order-status.fail {
+  background: -webkit-linear-gradient(left, #f23030, #fd8052);
+}
+.order-status.cancle {
+  background: -webkit-linear-gradient(left, #8e9eab, #eef2f3);
+}
+.order-status.ui-arrowlink:before {
+  color: #fff;
+}

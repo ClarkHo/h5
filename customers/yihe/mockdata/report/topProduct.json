@@ -1,0 +1,24 @@
+{
+  "code": "0",
+  "data": [
+    {
+      "monthPv": 1299,
+      "monthSale": 454,
+      "mpid": 12212,
+      "picUrl_115x115": "http://wiki.odianyun.local/s/zh_CN.14/_/imagpics/add_profile_pic.png",
+      "price": 54.32,
+      "productName": "sampleReadActionsampleReadAction实打实的",
+      "stock": 54
+    },
+    {
+      "monthPv": 991299,
+      "monthSale": 9454,
+      "mpid": 1212,
+      "picUrl_115x115": "http://wiki.odianyun.local/.14/_/images/icons/profilepics/add_profile_pic.png",
+      "price": 5984.32,
+      "productName": "实打实的实打实的实打实的实打实的",
+      "stock": 541
+    }
+  ],
+  "message": "请求成功"
+}
