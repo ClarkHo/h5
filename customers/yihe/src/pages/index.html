@@ -10,7 +10,12 @@
     <meta name="x5-orientation" content="portrait">
     <meta name="msapplication-tap-highlight" content="no">
     <title></title>
+    <script type="text/javascript">
+     
+      console.log('映射成功123456789');
+    </script>
     <link rel="stylesheet" href="${staticPath}/libs/frozenui/css/frozen.css?v=${version}">
+    <!--  以下CSS文件打包后才存在  -->
     <link rel="stylesheet" href="${staticPath}/common.css?v=${version}">
     <link rel="stylesheet" href="${staticPath}/index.css?v=${version}">
     <link rel="stylesheet" href="${staticPath}/libs/mob-share.css?v=${version}">
@@ -450,7 +455,7 @@
       <!--<div id="ad_decoration_2" class="ui-row-flex" v-if="ad_decoration && ad_decoration.length > 4">-->
       <!--<div class="ui-col"><a href="{{ ad_decoration[4].linkUrl || 'javascript:void(0)' }}"><img  v-lazy="ad_decoration[4].imageUrl" alt=""></a></div>-->
       <!--<div class="ui-col"><a href="{{ ad_decoration[5].linkUrl || 'javascript:void(0)' }}"><img v-lazy="ad_decoration[5].imageUrl" alt=""></a></div>-->
-      <!--<div class="ui-col"><a href="{{ ad_decoration[6].linkUrl || 'javascript:void(0)' }}"><img  v-lazy="ad_decoration[6].imageUrl" alt=""></a></div>-->
+      <div class="ui-col"><a href="{{ ad_decoration[6].linkUrl || 'javascript:void(0)' }}"><img  v-lazy="ad_decoration[6].imageUrl" alt=""></a></div>
       <!--<div class="ui-col"><a href="{{ ad_decoration[7].linkUrl || 'javascript:void(0)' }}"><img  v-lazy="ad_decoration[7].imageUrl" alt=""></a></div>-->
       <!--</div>-->
 
@@ -852,14 +857,21 @@
 
     <ui-scroll-top v-ref:scrollTop :hide="true"></ui-scroll-top>
     <ui-share :show.sync="showShare" :config.sync="shareConfig"></ui-share>
+    <!-- 以下标签路径有误 文件格式有误 可取消？ -->
     <script type="text/javascript" src="/cms/view/frontier_guide/h5/templateJS.json"></script>
+    <!-- 以下为zepto  js库 -->
     <script src="${staticPath}/libs/frozenui/lib/zepto.min.js?v=${version}"></script>
+    <!-- 以下为swipe  移动端滑动 JS 库 -->
     <script src="${staticPath}/libs/swiper/swipe.js?v=${version}"></script>
+    <!-- FrozenJS 是针对移动端开发的 js 组件库，其依赖 zepto.js 和 FrozenUI -->
     <script src="${staticPath}/libs/frozenui/js/frozen.js?v=${version}"></script>
+    <!-- HammerJS是一个优秀的、轻量级的触屏设备手势库 -->
     <script src="${staticPath}/libs/vendor.js?v=${version}"></script>
+    <!-- 与company相关的业务相关配置   -->
     <script src="${staticPath}/common.js?v=${version}"></script>
+    <!-- VUE项目入口文件 -->
     <script src="${staticPath}/index.js?v=${version}"></script>
-
+    <!--  mob网页分享 JS库 -->
     <script id="-mob-share" src="${staticPath}/libs/mob-share.js?v=${version}"></script>
   </body>
 

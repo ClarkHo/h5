@@ -8,9 +8,9 @@
     <meta name="x5-orientation" content="portrait">
     <meta name="msapplication-tap-highlight" content="no">
     <title></title>
-    <link rel="stylesheet" href="/libs/frozenui/css/frozen.css?v=1537885372784">
-    <link rel="stylesheet" href="/common.css?v=1537885372784">
-    <link rel="stylesheet" href="/specialFun/specialFun.css?v=1537885372784">
+    <link rel="stylesheet" href="/libs/frozenui/css/frozen.css?v=1538036828410">
+    <link rel="stylesheet" href="/common.css?v=1538036828410">
+    <link rel="stylesheet" href="/specialFun/specialFun.css?v=1538036828410">
     <style>
         .ui-form-item {
             margin-left: 15px;
@@ -31,8 +31,8 @@
             <div class="ui-col ui-col text-center posR" :class="{active:navActive==1}" @click="VATstep1()">
                 <span>2</span>
                 <p class="f12 cd">上传附件</p>
-                <img src="/images/pointRight.png?v=1537885372784" alt="" class="pointLeft">
-                <img src="/images/pointRight.png?v=1537885372784" alt="" class="pointRight">
+                <img src="/images/pointRight.png?v=1538036828410" alt="" class="pointLeft">
+                <img src="/images/pointRight.png?v=1538036828410" alt="" class="pointRight">
             </div>
             <div class="ui-col ui-col text-center" :class="{active:navActive==2}" @click="VATstep2()">
                 <span>3</span>
@@ -86,22 +86,22 @@
             <ul class="ui-row bgf pdTB20">
                 <li class="ui-col ui-col-50 text-center">
                     <ui-file-upload :callback.sync="uploadSuccess_RegistrationCertificatePath" compress="true" style="width: 165px;height: 120px;opacity: 0;" class="posA"></ui-file-upload>
-                    <img :src="VATInvoice.registrationCertificatePath || '/images/picUpload.png?v=1537885372784'" alt="" width="165px" height="120px" class="mg0Auto">
+                    <img :src="VATInvoice.registrationCertificatePath || '/images/picUpload.png?v=1538036828410'" alt="" width="165px" height="120px" class="mg0Auto">
                     <p class="f15 c3" style="margin-bottom: 8px">税务登记证副本</p>
                 </li>
                 <li class="ui-col ui-col-50 text-center">
                     <ui-file-upload :callback.sync="uploadSuccess_GeneralTaxpayerCertificatePath" compress="true" style="width: 165px;height: 120px;opacity: 0;" class="posA"></ui-file-upload>
-                    <img :src="VATInvoice.generalTaxpayerCertificatePath || '/images/picUpload.png?v=1537885372784'" alt="" width="165px" height="120px" class="mg0Auto">
+                    <img :src="VATInvoice.generalTaxpayerCertificatePath || '/images/picUpload.png?v=1538036828410'" alt="" width="165px" height="120px" class="mg0Auto">
                     <p class="f15 c3" style="margin-bottom: 8px">一般纳税人证书</p>
                 </li>
                 <li class="ui-col ui-col-50 text-center">
                     <ui-file-upload :callback.sync="uploadSuccess_bankLicensePath" compress="true" style="width: 165px;height: 120px;opacity: 0;" class="posA"></ui-file-upload>
-                    <img :src="VATInvoice.bankLicensePath || '/images/picUpload.png?v=1537885372784'" alt="" width="165px" height="120px" class="mg0Auto">
+                    <img :src="VATInvoice.bankLicensePath || '/images/picUpload.png?v=1538036828410'" alt="" width="165px" height="120px" class="mg0Auto">
                     <p class="f15 c3">开户银行许可证</p>
                 </li>
                 <li class="ui-col ui-col-50 text-center">
                     <ui-file-upload :callback.sync="uploadSuccess_IncreaseTicketAuthorizePath" compress="true" style="width: 165px;height: 120px;opacity: 0;" class="posA"></ui-file-upload>
-                    <img :src="VATInvoice.increaseTicketAuthorizePath || '/images/picUpload.png?v=1537885372784'" alt="" width="165px" height="120px" class="mg0Auto">
+                    <img :src="VATInvoice.increaseTicketAuthorizePath || '/images/picUpload.png?v=1538036828410'" alt="" width="165px" height="120px" class="mg0Auto">
                     <p class="f15 c3 mgB10">增票授权委托书</p>
                 </li>
             </ul>
@@ -144,12 +144,12 @@
     <!--省市区选择-->
     <ui-location :show.sync="showArea" :callback="chooseArea"></ui-location>
     <script type="text/javascript" src="/cms/view/frontier_guide/h5/templateJS.json"></script>
-    <script src="/libs/frozenui/lib/zepto.min.js?v=1537885372784"></script>
-    <script src="/libs/frozenui/js/frozen.js?v=1537885372784"></script>
-    <script src="/libs/vendor.js?v=1537885372784"></script>
-    <script src="/libs/exif.js?v=1537885372784"></script>        
-    <script src="/common.js?v=1537885372784"></script>
-    <script src="/VAT/vat.js?v=1537885372784"></script>
+    <script src="/libs/frozenui/lib/zepto.min.js?v=1538036828410"></script>
+    <script src="/libs/frozenui/js/frozen.js?v=1538036828410"></script>
+    <script src="/libs/vendor.js?v=1538036828410"></script>
+    <script src="/libs/exif.js?v=1538036828410"></script>        
+    <script src="/common.js?v=1538036828410"></script>
+    <script src="/VAT/vat.js?v=1538036828410"></script>
 
 </body>
 </html>

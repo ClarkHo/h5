@@ -9,9 +9,9 @@
     <meta name="msapplication-tap-highlight" content="no">
     <meta name="heimdall" content="搜索页">    
     <title></title>
-    <link rel="stylesheet" href="/libs/frozenui/css/frozen.css?v=1537885372784">
-    <link rel="stylesheet" href="/common.css?v=1537885372784">
-    <link rel="stylesheet" href="/search.css?v=1537885372784">
+    <link rel="stylesheet" href="/libs/frozenui/css/frozen.css?v=1538036828410">
+    <link rel="stylesheet" href="/common.css?v=1538036828410">
+    <link rel="stylesheet" href="/search.css?v=1538036828410">
          
 </head>
 <body :class="{'lock-bg':showFilter || showSequencePop || showGifts}" :style="{overflow:showPop?'hidden':'auto'}">
@@ -181,10 +181,10 @@
                         </li>
                     </ul>
                     <div class="droploading" v-if="loading && productList && productList.length > 0" v-cloak>
-                        <img width="110" src="/images/page-loading.gif?v=1537885372784" alt="">
+                        <img width="110" src="/images/page-loading.gif?v=1538036828410" alt="">
                     </div>
                     <div class="no-more hide" :class="{'show': showPages&&!showNoMore}"><span class="page-num">{{pageNo}}/{{Math.ceil(totalCount/pageSize)}}</span></div>
-                    <!-- <div class="no-more hide" :class="{'show': showNoMore}"><img src="/images/nomore.png?v=1537885372784" alt=""></div> -->
+                    <!-- <div class="no-more hide" :class="{'show': showNoMore}"><img src="/images/nomore.png?v=1538036828410" alt=""></div> -->
                 <!--</ui-drop-down>-->
             </div>
         </section>
@@ -273,7 +273,7 @@
                         </div>
                     </li>
                 </ul>
-                <!-- <div class="no-more hide" :class="{'show': showNoMore}"><img src="/images/nomore.png?v=1537885372784" alt=""></div> -->
+                <!-- <div class="no-more hide" :class="{'show': showNoMore}"><img src="/images/nomore.png?v=1538036828410" alt=""></div> -->
             </div>
 
         </section>
@@ -444,7 +444,7 @@
                                 <div class="img-content">
                                     <img :src="g.picUrl" width="100%" height="100%">
                                     <span class="jiaobiao">{{g.price | currency '¥'}} * {{g.giftNum}}</span>
-                                    <img class="no-stock" v-if="g.giftNum == 0" src="/images/no-stock.png?v=1537885372784" alt="">
+                                    <img class="no-stock" v-if="g.giftNum == 0" src="/images/no-stock.png?v=1538036828410" alt="">
                                 </div>
                                 <h3 class="f12 c6 ui-nowrap-multi">{{g.giftName}}</h3>
                                 <!-- <i class="icons-jiaobiao icons f12 cf">{{g.giftNum}}</i> -->
@@ -457,7 +457,7 @@
                             <li class="posR " :class="{'coupons-dis':false}" v-for="g in gift.singleGiftInfoList" track-by="$index">
                                 <span class="price">20</span>
                                 <span class="desc">实付满100使用</span>
-                                 <img class="no-stock" src="/images/no-stock.png?v=1537885372784" alt="">  
+                                 <img class="no-stock" src="/images/no-stock.png?v=1538036828410" alt="">  
                             </li>
                         </ul>
                     </div> -->
@@ -470,10 +470,10 @@
     <!--选择赠品列表菜单 END-->
     <script type="text/javascript" src="/cms/view/frontier_guide/h5/templateJS.json"></script>
     <script>if(/MicroMessenger/i.test(navigator.userAgent)) document.write('<script src="//res.wx.qq.com/open/js/jweixin-1.1.0.js"><\/script>');</script>
-    <script src="/libs/frozenui/lib/zepto.min.js?v=1537885372784"></script>
-    <script src="/libs/frozenui/js/frozen.js?v=1537885372784"></script>
-    <script src="/libs/vendor.js?v=1537885372784"></script>
-    <script src="/common.js?v=1537885372784"></script>
-    <script src="/search.js?v=1537885372784"></script>
+    <script src="/libs/frozenui/lib/zepto.min.js?v=1538036828410"></script>
+    <script src="/libs/frozenui/js/frozen.js?v=1538036828410"></script>
+    <script src="/libs/vendor.js?v=1538036828410"></script>
+    <script src="/common.js?v=1538036828410"></script>
+    <script src="/search.js?v=1538036828410"></script>
 </body>
 </html>

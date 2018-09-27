@@ -627,7 +627,7 @@
   width: 168px;
   height: 60px;
   margin: 0 10px;
-  background: url(images/coupons-bg.png?v=1537885372784) no-repeat;
+  background: url(images/coupons-bg.png?v=1538036828410) no-repeat;
   background-size: cover;
 }
 .selectGifts .gift-coupons li .price {
@@ -649,7 +649,7 @@
   left: 55px;
 }
 .selectGifts .gift-coupons .coupons-dis {
-  background: url(images/coupons-dis.png?v=1537885372784) no-repeat;
+  background: url(images/coupons-dis.png?v=1538036828410) no-repeat;
   background-size: cover;
 }
 /*选择赠品按钮*/

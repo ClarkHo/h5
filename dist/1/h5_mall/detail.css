@@ -515,10 +515,10 @@
   height: 60px;
 }
 .wave1 {
-  background: url('images/wave1.png?v=1537885372784') repeat-x;
+  background: url('images/wave1.png?v=1538036828410') repeat-x;
 }
 .wave2 {
-  background: url('images/wave2.png?v=1537885372784') repeat-x;
+  background: url('images/wave2.png?v=1538036828410') repeat-x;
 }
 .btnBg {
   background: linear-gradient(top, #f4cc53, #b48b32) !important;
@@ -526,11 +526,11 @@
   background: -moz-linear-gradient(top, #f4cc53, #b48b32) !important;
 }
 .coupon-force {
-  background: url('images/coupon-1.png?v=1537885372784') no-repeat;
+  background: url('images/coupon-1.png?v=1538036828410') no-repeat;
   background-size: 130px;
 }
 .coupon-over {
-  background: url('images/coupon-2.png?v=1537885372784') no-repeat;
+  background: url('images/coupon-2.png?v=1538036828410') no-repeat;
   background-size: 130px;
 }
 .coupon-height {
@@ -666,7 +666,7 @@ figure img {
 }
 .preSell-process {
   margin-top: 10px;
-  background: url('images/preSell-bg.png?v=1537885372784') no-repeat;
+  background: url('images/preSell-bg.png?v=1538036828410') no-repeat;
   height: 131px;
   position: relative;
   width: 100%;

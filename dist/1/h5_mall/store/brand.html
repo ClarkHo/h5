@@ -8,15 +8,15 @@
     <meta name="x5-orientation" content="portrait">
     <meta name="msapplication-tap-highlight" content="no">
     <title>来伊份</title>
-    <link rel="stylesheet" href="/libs/frozenui/css/frozen.css?v=1537885372784">
-    <link rel="stylesheet" href="/common.css?v=1537885372784">
-    <link rel="stylesheet" href="/libs/mob-share.css?v=1537885372784">
-    <link rel="stylesheet" href="/brand/brand.css?v=1537885372784">
+    <link rel="stylesheet" href="/libs/frozenui/css/frozen.css?v=1538036828410">
+    <link rel="stylesheet" href="/common.css?v=1538036828410">
+    <link rel="stylesheet" href="/libs/mob-share.css?v=1538036828410">
+    <link rel="stylesheet" href="/brand/brand.css?v=1538036828410">
 </head>
 <body v-cloak>
     <section class="brand">
         <ui-header title="" class="text-center" :back-event="goBackToApp">
-            <img :src="brandLogo|| '/images/logo_default.png?v=1537885372784'" alt="" class="brand-title-img" style="margin-left: 50px">
+            <img :src="brandLogo|| '/images/logo_default.png?v=1538036828410'" alt="" class="brand-title-img" style="margin-left: 50px">
             <i class="fr icons2 icons2-header-share header-icon mgT10 mgL10" style="width:20px;height:20px;" @click="clickShare"></i>
             <i class="fr icons-au icons-au-brand-category" v-link-to="'/brand/category.html?brandIds='+brandIds"></i>
         </ui-header>
@@ -66,7 +66,7 @@
                             <div class="sub-icon l-r" v-if="showMark">
                                 <img src="/images/mark.png"  style="height:50px!important">
                             </div>
-                            <span v-if="item.isPresell" style="position: absolute;top: 0;right: 0;width: 35px;height: 35px;background-image: url(/images/presell.png?v=1537885372784);background-size: 100% 100%"></span>
+                            <span v-if="item.isPresell" style="position: absolute;top: 0;right: 0;width: 35px;height: 35px;background-image: url(/images/presell.png?v=1538036828410);background-size: 100% 100%"></span>
                             <div class="presell-tag" v-if="item.isPresell && item.presellTotalPrice">
                                 <div class="presell-price ui-nowrap">¥ <span class="mainprice">{{item.presellTotalPrice|cut true}}.</span><span class="tail">{{item.presellTotalPrice|cut}}</span></div>
                                 <div class="presell-deposit">{{item.presellDownPrice|cut true}}抵{{item.presellOffsetPrice|cut true}}</div>
@@ -105,7 +105,7 @@
                                 <div class="sub-icon l-r" v-if="showMark">
                                     <img src="/images/mark.png"  style="height:36px!important">
                                 </div>
-                                <span v-if="item.isPresell" style="position: absolute;top: 0;right: 0;width: 35px;height: 35px;background-image: url(/images/presell.png?v=1537885372784);background-size: 100% 100%"></span>
+                                <span v-if="item.isPresell" style="position: absolute;top: 0;right: 0;width: 35px;height: 35px;background-image: url(/images/presell.png?v=1538036828410);background-size: 100% 100%"></span>
                                 <div class="presell-tag shrink" v-if="item.isPresell && item.presellTotalPrice">
                                     <div class="presell-price ui-nowrap">¥ <span class="mainprice">{{item.presellTotalPrice|cut true}}.</span><span class="tail">{{item.presellTotalPrice|cut}}</span></div>
                                     <div class="presell-deposit">{{item.presellDownPrice|cut true}}抵{{item.presellOffsetPrice|cut true}}</div>
@@ -290,11 +290,11 @@
     <ui-share :show.sync="showShare" :config.sync="shareConfig"></ui-share>
     <script type="text/javascript" src="/cms/view/frontier_guide/h5/templateJS.json"></script>
     <script>if(/MicroMessenger/i.test(navigator.userAgent)) document.write('<script src="//res.wx.qq.com/open/js/jweixin-1.1.0.js"><\/script>');</script>
-    <script src="/libs/frozenui/lib/zepto.min.js?v=1537885372784"></script>
-    <script src="/libs/frozenui/js/frozen.js?v=1537885372784"></script>
-    <script>document.write('<script src="/libs/mob-share.js?v=1537885372784"><\/script>');</script>
-    <script src="/libs/vendor.js?v=1537885372784"></script>
-    <script src="/common.js?v=1537885372784"></script>
-    <script src="/brand/brand.js?v=1537885372784"></script>
+    <script src="/libs/frozenui/lib/zepto.min.js?v=1538036828410"></script>
+    <script src="/libs/frozenui/js/frozen.js?v=1538036828410"></script>
+    <script>document.write('<script src="/libs/mob-share.js?v=1538036828410"><\/script>');</script>
+    <script src="/libs/vendor.js?v=1538036828410"></script>
+    <script src="/common.js?v=1538036828410"></script>
+    <script src="/brand/brand.js?v=1538036828410"></script>
     
 </html>

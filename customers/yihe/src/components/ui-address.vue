@@ -129,6 +129,7 @@ export default {
     methods: {
         //返回
         hideAddress: function (id) {
+            alert(123);
             this.show = false;
             if(typeof this.backEvent == 'function') {
                 this.backEvent(id);

@@ -50,7 +50,7 @@
 .setPos .icon-setPos {
   width: 45px;
   height: 45px;
-  background-image: url('../images/icon-setPos.png?v=1537885372784');
+  background-image: url('../images/icon-setPos.png?v=1538036828410');
   position: absolute;
   background-size: contain;
   left: 0;
@@ -58,7 +58,7 @@
 .setPos .icon-next {
   width: 45px;
   height: 45px;
-  background-image: url('../images/icon-next.png?v=1537885372784');
+  background-image: url('../images/icon-next.png?v=1538036828410');
   position: absolute;
   background-size: contain;
   right: 0;
@@ -81,7 +81,7 @@
   position: absolute;
   width: 17px;
   height: 20px;
-  background-image: url('../images/icon-address.png?v=1537885372784');
+  background-image: url('../images/icon-address.png?v=1538036828410');
   background-size: contain;
 }
 .addressList :last-child {

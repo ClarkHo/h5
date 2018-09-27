@@ -8,9 +8,9 @@
     <meta name="x5-orientation" content="portrait">
     <meta name="msapplication-tap-highlight" content="no">
     <title></title>
-    <link rel="stylesheet" href="/libs/frozenui/css/frozen.css?v=1537885372784">
-    <link rel="stylesheet" href="/common.css?v=1537885372784">
-    <link rel="stylesheet" href="/presell/index.css?v=1537885372784">
+    <link rel="stylesheet" href="/libs/frozenui/css/frozen.css?v=1538036828410">
+    <link rel="stylesheet" href="/common.css?v=1538036828410">
+    <link rel="stylesheet" href="/presell/index.css?v=1538036828410">
 </head>
 
 <body v-cloak>
@@ -24,10 +24,10 @@
                     <a href="{{img.linkUrl || 'javascript:void(0)'}}"><img :src="img.imageUrl|imgSize 'xl' 90" alt=""></a>
                 </figure>  -->
                 <figure >
-                    <a href=""><img :src="'/images/lunbo.png?v=1537885372784'|imgSize 'xl' 90" alt=""></a>
+                    <a href=""><img :src="'/images/lunbo.png?v=1538036828410'|imgSize 'xl' 90" alt=""></a>
                 </figure> 
                 <figure>
-                    <a href=""><img :src="'/images/service-img.png?v=1537885372784'|imgSize 'xl' 90" alt=""></a>
+                    <a href=""><img :src="'/images/service-img.png?v=1538036828410'|imgSize 'xl' 90" alt=""></a>
                 </figure> 
             
             </div>
@@ -41,8 +41,8 @@
         <ul class="ui-list" v-for="(indexs,items) in preSellList">
             <li class="presell" v-for="(index,item) in items.merchantProducts" v-link-to-item="item.bookNum < item.stockNum?item.mpId:''">
                 <div class="ui-list-img">
-                    <img :src="item.picUrl || '/images/pre-pro.png?v=1537885372784'" alt="">
-                    <img width="55" v-if="item.bookNum == item.stockNum" class="noStock" src="/images/no-stock.png?v=1537885372784" alt="">
+                    <img :src="item.picUrl || '/images/pre-pro.png?v=1538036828410'" alt="">
+                    <img width="55" v-if="item.bookNum == item.stockNum" class="noStock" src="/images/no-stock.png?v=1538036828410" alt="">
                 </div>
                 <div class="ui-list-info ui-border-b">
                     <div class="pro-title ui-nowrap-multi ">
@@ -70,11 +70,11 @@
 
     <script type="text/javascript" src="/cms/view/frontier_guide/h5/templateJS.json"></script>
     <script>if(/MicroMessenger/i.test(navigator.userAgent)) document.write('<script src="//res.wx.qq.com/open/js/jweixin-1.1.0.js"><\/script>');</script>
-    <script src="/libs/frozenui/lib/zepto.min.js?v=1537885372784"></script>
-    <script src="/libs/swiper/swipe.js?v=1537885372784"></script>
-    <script src="/libs/frozenui/js/frozen.js?v=1537885372784"></script>
-    <script src="/libs/vendor.js?v=1537885372784"></script>
-    <script src="/common.js?v=1537885372784"></script>
-    <script src="/presell/index.js?v=1537885372784"></script>
+    <script src="/libs/frozenui/lib/zepto.min.js?v=1538036828410"></script>
+    <script src="/libs/swiper/swipe.js?v=1538036828410"></script>
+    <script src="/libs/frozenui/js/frozen.js?v=1538036828410"></script>
+    <script src="/libs/vendor.js?v=1538036828410"></script>
+    <script src="/common.js?v=1538036828410"></script>
+    <script src="/presell/index.js?v=1538036828410"></script>
 </body>
 </html>

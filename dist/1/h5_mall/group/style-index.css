@@ -721,7 +721,7 @@ button.ui-border-l.active {
   height: 50px;
   border-radius: 50%;
   overflow: hidden;
-  background-image: url("../images/icons2.png?v=1537885372784");
+  background-image: url("../images/icons2.png?v=1538036828410");
   background-repeat: no-repeat;
   background-size: 320px auto;
 }
@@ -784,7 +784,7 @@ button.ui-border-l.active {
 }
 .many-header .many-bg1 {
   position: absolute;
-  background-image: url('../images/many-bg1.png?v=1537885372784');
+  background-image: url('../images/many-bg1.png?v=1538036828410');
   background-size: 100% 100%;
   width: 100%;
   left: 0;
