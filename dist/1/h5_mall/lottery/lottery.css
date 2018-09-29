@@ -34,7 +34,7 @@
 }
 .rotaryTable-header {
   height: 163px;
-  background: url('../images/rotaryTable-header.png?v=1538036828410') no-repeat;
+  background: url('../images/rotaryTable-header.png?v=1538189604568') no-repeat;
   width: 100%;
   background-size: 100%;
   position: relative;
@@ -98,7 +98,7 @@
   width: 100%;
 }
 .header-bg {
-  background: url('../images/header-bg.png?v=1538036828410') no-repeat center;
+  background: url('../images/header-bg.png?v=1538189604568') no-repeat center;
   border-radius: 6px 6px 0 0;
   -webkit-border-radius: 6px 6px 0 0;
   -moz-border-radius: 6px 6px 0 0;
@@ -115,7 +115,7 @@
   margin-top: 10px;
   margin-bottom: 15px;
   height: 295px;
-  background: url('../images/rotary-bg-bg.png?v=1538036828410') no-repeat;
+  background: url('../images/rotary-bg-bg.png?v=1538189604568') no-repeat;
   background-size: cover;
 }
 .rotaryTable-content .rotate {
@@ -150,7 +150,7 @@
   border-radius: 100%;
   -webkit-border-radius: 100%;
   -moz-border-radius: 100%;
-  background: url('../images/rotary-bg.png?v=1538036828410') no-repeat center;
+  background: url('../images/rotary-bg.png?v=1538189604568') no-repeat center;
   background-size: 100%;
 }
 .rotaryTable-content .table .layer {
@@ -308,7 +308,7 @@ ui-rotary-dialog .ui-dialog-cnt,
 .ui-rotary-dialog .ui-dialog-cnt {
   width: 260px;
   height: 250px;
-  background: url('../images/lottery-dialog.png?v=1538036828410') no-repeat;
+  background: url('../images/lottery-dialog.png?v=1538189604568') no-repeat;
   background-size: 100%;
 }
 ui-rotary-dialog .ui-dialog-cnt .ui-dialog-bd,

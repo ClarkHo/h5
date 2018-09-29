@@ -497,7 +497,7 @@
 .yi-score {
   height: 175px;
   color: #fff;
-  background-image: url(../images/signImg.png?v=1538036828410);
+  background-image: url(../images/signImg.png?v=1538189604568);
   background-repeat: no-repeat;
   background-size: 100% 100%;
 }
@@ -853,10 +853,10 @@
   font: 12px arial, simsun, sans-serif;
 }
 .map-loc-1 {
-  background: url('../images/loc-1.png?v=1538036828410') no-repeat;
+  background: url('../images/loc-1.png?v=1538189604568') no-repeat;
 }
 .map-loc-2 {
-  background: url('../images/loc-2.png?v=1538036828410') no-repeat;
+  background: url('../images/loc-2.png?v=1538189604568') no-repeat;
 }
 .height38px {
   height: 38px;

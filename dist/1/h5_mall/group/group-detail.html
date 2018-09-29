@@ -6,10 +6,10 @@
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
     <meta name="format-detection" content="telephone=no">
     <title>欧普照明</title>
-    <link rel="stylesheet" href="/libs/frozenui/css/frozen.css?v=1538036828410">
-    <link rel="stylesheet" href="/common.css?v=1538036828410">
-    <link rel="stylesheet" href="/libs/mob-share.css?v=1538036828410">
-    <link rel="stylesheet" href="/group/style-w.css?v=1538036828410">
+    <link rel="stylesheet" href="/libs/frozenui/css/frozen.css?v=1538189604568">
+    <link rel="stylesheet" href="/common.css?v=1538189604568">
+    <link rel="stylesheet" href="/libs/mob-share.css?v=1538189604568">
+    <link rel="stylesheet" href="/group/style-w.css?v=1538189604568">
     <style>
         #append-img-text table {
             width: 100% !important;
@@ -140,8 +140,8 @@
         <div class="count-down" v-cloak>
             <div class="avatar">
                 <p v-if="detail.status != 1 && detail.status != 2" style="padding-bottom: 10px">{{detail.joinedMembers}}人参团</p>
-                <img style="margin: 5px;width: 36px;height: 36px" v-for="m in detail.attendeeList" :src="m.iconUrl ? m.iconUrl : '/images/header-1.png?v=1538036828410'" alt="">
-                <img style="margin: 5px;width: 36px;height: 36px" v-for="m in (detail.totalMembers - detail.joinedMembers)" src="/images/header-2.png?v=1538036828410" alt="">
+                <img style="margin: 5px;width: 36px;height: 36px" v-for="m in detail.attendeeList" :src="m.iconUrl ? m.iconUrl : '/images/header-1.png?v=1538189604568'" alt="">
+                <img style="margin: 5px;width: 36px;height: 36px" v-for="m in (detail.totalMembers - detail.joinedMembers)" src="/images/header-2.png?v=1538189604568" alt="">
             </div>
             <!--组团中显示剩余人数、倒计时-->
             <div v-if="detail.status == 1 || detail.status == 2" :class="{'padB10': detail.grouponType}">
@@ -160,7 +160,7 @@
         <ul class="member-list" v-cloak>
             <li class="ui-nowrap" v-for="item in detail.attendeeList">
                 <i class="icon active"></i>
-                <img :src="item.iconUrl || '/images/header-1.png?v=1538036828410'" width="32" height="32">
+                <img :src="item.iconUrl || '/images/header-1.png?v=1538189604568'" width="32" height="32">
                 <span>{{item.userName}}</span>
                 <div class="time">
                     <span>{{item.joinTime}}</span>
@@ -194,7 +194,7 @@
         <!-- <ul class="ui-list ui-list-one ui-list-link marT10 marB10" v-link-to.literal="/group/index.html">
             <li class="ui-border-t">
                 <div class="ui-list-thumb-s">
-                    <span style="background-image:url(/images/pintuan.png?v=1538036828410)"></span>
+                    <span style="background-image:url(/images/pintuan.png?v=1538189604568)"></span>
                 </div>
                 <div class="ui-list-info" style="padding-top: 0;padding-bottom: 0">
                     <h4 class="ui-nowrap">拼团</h4>
@@ -234,13 +234,13 @@
     <script>
         if (/MicroMessenger/i.test(navigator.userAgent)) document.write('<script src="//res.wx.qq.com/open/js/jweixin-1.1.0.js"><\/script>');
     </script>
-    <script src="/libs/frozenui/lib/zepto.min.js?v=1538036828410"></script>
-    <script src="/libs/frozenui/js/frozen.js?v=1538036828410"></script>
-    <script src="/libs/swiper/swipe.js?v=1538036828410"></script>
-    <script src="/libs/vendor.js?v=1538036828410"></script>
-    <script src="/common.js?v=1538036828410"></script>
-    <script src="/group/group-detail.js?v=1538036828410"></script>
-    <script src="/libs/mob-share.js?v=1538036828410" async></script>
+    <script src="/libs/frozenui/lib/zepto.min.js?v=1538189604568"></script>
+    <script src="/libs/frozenui/js/frozen.js?v=1538189604568"></script>
+    <script src="/libs/swiper/swipe.js?v=1538189604568"></script>
+    <script src="/libs/vendor.js?v=1538189604568"></script>
+    <script src="/common.js?v=1538189604568"></script>
+    <script src="/group/group-detail.js?v=1538189604568"></script>
+    <script src="/libs/mob-share.js?v=1538189604568" async></script>
 
 </body>
 

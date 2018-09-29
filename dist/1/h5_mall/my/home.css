@@ -36,7 +36,7 @@
   position: relative;
   height: 132px;
   width: 100%;
-  background: url('../images/info-bg.png?v=1538036828410') no-repeat;
+  background: url('../images/info-bg.png?v=1538189604568') no-repeat;
   background-position-y: -195px;
 }
 .my-info .icon-site {
@@ -304,7 +304,7 @@ li sup {
 .icons-contant-1 {
   width: 18px;
   height: 16px;
-  background-image: url('../images/contant1.png?v=1538036828410');
+  background-image: url('../images/contant1.png?v=1538189604568');
   background-position: center;
   background-size: 100% 100%;
   background-repeat: no-repeat;
@@ -314,7 +314,7 @@ li sup {
 .icons-contant-2 {
   width: 18px;
   height: 16px;
-  background-image: url('../images/contant2.png?v=1538036828410');
+  background-image: url('../images/contant2.png?v=1538189604568');
   background-position: center;
   background-size: 100% 100%;
   background-repeat: no-repeat;
@@ -514,7 +514,7 @@ li sup {
 }
 .my-income-new {
   height: 42px;
-  background: url('../images/sales-bg.png?v=1538036828410');
+  background: url('../images/sales-bg.png?v=1538189604568');
   background-repeat: no-repeat;
   vertical-align: middle;
   background-size: 100%;

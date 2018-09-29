@@ -38,7 +38,7 @@ var config = {
     "center": {
         common: {
             showSign: false,
-            bgImg: '/images/mycenter1.png?v=1538036828410'
+            bgImg: '/images/mycenter1.png?v=1538189604568'
         },
         order: {
             show: true
@@ -189,7 +189,7 @@ exports.default = {
     }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"ui-dialog ui-rotary-dialog\" :class=\"{show: show}\">\n    <div class=\"ui-dialog-cnt\">\n        <slot></slot>\n        \n    </div>\n    <div class=\"close\">\n    <img src=\"/images/lottery-close.png?v=1538036828410\" @click=\"close\" alt=\"\">\n    </div>\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"ui-dialog ui-rotary-dialog\" :class=\"{show: show}\">\n    <div class=\"ui-dialog-cnt\">\n        <slot></slot>\n        \n    </div>\n    <div class=\"close\">\n    <img src=\"/images/lottery-close.png?v=1538189604568\" @click=\"close\" alt=\"\">\n    </div>\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -756,7 +756,7 @@ var config = (_config = {
         //签到
         showSign: true,
         //上方背景图
-        bgImg: '/images/info-bg.png?v=1538036828410'
+        bgImg: '/images/info-bg.png?v=1538189604568'
     },
     order: {
         show: true

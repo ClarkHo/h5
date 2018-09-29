@@ -38,7 +38,7 @@ var config = {
     "center": {
         common: {
             showSign: false,
-            bgImg: '/images/mycenter1.png?v=1538036828410'
+            bgImg: '/images/mycenter1.png?v=1538189604568'
         },
         order: {
             show: true
@@ -4448,7 +4448,7 @@ var config = (_config = {
         //签到
         showSign: true,
         //上方背景图
-        bgImg: '/images/info-bg.png?v=1538036828410'
+        bgImg: '/images/info-bg.png?v=1538189604568'
     },
     order: {
         show: true

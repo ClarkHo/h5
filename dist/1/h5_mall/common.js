@@ -38,7 +38,7 @@ var config = {
     "center": {
         common: {
             showSign: false,
-            bgImg: '/images/mycenter1.png?v=1538036828410'
+            bgImg: '/images/mycenter1.png?v=1538189604568'
         },
         order: {
             show: true
@@ -2323,7 +2323,7 @@ var _vue2 = _interopRequireDefault(_vue);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //模板
-var tplLoading = '<div class="ui-loading-block">' + '<div class="ui-loading-cnt">' + '<img class="lyf-loading" src="/images/page-loading.gif?v=1538036828410" alt="" />' + '</div>' + '</div>';
+var tplLoading = '<div class="ui-loading-block">' + '<div class="ui-loading-cnt">' + '<img class="lyf-loading" src="/images/page-loading.gif?v=1538189604568" alt="" />' + '</div>' + '</div>';
 
 /**
  * 全局加载中动画
@@ -3154,7 +3154,7 @@ $(function () {
             bottom = xnxy.split(',')[1];
         }
 
-        xiaonengEl = $('<div onclick="NTKF.im_openInPageChat(\'' + settingid + '\')" style="position:fixed;background:url(/images/oupu-kefu.png?v=1538036828410) center center no-repeat;background-size:100% 100%;width:38px;height:38px;z-index: 1000;left:' + left + 'px;bottom:' + bottom + 'px;border-radius:50%;"></div>');
+        xiaonengEl = $('<div onclick="NTKF.im_openInPageChat(\'' + settingid + '\')" style="position:fixed;background:url(/images/oupu-kefu.png?v=1538189604568) center center no-repeat;background-size:100% 100%;width:38px;height:38px;z-index: 1000;left:' + left + 'px;bottom:' + bottom + 'px;border-radius:50%;"></div>');
         $('body').append(xiaonengEl);
         freeDrag();
     }
@@ -3217,7 +3217,7 @@ $(function () {
     }
     //折叠
     /*function foldingIcon() {
-     var img = $('<img style="position:fixed;right:0;bottom:60px;height:44px;" src="/images/kefu_x.png?v=1538036828410" alt="" />');
+     var img = $('<img style="position:fixed;right:0;bottom:60px;height:44px;" src="/images/kefu_x.png?v=1538189604568" alt="" />');
      $('body').append(img);
      img.click(function () {
      xiaonengEl.show();
@@ -4299,7 +4299,7 @@ var config = (_config = {
         //签到
         showSign: true,
         //上方背景图
-        bgImg: '/images/info-bg.png?v=1538036828410'
+        bgImg: '/images/info-bg.png?v=1538189604568'
     },
     order: {
         show: true

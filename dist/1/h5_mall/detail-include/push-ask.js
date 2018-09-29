@@ -38,7 +38,7 @@ var config = {
     "center": {
         common: {
             showSign: false,
-            bgImg: '/images/mycenter1.png?v=1538036828410'
+            bgImg: '/images/mycenter1.png?v=1538189604568'
         },
         order: {
             show: true
@@ -206,7 +206,7 @@ new _vue2.default({
       if (this.itemInfo && this.itemInfo.pics && this.itemInfo.pics.length > 0) {
         return this.itemInfo.pics[0].url60x60;
       } else {
-        return "/images/pro-img.png?v=1538036828410";
+        return "/images/pro-img.png?v=1538189604568";
       }
     }
   },
@@ -322,7 +322,7 @@ var config = (_config = {
         //签到
         showSign: true,
         //上方背景图
-        bgImg: '/images/info-bg.png?v=1538036828410'
+        bgImg: '/images/info-bg.png?v=1538189604568'
     },
     order: {
         show: true

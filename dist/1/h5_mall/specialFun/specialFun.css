@@ -13,7 +13,7 @@
 .specailFunIcons {
   display: inline-block;
   vertical-align: middle;
-  background-image: url('../images/specailFunIcons.png?v=1538036828410');
+  background-image: url('../images/specailFunIcons.png?v=1538189604568');
   background-repeat: no-repeat;
   background-size: 335px auto;
 }
@@ -290,10 +290,10 @@
   font: 12px arial, simsun, sans-serif;
 }
 .map-loc-1 {
-  background: url('../images/loc-1.png?v=1538036828410') no-repeat;
+  background: url('../images/loc-1.png?v=1538189604568') no-repeat;
 }
 .map-loc-2 {
-  background: url('../images/loc-2.png?v=1538036828410') no-repeat;
+  background: url('../images/loc-2.png?v=1538189604568') no-repeat;
 }
 .vat-edit-file-upload {
   position: absolute;

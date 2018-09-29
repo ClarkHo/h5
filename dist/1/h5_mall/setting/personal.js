@@ -38,7 +38,7 @@ var config = {
     "center": {
         common: {
             showSign: false,
-            bgImg: '/images/mycenter1.png?v=1538036828410'
+            bgImg: '/images/mycenter1.png?v=1538189604568'
         },
         order: {
             show: true
@@ -1007,7 +1007,7 @@ var vm = new _vue2.default({
         isEditStatus: 0,
         showEdit: false,
         type: '',
-        headPicUrl: '/images/no-header.png?v=1538036828410', //头像
+        headPicUrl: '/images/no-header.png?v=1538189604568', //头像
         userInfo: {}, //用户信息
         userInfoOld: '', //服务器上获取的用户信息
         isApp: _vue2.default.browser.isApp(),
@@ -1335,7 +1335,7 @@ var config = (_config = {
         //签到
         showSign: true,
         //上方背景图
-        bgImg: '/images/info-bg.png?v=1538036828410'
+        bgImg: '/images/info-bg.png?v=1538189604568'
     },
     order: {
         show: true

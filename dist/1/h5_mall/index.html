@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 
-  <head>
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
     <!-- 让网站加入QQ登录接口 -->
@@ -12,875 +12,410 @@
     <meta name="screen-orientation" content="portrait">
     <!-- QQ强制竖屏 -->
     <meta name="x5-orientation" content="portrait">
-    <!-- winphone系统a、input标签被点击时产生的半透明灰色背景去掉 -->
+     <!-- winphone系统a、input标签被点击时产生的半透明灰色背景去掉 -->
     <meta name="msapplication-tap-highlight" content="no">
+	<meta name="heimdall" content="首页">
     <title></title>
     <script type="text/javascript">
      
-      console.log('映射成功123456789');
+      console.log('映射成功ok123456111');
     </script>
-    <!--  FrozenUI的CSS组件库  -->
-    <link rel="stylesheet" href="/libs/frozenui/css/frozen.css?v=1538036828410">
-    <!--  以下CSS文件打包后才存在  -->
-    <link rel="stylesheet" href="/common.css?v=1538036828410">
+     <!--  FrozenUI的CSS组件库  -->
+    <link rel="stylesheet" href="/libs/frozenui/css/frozen.css?v=1538189604568">
+     <!--  以下CSS文件打包后才存在  -->
+    <link rel="stylesheet" href="/common.css?v=1538189604568">
     <!-- 项目主入口CSS文件  打包后才存在-->
-    <link rel="stylesheet" href="/index.css?v=1538036828410">
-    <!-- mod 网页分享 css文件  -->
-    <link rel="stylesheet" href="/libs/mob-share.css?v=1538036828410">
-    <style>
-      .ui-dian {
-        position: absolute;
-        top: 10px;
-        right: 15px;
-        width: 8px;
-        height: 8px;
-        background-color: #ffde00;
-        border-radius: 50%;
-      }
-    </style>
-  </head>
+    <link rel="stylesheet" href="/index.css?v=1538189604568">
 
-  <body>
-    <!--header-->
-    <header class="ui-header ui-header-stable">
-      <div class="search" v-link-to.literal="/search.html" v-cloak><i class="icon icon-search"></i>{{placeholder || '搜索您想找的商品'}}</div>
-      <a href="javascript:void(0)" class="msg-btn" v-link-to-userpage.literal="/my/my-message.html"><i class="icon icon-msg-white"></i></a>
-      <div v-if="msgSummary.unReadMsgCount > 0" class="ui-dian"></div>
-    </header>
-    <!-- footer -->
-    <ui-footer current="index"></ui-footer>
-    <section class="ui-container">
-      <!-- 轮播 -->
-      <div id="slider" class="swipe">
-        <div class="swipe-wrap">
-          <figure v-for="img in ad_banner">
-            <a href="{{img.linkUrl || 'javascript:void(0)'}}"><img width="375" height="180" :src="img.imageUrl" alt=""></a>
-          </figure>
-        </div>
-        <ul class="swipe-point">
-          <li :class="{active: $index == 0}" v-for="li in ad_banner"></li>
-        </ul>
-      </div>
+</head>
 
-      <!-- 轮播拼接图 -->
-      <div id="connection_big_pic" class="ui-row-flex" v-if="connection_big_pic && connection_big_pic.length>0 && connection_big_pic[0]">
-        <a href="{{connection_big_pic[0].linkUrl}}" v-if="connection_big_pic && connection_big_pic.length>0 && connection_big_pic[0]"><img v-lazy="connection_big_pic[0].imageUrl" alt=""></a>
-      </div>
+<body :style="{overflow:(regisCouponsShow||regisCoupons)?'hidden':'auto',bgStyle:true}">
+    <div v-show="!showLocation">
+        <!--header-->
+        <header class="ui-header ui-header-stable ui-header-index ui-border-b" v-cloak>
 
-      <!-- app下载-->
-      <div id="app-download" class="ui-row-flex app-download" v-if="app_download && app_download.length > 0" v-cloak>
-        <img v-lazy="app_download[0].imageUrl" alt="" v-link-to.literal="/download.html">
-      </div>
-      <!-- 分类导航 -->
-      <div class="navigation" v-if="ad_channel && ad_channel.length > 0" v-cloak>
-        <ul class="ui-row">
-          <li class="ui-col ui-col-25" v-for="nav in ad_channel|limitBy 8" track-by="$index">
-            <a href="{{ nav.linkUrl || 'javascript:void(0)' }}" v-if="$index<7">
-              <img width="36" height="36" :src="nav.imageUrl" alt="">
-              <span>{{ nav.name }}</span>
-            </a>
-            <a href="/special.html" v-else>
-              <img width="36" height="36" src="/images/channer-more.png?v=1538036828410" alt="">
-              <span>更多</span>
-            </a>
-          </li>
-        </ul>
-      </div>
-      <!-- 头条 -->
-      <div class="headlines" v-cloak>
-        <div class="inner">
-          <img class="logo" src="/images/headlines.png?v=1538036828410" alt="">
-          <ul class="list" v-if="headlines.pageResult && headlines.pageResult.listObj">
-            <li class="ui-nowrap" v-for="h in headlines.pageResult.listObj" v-link-to="h.articleLink"><span class="theme">[推荐] </span></i>{{h.displayTitle}}</li>
-          </ul>
-          <div class="ui-border-l"></div>
-          <a class="more" href="{{ headlines.categoryLink || 'javascript:void(0)'}}">更多</a>
+            <div class="location" @click="showLocation = true">
+                <span class="ui-nowrap">{{locationCity}}</span>
+                <i class="icons icons-down" v-if="showAddressIcon"></i>
+            </div>
+            <div class="search" style="right: 67px;" v-link-to.literal="/search.html"><i class="icon icon-search"></i>{{placeholder || '搜索欧普'}}</div>
+            <div class="fr">
+                <!--<i class="lyf-icons lyf-scan"></i>-->
+                <i class="icons icons-share" @click="showShare = true"></i>
+                <i class="icons icons-msg-gray" v-link-to-userpage.literal="/message/message-center.html"></i>
+            </div>
+        </header>
+        <!-- footer -->
+        <div class="float-tail" v-if="iShowFloatTail && floatTail" v-cloak>
+            <a href="{{floatTail.linkUrl || 'javascript:void(0)'}}"><img width="100%" :src="floatTail.imageUrl" alt=""></a>
+            <div class="close hide" :class="{'show':floatTail}" @click="iShowFloatTail=false"></div>
         </div>
-      </div>
+        <ui-footer current="index" :count.sync="cartCount"></ui-footer>
+        <section class="ui-container" :class="{'padB30':iShowFloatTail}" v-cloak>
+            <div v-for="m in homePageData">
+                <!-- 空白模板 -->
+                <section v-if="m.templateCode == 'spacing'">
+                    <div style="width: 100%" :style="{'height':m.spacing.height+'px','background-color':m.spacing.color}"></div>
+                </section>
+                <!-- 轮播 -->
+                <section v-if="m.templateCode == 'ad_header' && lunbo.length > 0">
+                    <div class="swipe" id="slider">
+                        <div class="swipe-wrap">
+                            <figure v-for="img in lunbo" v-link-to="img.linkUrl">
+                                <a href="{{img.url || 'javascript:void(0)'}}"><img width="100%" :src="img.imageUrl" alt=""></a>
+                            </figure>
+                        </div>
+                        <ul class="swipe-point">
+                            <li :class="{active: $index == 0}" v-for="li in lunbo"></li>
+                        </ul>
+                    </div>
+                </section>
+                <!--分类导航-->
+                <section v-if="m.templateCode == 'ad_channel' && channel.length > 0">
+                    <div class="navigation" style="padding-bottom: 15px;">
+                        <ul class="ui-row">
+                            <li class="ui-col ui-col-20" v-for="nav in channel">
+                                <a @click="toChannelLink(nav)">
+                                    <img width="36" height="36" v-lazy="nav.imageUrl" alt="">
+                                    <span>{{ nav.name }}</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </section>
+                <!-- 4个入口 接口未定义待修改-->
+                <section v-if="m.templateCode == 'ad_entrance'">
+                    <!--快速查询-->
+                    <div class="fast-inquiry ui-border-t">
+                        <ul class="ui-row">
+                            <li class="ui-col ui-col-50" :class="{'ui-border-r':$index%2 == 0}" v-for="e in entrance" v-link-to="e.linkUrl">
+                                <img class="ui-border-b" :src="e.imageUrl" width="98%">
+                            </li>
+                        </ul>
+                    </div>
+                </section>
+                <!-- 热点 -->
+                <section v-if="m.templateCode == 'news'">
+                    <div class="headlines" id="headlines" v-if="headlines" v-cloak>
+                        <!--<img class="logo" src="/images/headlines.png?v=1538189604568" alt="">-->
+                        <i class="icons icons-hotNews logo"></i>
+                        <ul class="list" v-if="headlines.pageResult && headlines.pageResult.listObj">
+                            <li class="ui-nowrap" v-for="h in headlines.pageResult.listObj" v-link-to="h.articleLink">:&nbsp;{{h.displayTitle}}</li>
+                        </ul>
+                        <div class="ui-border-l"></div>
+                        <a class="more" href="{{ headlines.categoryLink || 'javascript:void(0)'}}">更多</a>
+                        <!-- <a class="more" v-link-to-userpage.literal="/my/market.html">更多</a> -->
+                    </div>
+                </section>
+                <!--图片热点-->
+                <section v-if="m.templateCode == 'h5_multipic' && m.multiPic.images.length > 0">
+                    <div class="image-map" v-for="img in m.multiPic.images">
+                        <a href="{{ img.url || 'javascript:void(0)' }}">
+                            <img class="disB" :src="img.src" width="100%" :style="{'marginBottom':m.multiPic.margin+'px'}">
+                        </a>
+                    </div>
+                </section>
+                <!--秒杀-->
+                <!--秒杀模块注释备用，与魔方模块取其一， 2017-06-08 -->
+                <!--<section v-if="m.templateCode == 'secondKill'">-->
+                    <!--<div class="ui-row bgw">-->
+                        <!--<div class="ui-col ui-col-38" v-link-to="m.secondKill.url1">-->
+                            <!--<img :src="m.secondKill.image1" width="100%" alt="" v-if="m.secondKill.image1 != ''">-->
+                        <!--</div>-->
+                        <!--<div class="ui-col ui-col-62">-->
+                            <!--<div class="ui-row" v-link-to="m.secondKill.url2">-->
+                                <!--<div class="ui-col">-->
+                                    <!--<img :src="m.secondKill.image2" width="100%" alt="" v-if="m.secondKill.image2 != ''">-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<div class="ui-row-flex">-->
+                                <!--<div class="ui-col" v-link-to="m.secondKill.url3">-->
+                                    <!--<img :src="m.secondKill.image3" width="100%" alt="" v-if="m.secondKill.image3 != ''">-->
+                                <!--</div>-->
+                                <!--<div class="ui-col" v-link-to="m.secondKill.url4">-->
+                                    <!--<img :src="m.secondKill.image4" width="100%" alt="" v-if="m.secondKill.image4 != ''">-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</section>-->
+                <!--魔方-->
+                <section v-if="m.templateCode == 'index_cube'">
+                    <ui-cube :data="m.staticData.cdata"></ui-cube>
+                </section>
+                <!--特色主题馆-->
+                <section v-if="m.templateCode == 'slideShow'">
+                    <!--<div class="module-name">-->
+                    <!--<div class="inner">-->
+                    <!--<h4><i class="lyf-icons lyf-features marR5"></i>特色主题馆</h4>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <div class="module">
+                        <div class="transverse padB10">
+                            <ul class="theme-venue" :style="{'width': (screenWidth*(m.featuresTheme.imgWidth/100)+10)*m.featuresTheme.items.length+'px'}">
+                                <li v-for="f in m.featuresTheme.items" v-link-to="f.url" :style="{'width':screenWidth*(m.featuresTheme.imgWidth/100)+'px'}">
+                                    <img v-if="f.imgUrl" :src="f.imgUrl" :style="{'width':screenWidth*(m.featuresTheme.imgWidth/100)+'px'}">
+                                </li>
+                            </ul>
+                        </div>
 
-      <!-- 免单 -->
-      <div id="lucky" class="lucky" v-if="free_activity && free_activity.length > 0" v-cloak>
-        <a href="{{free_activity[0].linkUrl}}"><img :src="free_activity[0].imageUrl" alt=""></a>
-        <div class="inner">
-          <div class="title">
-            <i class="icons-au icons-au-radio"></i> 获奖名单
-          </div>
-          <ul>
-            <li class="ui-nowrap" v-for="f in luckyList"><span class="pno">{{f.phoneNo}}</span><span class="money">免单金额：{{f.amount | currency '¥'}}</span></li>
-          </ul>
-        </div>
-      </div>
+                    </div>
+                </section>
+                <!--图片导航-->
+                <section v-if="m.templateCode == 'channel'">
+                    <div class="module channel-v1">
+                        <div class="ui-row-flex daohang">
+                            <div v-for="nav in m.staticData.channels" class="ui-col ui-col">
+                                <template v-if="nav.src != null && nav.src != ''">
+                                    <span v-link-to="nav.url"><img :src="nav.src"></span>
+                                    <p>{{nav.text}}</p>
+                                </template>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <!--本周热销榜单-->
+                <section v-if="m.templateCode == 'rank' && rankingList.length>0">
+                    <div class="module">
+                        <div class="transverse" style="padding-top: 3px;">
+                            <ul class="hot-ranking" :style="{width: 121*(rankingList.length+1)+'px'}">
+                                <li class="ui-border-r" v-for="rank in rankingList">
+                                    <img v-lazy="rank.picUrl" width="90" height="90" v-link-to="'/detail.html?itemId='+rank.mpId">
+                                    <i class="lyf-icons lyf-ranking-1">{{$index+1}}</i>
+                                    <p class="f12 padT10 ui-nowrap" style="padding-bottom: 5px;">{{rank.mpName}}</p>
+                                    <p class="f12 ui-nowrap">
+                                        <span class="theme" v-if="rank.availablePrice">{{rank.availablePrice | currency '¥'}}</span>
+                                        <span class="theme" v-if="!rank.availablePrice">{{rank.originalPrice | currency '¥'}}</span>
+                                        <del class="f10 c9 padL10" v-if="rank.availablePrice">{{rank.originalPrice | currency '¥'}}</del>
+                                    </p>
+                                </li>
+                                <li style="padding:0" v-if="rankingList.length > 0" v-link-to="m.staticData.link.data">
+                                    <img src="/images/home-rank-detail.png" width="120" height="167">
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+                <!--轮播 多图-->
+                <section v-if="m.templateCode == 'slider' && m.slider.images">
+                    <div class="swipe">
+                        <div class="swipe-wrap">
+                            <figure v-for="img in m.slider.images">
+                                <img width="100%" :src="img.src" alt="" @click="golink(img)">
+                            </figure>
+                        </div>
+                        <ul class="swipe-point" style="text-align: center;bottom: 8px">
+                            <li :class="{active: $index == 0}" v-for="li in m.slider.images"></li>
+                        </ul>
+                    </div>
+                </section>
+                <!--富文本-->
+                <section v-if="m.templateCode == 'rich-text'">
+                    <div v-html="m.staticData.con"></div>
+                </section>
+                <!--单列大图-->
+                <section v-if="m.templateCode == 'goods-r1c1b'" id="lockBar1" :class="{padT60:lock}">
+                    <!--栏目分类列表-->
+                    <div id="moduleTab" :class={lockNav:lock} v-if="moduleCategoryR1c1b.length>0 && m.staticData.displayNav == 1" style="height:57px;">
+                        <div class="prod-tab">
+                            <div class="transverse">
+                                <ul class="ui-row" :style="{width: 80*moduleCategoryR1c1b.length+'px'}">
+                                    <li class="ui-col ui-nowrap" :class="{'active': selectedmoduleCategoryIdR1c1b == c.categoryId,'ui-border-r': $index != moduleCategory.length-1}"
+                                        v-for="c in moduleCategoryR1c1b" @click="getModuleProdList(c.categoryId,'goods-r1c1b',m.moduleId)">
+                                        <img width="15" height="15" :src="c.pictureUrl || '/images/logo.png'" alt="" style="display: inline-block">
+                                        <p class="ui-nowrap">{{c.categoryName}}</p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
 
-      <!-- 秒杀广告图片 -->
-      <div id="miaosha_rukou" class="ui-row-flex" v-if="miaosha_rukou && miaosha_rukou.length>0 && miaosha_rukou[0]">
-        <a href="{{miaosha_rukou[0].linkUrl}}" v-if="miaosha_rukou && miaosha_rukou.length>0 && miaosha_rukou[0]"><img v-lazy="miaosha_rukou[0].imageUrl" alt=""></a>
-      </div>
-      <!-- 抢购秒杀 -->
-      <div id="qianggou" v-if="qianggou && qianggou.length > 0">
-        <div class="module marT5" v-for="qg in qianggou" v-cloak>
-          <div class="module-header">
-            <div class="title">
-              <i class="icons3 icons3-index-clock"></i><span class="bold">抢购秒杀</span>
-              <div class="countdown" v-if="qg.effective">
-                <span class="dao">倒计时</span>
-                <span class="box">
-                          <span v-if="qg.day">{{qg.day}}</span><span v-if="qg.day">天</span><span>{{qg.hh}}:</span><span>{{qg.mm}}:</span><span>{{qg.ss}}</span>
-
-                </span>
-
-              </div>
-              <span class="c6 theme" v-if="!qg.effective">{{ qg.schedule }}</span>
-              <!-- <span class="c6">{{ qg.schedule }}</span> -->
+                    <!--栏目商品数据-->
+                    <div class="prod-list r1c1b">
+                        <div class="warp" v-for="pro in moduleProdListR1c1b">
+                            <div class="item">
+                                <div class="prod-img-r1c1b">
+                                    <img v-lazy="pro.picUrl|imgSize 'm'" v-link-to="'/detail.html?itemId=' + pro.mpId">
+                                </div>
+                                <p class="label" v-if="pro.promotionIconTexts.length > 0">
+                                    <span class="promotion-icon-text" v-for="txt in pro.promotionIconTexts">{{txt}}</span>
+                                </p>
+                                <h5 class="ui-nowrap" v-link-to="'/detail.html?itemId=' + pro.mpId">{{pro.mpName}}</h5>
+                                <div class="price ui-nowrap">
+                                    <span v-if="pro.availablePrice">{{pro.availablePrice | currency '¥'}}</span>
+                                    <span v-if="!pro.availablePrice">{{pro.originalPrice | currency '¥'}}</span>
+                                    <del v-if="pro.availablePrice">{{pro.originalPrice | currency '¥'}}</del>
+                                </div>
+                                <span class="add-to-cart" @click="addItemInCart(pro)" v-if="m.staticData.displayBuyBtn == 1">
+                                    <i class="lyf-icons lyf-cartRed"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="nomore" v-if="nomore" v-cloak>没有更多了</div>
+                </section>
+                <!--栏目分类-->
+                <section v-if="m.templateCode == 'goods'" id="lockBar" :class="{padT60:lock}">
+                    <!--栏目分类列表-->
+                    <div id="moduleTab" :class={lockNav:lock} v-if="moduleCategory.length>0 && m.staticData.displayNav == 1" style="height:57px;">
+                        <div class="prod-tab">
+                            <div class="transverse">
+                                <ul class="ui-row" :style="{width: 80*moduleCategory.length+'px'}">
+                                    <li class="ui-col ui-nowrap" :class="{'active': selectedmoduleCategoryId == c.categoryId,'ui-border-r': $index != moduleCategory.length-1}"
+                                        v-for="c in moduleCategory" @click="getModuleProdList(c.categoryId,'goods',m.moduleId)">
+                                        <img width="15" height="15" :src="c.pictureUrl || '/images/logo.png'" alt="" style="display: inline-block">
+                                        <p class="ui-nowrap">{{c.categoryName}}</p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <!--栏目商品数据-->
+                    <div class="prod-list">
+                        <div class="warp" v-for="pro in moduleProdList">
+                            <div class="item">
+                                <div class="prod-img">
+                                    <img v-lazy="pro.picUrl|imgSize 'm'" v-link-to="'/detail.html?itemId=' + pro.mpId">
+                                </div>
+                                <p class="label">
+                                    <span class="promotion-icon-text" v-for="txt in pro.promotionIconTexts">{{txt}}</span>
+                                </p>
+                                <h5 class="ui-nowrap" v-link-to="'/detail.html?itemId=' + pro.mpId">{{pro.mpName}}</h5>
+                                <div class="price ui-nowrap">
+                                    <span v-if="pro.availablePrice">{{pro.availablePrice | currency '¥'}}</span>
+                                    <span v-if="!pro.availablePrice">{{pro.originalPrice | currency '¥'}}</span>
+                                    <del v-if="pro.availablePrice">{{pro.originalPrice | currency '¥'}}</del>
+                                </div>
+                                <!--<p class="sales">已售{{pro.mpSalesVolume || 0}}笔</p>-->
+                                <span class="add-to-cart" @click="addItemInCart(pro)" v-if="m.staticData.displayBuyBtn == 1">
+                                    <i class="lyf-icons lyf-cartRed"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="nomore" v-if="nomore" v-cloak>没有更多了</div>
+                </section>
             </div>
-            <!--<div class="link" v-if="qg.effective">-->
-            <div class="link">
-              <a href="/seckill.html">更多</a>&nbsp;&nbsp;<i class="icons-bu miaosha"></i></span>
-            </div>
-          </div>
-          <div class="transverse" style="display: -webkit-box; -webkit-box-orient: horizontal;">
-            <div class="prod-warp" :style="{width: 105*(qg.merchantProducts.length+1)+'px'}">
-              <!-- href="{{'/detail.html?itemId='+p.mpId}}" -->
-              <a class="item" href="/seckill.html" v-for="p in qg.merchantProducts">
-                <div class="prod-img">
-                  <!--<span :style="{'background-image':'url('+(p.picUrl || '')+')'}"></span>-->
-                  <span v-lazy:background-image="p.picUrl"></span>
-                </div>
-                <h5 class="ui-nowrap f10">{{p.name}}</h5>
-                <div class="price ui-nowrap" v-money="p.promotionPrice"></div>
-                <div class="orgprice ui-nowrap">{{p.originalPrice | currency '¥'}}</div>
-              </a>
-              <a class="item link-two" href="/seckill.html">查看更多&nbsp;&nbsp;<i class="icons-bu miaosha"></i></a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!--预留活动区-->
-      <!--1:1-->
-      <div id="obligate_activity1" class="ui-row-flex" v-if="obligate_activity1 && obligate_activity1.length > 0">
-        <a :href="obligate_activity1[0].linkUrl || 'javascript:void(0)'"><img v-lazy="obligate_activity1[0].imageUrl" alt=""></a>
-      </div>
-
-      <div id="obligate_activity2" class="ui-row-flex" v-if="obligate_activity2 && obligate_activity2.length > 0">
-        <a :href="obligate_activity2[0].linkUrl || 'javascript:void(0)'"><img v-lazy="obligate_activity2[0].imageUrl" alt=""></a>
-      </div>
-      <div id="obligate_activity3" class="ui-row-flex" v-if="obligate_activity3 && obligate_activity3.length > 0">
-        <a :href="obligate_activity3[0].linkUrl || 'javascript:void(0)'"><img v-lazy="obligate_activity3[0].imageUrl" alt=""></a>
-      </div>
-      <!--1:2-->
-      <div id="obligate_magic_four_1" class="ui-row-flex" v-if="obligate_magic_four && obligate_magic_four.length > 0">
-        <div class="ui-col">
-          <a :href="obligate_magic_four[0].linkUrl || 'javascript:void(0)'"><img v-lazy="obligate_magic_four[0].imageUrl" alt=""></a>
-        </div>
-        <div class="ui-col">
-          <a :href="obligate_magic_four[1].linkUrl || 'javascript:void(0)'"><img v-lazy="obligate_magic_four[1].imageUrl" alt=""></a>
-        </div>
-      </div>
-      <div id="obligate_magic_four_2" class="ui-row-flex" v-if="obligate_magic_four && obligate_magic_four.length > 2">
-        <div class="ui-col">
-          <a :href="obligate_magic_four[2].linkUrl || 'javascript:void(0)'"><img v-lazy="obligate_magic_four[2].imageUrl" alt=""></a>
-        </div>
-        <div class="ui-col">
-          <a :href="obligate_magic_four[3].linkUrl || 'javascript:void(0)'"><img v-lazy="obligate_magic_four[3].imageUrl" alt=""></a>
-        </div>
-      </div>
-      <!--1:3-->
-      <div id="obligate_magic_nine_1" class="ui-row-flex" v-if="obligate_magic_nine && obligate_magic_nine.length > 0">
-        <div class="ui-col">
-          <a :href="obligate_magic_nine[0].linkUrl || 'javascript:void(0)'"><img v-lazy="obligate_magic_nine[0].imageUrl" alt=""></a>
-        </div>
-        <div class="ui-col">
-          <a :href="obligate_magic_nine[1].linkUrl || 'javascript:void(0)'"><img v-lazy="obligate_magic_nine[1].imageUrl" alt=""></a>
-        </div>
-        <div class="ui-col">
-          <a :href="obligate_magic_nine[2].linkUrl || 'javascript:void(0)'"><img v-lazy="obligate_magic_nine[2].imageUrl" alt=""></a>
-        </div>
-      </div>
-      <div id="obligate_magic_nine_2" class="ui-row-flex" v-if="obligate_magic_nine && obligate_magic_nine.length > 3">
-        <div class="ui-col">
-          <a :href="obligate_magic_nine[3].linkUrl || 'javascript:void(0)'"><img v-lazy="obligate_magic_nine[3].imageUrl" alt=""></a>
-        </div>
-        <div class="ui-col">
-          <a :href="obligate_magic_nine[4].linkUrl || 'javascript:void(0)'"><img v-lazy="obligate_magic_nine[4].imageUrl" alt=""></a>
-        </div>
-        <div class="ui-col">
-          <a :href="obligate_magic_nine[5].linkUrl || 'javascript:void(0)'"><img v-lazy="obligate_magic_nine[5].imageUrl" alt=""></a>
-        </div>
-      </div>
-      <div id="obligate_magic_nine_3" class="ui-row-flex" v-if="obligate_magic_nine && obligate_magic_nine.length > 6">
-        <div class="ui-col">
-          <a :href="obligate_magic_nine[6].linkUrl || 'javascript:void(0)'"><img v-lazy="obligate_magic_nine[6].imageUrl" alt=""></a>
-        </div>
-        <div class="ui-col">
-          <a :href="obligate_magic_nine[7].linkUrl || 'javascript:void(0)'"><img v-lazy="obligate_magic_nine[7].imageUrl" alt=""></a>
-        </div>
-        <div class="ui-col">
-          <a :href="obligate_magic_nine[8].linkUrl || 'javascript:void(0)'"><img v-lazy="obligate_magic_nine[8].imageUrl" alt=""></a>
-        </div>
-      </div>
-      <!--1:4-->
-      <div id="obligate_magic_eight_1" class="ui-row-flex" v-if="obligate_magic_eight && obligate_magic_eight.length > 0">
-        <div class="ui-col">
-          <a :href="obligate_magic_eight[0].linkUrl || 'javascript:void(0)'"><img v-lazy="obligate_magic_eight[0].imageUrl" alt=""></a>
-        </div>
-        <div class="ui-col">
-          <a :href="obligate_magic_eight[1].linkUrl || 'javascript:void(0)'"><img v-lazy="obligate_magic_eight[1].imageUrl" alt=""></a>
-        </div>
-        <div class="ui-col">
-          <a :href="obligate_magic_eight[2].linkUrl || 'javascript:void(0)'"><img v-lazy="obligate_magic_eight[2].imageUrl" alt=""></a>
-        </div>
-        <div class="ui-col">
-          <a :href="obligate_magic_eight[3].linkUrl || 'javascript:void(0)'"><img v-lazy="obligate_magic_eight[3].imageUrl" alt=""></a>
-        </div>
-      </div>
-      <div id="obligate_magic_eight_2" class="ui-row-flex" v-if="obligate_magic_eight && obligate_magic_eight.length > 4">
-        <div class="ui-col">
-          <a :href="obligate_magic_eight[4].linkUrl || 'javascript:void(0)'"><img v-lazy="obligate_magic_eight[4].imageUrl" alt=""></a>
-        </div>
-        <div class="ui-col">
-          <a :href="obligate_magic_eight[5].linkUrl || 'javascript:void(0)'"><img v-lazy="obligate_magic_eight[5].imageUrl" alt=""></a>
-        </div>
-        <div class="ui-col">
-          <a :href="obligate_magic_eight[6].linkUrl || 'javascript:void(0)'"><img v-lazy="obligate_magic_eight[6].imageUrl" alt=""></a>
-        </div>
-        <div class="ui-col">
-          <a :href="obligate_magic_eight[7].linkUrl || 'javascript:void(0)'"><img v-lazy="obligate_magic_eight[7].imageUrl" alt=""></a>
-        </div>
-      </div>
-      <!--1:1-->
-      <div id="obligate_activity4" class="ui-row-flex" v-if="obligate_activity4 && obligate_activity4.length > 0">
-        <a :href="obligate_activity4[0].linkUrl || 'javascript:void(0)'"><img v-lazy="obligate_activity4[0].imageUrl" alt=""></a>
-      </div>
-      <!--预留活动区 end-->
-      <!-- 视频广告 -->
-      <div class="hide" v-if="video && video.length > 0" :class="{show: video && video.length > 0}">
-        <div class="video-inner">
-          <img :src="video[0] && video[0].imageUrl" @click="playDsVideo(video[0].linkUrl)" alt="">
-          <i class="icons3 icons3-play" @click="playDsVideo(video[0].linkUrl)"></i>
-        </div>
-        <!-- <video controls webkit-playsinline="true" width="100%" id="advideo"></video> -->
-      </div>
-      <!--大图-->
-      <!--<div class="ui-row-flex">
-        <a href="{{ad_pic[0].linkUrl}}" class="bdb" v-if="ad_pic && ad_pic.length>0 && ad_pic[0]"><img :src="ad_pic[0].imageUrl" alt=""></a>
-    </div>-->
-      <!--special-->
-      <!-- <div class="ui-row-flex" v-if="special && special.length > 0">-->
-      <!-- special -->
-      <!--<div class="ui-col ui-col bdr bdbw">-->
-      <!-- 测试高度 -->
-      <!--<a href="{{ special[0].linkUrl || 'javascript:void(0)' }}"><img :src="special[0].imageUrl" alt=""></a>
-        </div>
-        <div class="ui-col ui-col bdbw">
-            <a href="{{ special[1].linkUrl || 'javascript:void(0)' }}" class="bdb"><img :src="special[1].imageUrl" alt=""></a>
-            <a href="{{ special[2].linkUrl || 'javascript:void(0)' }}"><img :src="special[2].imageUrl" alt=""></a>
-        </div>
-    </div>-->
-      <!--<div class="ui-row-flex" v-if="special1 && special1.length > 0">-->
-      <!-- special -->
-      <!--<div class="ui-col ui-col bdr bdbw">-->
-      <!-- 测试高度 -->
-      <!--<a href="{{ special[0].linkUrl || 'javascript:void(0)' }}"><img :src="special1[0].imageUrl" alt=""></a>
-        </div>
-        <div class="ui-col ui-col bdbw">
-            <a href="{{ special1[1].linkUrl || 'javascript:void(0)' }}" class="bdb"><img :src="special1[1].imageUrl" alt=""></a>
-            <a href="{{ special1[2].linkUrl || 'javascript:void(0)' }}"><img :src="special1[2].imageUrl" alt=""></a>
-        </div>
-    </div>-->
-      <!-- 滚动品牌 -->
-      <div id="brands-scroll" class="brands-scroll" :class="{single: brand_side.length == 1}" v-if="brand_side && brand_side.length > 0" v-cloak>
-        <div class="inner" v-if="brand_side.length > 1" :style="{width: brand_side.length*brand_weight + 'px'}">
-          <a class="brand" :style="{width: brand_weight + 'px'}" v-for="brand in brand_side" href="{{brand.linkUrl}}"><img :src="brand.imageUrl" alt=""></a>
-        </div>
-        <a class="single-brand" v-if="brand_side.length == 1" href="{{brand_side[0].linkUrl}}"><img v-lazy="brand_side[0].imageUrl" alt=""></a>
-      </div>
-      <div id="ad_brand" class="ui-row imgw100" v-if="ad_brand && ad_brand.length > 0">
-        <div class="ui-col ui-col-40">
-          <a href="{{ ad_brand[0].linkUrl || 'javascript:void(0)' }}"><img v-lazy="ad_brand[0].imageUrl" alt=""></a>
-        </div>
-        <div class="ui-col ui-col-60">
-          <div class="ui-row">
-            <div class="ui-col ui-col-33">
-              <a href="{{ ad_brand[1].linkUrl || 'javascript:void(0)' }}"><img v-lazy="ad_brand[1].imageUrl" alt=""></a>
-            </div>
-            <div class="ui-col ui-col-33">
-              <a href="{{ ad_brand[2].linkUrl || 'javascript:void(0)' }}"><img v-lazy="ad_brand[2].imageUrl" alt=""></a>
-            </div>
-            <div class="ui-col ui-col-33">
-              <a href="{{ ad_brand[3].linkUrl || 'javascript:void(0)' }}"><img v-lazy="ad_brand[3].imageUrl" alt=""></a>
-            </div>
-          </div>
-          <div class="ui-row">
-            <div class="ui-col ui-col-33">
-              <a href="{{ ad_brand[4].linkUrl || 'javascript:void(0)' }}"><img v-lazy="ad_brand[4].imageUrl" alt=""></a>
-            </div>
-            <div class="ui-col ui-col-33">
-              <a href="{{ ad_brand[5].linkUrl || 'javascript:void(0)' }}"><img v-lazy="ad_brand[5].imageUrl" alt=""></a>
-            </div>
-            <div class="ui-col ui-col-33">
-              <a href="{{ ad_brand[6].linkUrl || 'javascript:void(0)' }}"><img v-lazy="ad_brand[6].imageUrl" alt=""></a>
-            </div>
-          </div>
-          <div class="ui-row">
-            <div class="ui-col ui-col-33">
-              <a href="{{ ad_brand[7].linkUrl || 'javascript:void(0)' }}"><img heimdall_eventname="1265" :heimdall_position="ad_brand[7].id" v-lazy="ad_brand[7].imageUrl" alt=""></a>
-            </div>
-            <div class="ui-col ui-col-33">
-              <a href="{{ ad_brand[8].linkUrl || 'javascript:void(0)' }}"><img heimdall_eventname="1265" :heimdall_position="ad_brand[8].id" v-lazy="ad_brand[8].imageUrl" alt=""></a>
-            </div>
-            <div class="ui-col ui-col-33">
-              <a href="{{ ad_brand[9].linkUrl || 'javascript:void(0)' }}"><img heimdall_eventname="1265" :heimdall_position="ad_brand[9].id" v-lazy="ad_brand[9].imageUrl" alt=""></a>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!--<div class="module-name hide" :class="{show: hot_activity && hot_activity.length > 0}">
-        <div class="inner">
-            <h5>热销活动</h5>
-        </div>
+        </section>
     </div>
-    <div class="ui-row-flex bdb" v-if="hot_activity && hot_activity.length > 0">
-        <div class="ui-col bdr"><a v-if="hot_activity[0]" href="{{hot_activity[0].linkUrl}}"><img :src="hot_activity[0].imageUrl" alt=""></a></div>
-        <div class="ui-col"><a v-if="hot_activity[1]" href="{{hot_activity[1].linkUrl}}"><img :src="hot_activity[1].imageUrl" alt=""></a></div>
-        <div class="ui-col bdl"><a v-if="hot_activity[2]" href="{{hot_activity[2].linkUrl}}"><img :src="hot_activity[2].imageUrl" alt=""></a></div>
-    </div>
-    <div class="ui-row-flex" v-if="hot_activity && hot_activity.length > 0">
-        <div class="ui-col bdr"><a v-if="hot_activity[3]" href="{{hot_activity[3].linkUrl}}"><img :src="hot_activity[3].imageUrl" alt=""></a></div>
-        <div class="ui-col"><a v-if="hot_activity[4]" href="{{hot_activity[4].linkUrl}}"><img :src="hot_activity[4].imageUrl" alt=""></a></div>
-        <div class="ui-col bdl"><a v-if="hot_activity[5]" href="{{hot_activity[5].linkUrl}}"><img :src="hot_activity[5].imageUrl" alt=""></a></div>
-    </div>-->
-      <!-- 导购 -->
-      <!--<div class="ui-row-flex marT10" v-if="ad_pic.length>1">
-        <a href="{{ad_pic[1].linkUrl}}" class="bdb" v-if="ad_pic && ad_pic.length>0 && ad_pic[1]"><img :src="ad_pic[1].imageUrl" alt=""></a>
-    </div>-->
-      <!-- 女装 -->
-      <div id="ad_women_lunbo" class="swipe" v-if="ad_women_lunbo && ad_women_lunbo.length > 1">
-        <div class="swipe-wrap">
-          <figure v-for="img in ad_women_lunbo">
-            <a href="{{img.linkUrl || 'javascript:void(0)'}}"><img :src="img.imageUrl" alt=""></a>
-          </figure>
-        </div>
-        <ul class="swipe-point" v-show="ad_women_lunbo.length > 1">
-          <li :class="{active: $index == 0}" v-for="li in ad_women_lunbo"></li>
-        </ul>
-      </div>
-      <div id="ad_women_lunbo_single" class="ui-row-flex" v-if="ad_women_lunbo && ad_women_lunbo.length == 1">
-        <a href="{{ad_women_lunbo[0].linkUrl}}"><img v-lazy="ad_women_lunbo[0].imageUrl" alt=""></a>
-      </div>
-      <div id="ad_woman_1" class="ui-row-flex" v-for="woman in ad_woman">
-        <div class="ui-col" v-for="w in woman">
-          <a href="{{ w.linkUrl || 'javascript:void(0)' }}"><img v-lazy="w.imageUrl" alt=""></a>
-        </div>
-
-      </div>
-      <!--<div id="ad_woman_2" class="ui-row-flex" v-if="ad_woman && ad_woman.length > 4">-->
-      <!--<div class="ui-col"><a href="{{ ad_woman[4].linkUrl || 'javascript:void(0)' }}"><img v-lazy="ad_woman[4].imageUrl" alt=""></a></div>-->
-      <!--<div class="ui-col"><a href="{{ ad_woman[5].linkUrl || 'javascript:void(0)' }}"><img v-lazy="ad_woman[5].imageUrl" alt=""></a></div>-->
-      <!--<div class="ui-col"><a href="{{ ad_woman[6].linkUrl || 'javascript:void(0)' }}"><img v-lazy="ad_woman[6].imageUrl" alt=""></a></div>-->
-      <!--<div class="ui-col"><a href="{{ ad_woman[7].linkUrl || 'javascript:void(0)' }}"><img v-lazy="ad_woman[7].imageUrl" alt=""></a></div>-->
-      <!--</div>-->
-
-      <!-- 男装 -->
-      <div id="ad_man_lunbo" class="swipe" v-if="ad_man_lunbo && ad_man_lunbo.length > 1">
-        <div class="swipe-wrap">
-          <figure v-for="img in ad_man_lunbo">
-            <a href="{{img.linkUrl || 'javascript:void(0)'}}"><img :src="img.imageUrl" alt=""></a>
-          </figure>
-        </div>
-        <ul class="swipe-point" v-show="ad_man_lunbo.length > 1">
-          <li :class="{active: $index == 0}" v-for="li in ad_man_lunbo"></li>
-        </ul>
-      </div>
-      <div id="ad_man_lunbo_single" class="ui-row-flex" v-if="ad_man_lunbo && ad_man_lunbo.length == 1">
-        <a href="{{ad_man_lunbo[0].linkUrl}}"><img v-lazy="ad_man_lunbo[0].imageUrl" alt=""></a>
-      </div>
-      <div id="ad_man_1" class="ui-row-flex" v-for="man in ad_man">
-        <div class="ui-col" v-for="m in man">
-          <a href="{{ m.linkUrl || 'javascript:void(0)' }}"><img v-lazy="m.imageUrl" alt=""></a>
-        </div>
-        <!--<div class="ui-col"><a href="{{ ad_man[1].linkUrl || 'javascript:void(0)' }}"><img  v-lazy="ad_man[1].imageUrl" alt=""></a></div>-->
-        <!--<div class="ui-col"><a href="{{ ad_man[2].linkUrl || 'javascript:void(0)' }}"><img  v-lazy="ad_man[2].imageUrl" alt=""></a></div>-->
-        <!--<div class="ui-col"><a href="{{ ad_man[3].linkUrl || 'javascript:void(0)' }}"><img  v-lazy="ad_man[3].imageUrl" alt=""></a></div>-->
-      </div>
-      <!--<div id="ad_man_2" class="ui-row-flex" v-if="ad_man && ad_man.length > 4">-->
-      <!--<div class="ui-col"><a href="{{ ad_man[4].linkUrl || 'javascript:void(0)' }}"><img heimdall_eventname="1265" :heimdall_position="ad_man[4].id" v-lazy="ad_man[4].imageUrl" alt=""></a></div>-->
-      <!--<div class="ui-col"><a href="{{ ad_man[5].linkUrl || 'javascript:void(0)' }}"><img heimdall_eventname="1265" :heimdall_position="ad_man[5].id" v-lazy="ad_man[5].imageUrl" alt=""></a></div>-->
-      <!--<div class="ui-col"><a href="{{ ad_man[6].linkUrl || 'javascript:void(0)' }}"><img heimdall_eventname="1265" :heimdall_position="ad_man[6].id" v-lazy="ad_man[6].imageUrl" alt=""></a></div>-->
-      <!--<div class="ui-col"><a href="{{ ad_man[7].linkUrl || 'javascript:void(0)' }}"><img heimdall_eventname="1265" :heimdall_position="ad_man[7].id" v-lazy="ad_man[7].imageUrl" alt=""></a></div>-->
-      <!--</div>-->
-
-      <!-- 童装 -->
-      <div id="ad_child_lunbo" class="swipe" v-if="ad_child_lunbo && ad_child_lunbo.length > 1">
-        <div class="swipe-wrap">
-          <figure v-for="img in ad_child_lunbo">
-            <a href="{{img.linkUrl || 'javascript:void(0)'}}"><img :src="img.imageUrl" alt=""></a>
-          </figure>
-        </div>
-        <ul class="swipe-point" v-show="ad_child_lunbo.length > 1">
-          <li :class="{active: $index == 0}" v-for="li in ad_child_lunbo"></li>
-        </ul>
-      </div>
-      <div id="ad_child_lunbo_single" class="ui-row-flex" v-if="ad_child_lunbo && ad_child_lunbo.length == 1">
-        <a href="{{ad_child_lunbo[0].linkUrl}}"><img v-lazy="ad_child_lunbo[0].imageUrl" alt=""></a>
-      </div>
-      <div id="ad_child_1" class="ui-row-flex" v-for="child in ad_child">
-        <div class="ui-col" v-for="c in child">
-          <a href="{{ c.linkUrl || 'javascript:void(0)' }}"><img v-lazy="c.imageUrl" alt=""></a>
-        </div>
-        <!--<div class="ui-col"><a href="{{ ad_child[1].linkUrl || 'javascript:void(0)' }}"><img  v-lazy="ad_child[1].imageUrl" alt=""></a></div>-->
-        <!--<div class="ui-col"><a href="{{ ad_child[2].linkUrl || 'javascript:void(0)' }}"><img  v-lazy="ad_child[2].imageUrl" alt=""></a></div>-->
-        <!--<div class="ui-col"><a href="{{ ad_child[3].linkUrl || 'javascript:void(0)' }}"><img  v-lazy="ad_child[3].imageUrl" alt=""></a></div>-->
-      </div>
-      <!--<div id="ad_child_2" class="ui-row-flex" v-if="ad_child && ad_child.length > 4">-->
-      <!--<div class="ui-col"><a href="{{ ad_child[4].linkUrl || 'javascript:void(0)' }}"><img  v-lazy="ad_child[4].imageUrl" alt=""></a></div>-->
-      <!--<div class="ui-col"><a href="{{ ad_child[5].linkUrl || 'javascript:void(0)' }}"><img  v-lazy="ad_child[5].imageUrl" alt=""></a></div>-->
-      <!--<div class="ui-col"><a href="{{ ad_child[6].linkUrl || 'javascript:void(0)' }}"><img  v-lazy="ad_child[6].imageUrl" alt=""></a></div>-->
-      <!--<div class="ui-col"><a href="{{ ad_child[7].linkUrl || 'javascript:void(0)' }}"><img  v-lazy="ad_child[7].imageUrl" alt=""></a></div>-->
-      <!--</div>-->
-
-      <!-- 布艺饰品 -->
-      <div id="ad_decoration_lunbo" class="swipe" v-if="ad_decoration_lunbo && ad_decoration_lunbo.length > 1">
-        <div class="swipe-wrap">
-          <figure v-for="img in ad_decoration_lunbo">
-            <a href="{{img.linkUrl || 'javascript:void(0)'}}"><img :src="img.imageUrl" alt=""></a>
-          </figure>
-        </div>
-        <ul class="swipe-point" v-show="ad_decoration_lunbo.length > 1">
-          <li :class="{active: $index == 0}" v-for="li in ad_decoration_lunbo"></li>
-        </ul>
-      </div>
-      <div id="ad_decoration_lunbo_single" class="ui-row-flex" v-if="ad_decoration_lunbo && ad_decoration_lunbo.length == 1">
-        <a href="{{ad_decoration_lunbo[0].linkUrl}}"><img v-lazy="ad_decoration_lunbo[0].imageUrl" alt=""></a>
-      </div>
-      <div id="ad_decoration_1" class="ui-row-flex" v-for="decoration in ad_decoration">
-        <div class="ui-col" v-for="d in decoration">
-          <a href="{{ d.linkUrl || 'javascript:void(0)' }}"><img v-lazy="d.imageUrl" alt=""></a>
-        </div>
-        <!--<div class="ui-col"><a href="{{ ad_decoration[1].linkUrl || 'javascript:void(0)' }}"><img  v-lazy="ad_decoration[1].imageUrl" alt=""></a></div>-->
-        <!--<div class="ui-col"><a href="{{ ad_decoration[2].linkUrl || 'javascript:void(0)' }}"><img  v-lazy="ad_decoration[2].imageUrl" alt=""></a></div>-->
-        <!--<div class="ui-col"><a href="{{ ad_decoration[3].linkUrl || 'javascript:void(0)' }}"><img  v-lazy="ad_decoration[3].imageUrl" alt=""></a></div>-->
-      </div>
-      <!--<div id="ad_decoration_2" class="ui-row-flex" v-if="ad_decoration && ad_decoration.length > 4">-->
-      <!--<div class="ui-col"><a href="{{ ad_decoration[4].linkUrl || 'javascript:void(0)' }}"><img  v-lazy="ad_decoration[4].imageUrl" alt=""></a></div>-->
-      <!--<div class="ui-col"><a href="{{ ad_decoration[5].linkUrl || 'javascript:void(0)' }}"><img v-lazy="ad_decoration[5].imageUrl" alt=""></a></div>-->
-      <div class="ui-col"><a href="{{ ad_decoration[6].linkUrl || 'javascript:void(0)' }}"><img  v-lazy="ad_decoration[6].imageUrl" alt=""></a></div>
-      <!--<div class="ui-col"><a href="{{ ad_decoration[7].linkUrl || 'javascript:void(0)' }}"><img  v-lazy="ad_decoration[7].imageUrl" alt=""></a></div>-->
-      <!--</div>-->
-
-      <!-- 运动专区 -->
-      <div id="ad_sport_lunbo" class="swipe" v-if="ad_sport_lunbo && ad_sport_lunbo.length > 1">
-        <div class="swipe-wrap">
-          <figure v-for="img in ad_sport_lunbo">
-            <a href="{{img.linkUrl || 'javascript:void(0)'}}"><img :src="img.imageUrl" alt=""></a>
-          </figure>
-        </div>
-        <ul class="swipe-point" v-show="ad_sport_lunbo.length > 1">
-          <li :class="{active: $index == 0}" v-for="li in ad_sport_lunbo"></li>
-        </ul>
-      </div>
-      <div id="ad_sport_lunbo_single" class="ui-row-flex" v-if="ad_sport_lunbo && ad_sport_lunbo.length == 1">
-        <a href="{{ad_sport_lunbo[0].linkUrl}}"><img v-lazy="ad_sport_lunbo[0].imageUrl" alt=""></a>
-      </div>
-      <div id="ad_sport_1" class="ui-row-flex" v-for="sport in ad_sport">
-        <div class="ui-col" v-for="s in sport">
-          <a href="{{ s.linkUrl || 'javascript:void(0)' }}"><img v-lazy="s.imageUrl" alt=""></a>
-        </div>
-        <!--<div class="ui-col"><a href="{{ ad_sport[1].linkUrl || 'javascript:void(0)' }}"><img  v-lazy="ad_sport[1].imageUrl" alt=""></a></div>-->
-        <!--<div class="ui-col"><a href="{{ ad_sport[2].linkUrl || 'javascript:void(0)' }}"><img  v-lazy="ad_sport[2].imageUrl" alt=""></a></div>-->
-        <!--<div class="ui-col"><a href="{{ ad_sport[3].linkUrl || 'javascript:void(0)' }}"><img  v-lazy="ad_sport[3].imageUrl" alt=""></a></div>-->
-      </div>
-
-      <!-- 全球购 -->
-      <div id="ad_world_lunbo" class="swipe" v-if="ad_world_lunbo && ad_world_lunbo.length > 1">
-        <div class="swipe-wrap">
-          <figure v-for="img in ad_world_lunbo">
-            <a href="{{img.linkUrl || 'javascript:void(0)'}}"><img :src="img.imageUrl" alt=""></a>
-          </figure>
-        </div>
-        <ul class="swipe-point" v-show="ad_world_lunbo.length > 1">
-          <li :class="{active: $index == 0}" v-for="li in ad_world_lunbo"></li>
-        </ul>
-      </div>
-      <div id="ad_world_lunbo_single" class="ui-row-flex" v-if="ad_world_lunbo && ad_world_lunbo.length == 1">
-        <a href="{{ad_world_lunbo[0].linkUrl}}"><img v-lazy="ad_world_lunbo[0].imageUrl" alt=""></a>
-      </div>
-      <div id="ad_world_1" class="ui-row-flex" v-for="world in ad_world">
-        <div class="ui-col" v-for="wo in world">
-          <a href="{{wo.linkUrl || 'javascript:void(0)' }}"><img v-lazy="wo.imageUrl" alt=""></a>
-        </div>
-        <!--<div class="ui-col"><a href="{{ ad_world[1].linkUrl || 'javascript:void(0)' }}"><img  v-lazy="ad_world[1].imageUrl" alt=""></a></div>-->
-        <!--<div class="ui-col"><a href="{{ ad_world[2].linkUrl || 'javascript:void(0)' }}"><img  v-lazy="ad_world[2].imageUrl" alt=""></a></div>-->
-        <!--<div class="ui-col"><a href="{{ ad_world[3].linkUrl || 'javascript:void(0)' }}"><img  v-lazy="ad_world[3].imageUrl" alt=""></a></div>-->
-      </div>
-      <!--<div id="ad_world_2" class="ui-row-flex" v-if="ad_world && ad_world.length > 4">-->
-      <!--<div class="ui-col"><a href="{{ ad_world[0].linkUrl || 'javascript:void(0)' }}"><img  v-lazy="ad_world[4].imageUrl" alt=""></a></div>-->
-      <!--<div class="ui-col"><a href="{{ ad_world[1].linkUrl || 'javascript:void(0)' }}"><img  v-lazy="ad_world[5].imageUrl" alt=""></a></div>-->
-      <!--<div class="ui-col"><a href="{{ ad_world[2].linkUrl || 'javascript:void(0)' }}"><img  v-lazy="ad_world[6].imageUrl" alt=""></a></div>-->
-      <!--<div class="ui-col"><a href="{{ ad_world[3].linkUrl || 'javascript:void(0)' }}"><img  v-lazy="ad_world[7].imageUrl" alt=""></a></div>-->
-      <!--</div>-->
-
-      <!-- 预留广告位1 -->
-      <div id="obligate_category_1_lunbo" class="swipe" v-if="obligate_category_1_lunbo && obligate_category_1_lunbo.length > 1">
-        <div class="swipe-wrap">
-          <figure v-for="img in obligate_category_1_lunbo">
-            <a href="{{img.linkUrl || 'javascript:void(0)'}}"><img :src="img.imageUrl" alt=""></a>
-          </figure>
-        </div>
-        <ul class="swipe-point" v-show="obligate_category_1_lunbo.length > 1">
-          <li :class="{active: $index == 0}" v-for="li in obligate_category_1_lunbo"></li>
-        </ul>
-      </div>
-      <div id="obligate_category_1_lunbo_single" class="ui-row-flex" v-if="obligate_category_1_lunbo && obligate_category_1_lunbo.length == 1">
-        <a href="{{obligate_category_1_lunbo[0].linkUrl}}"><img v-lazy="obligate_category_1_lunbo[0].imageUrl" alt=""></a>
-      </div>
-      <div id="obligate_category_1_1" class="ui-row-flex" v-for="obligate1 in obligate_category_1">
-        <div class="ui-col" v-for="ob1 in obligate1">
-          <a href="{{ ob1.linkUrl || 'javascript:void(0)' }}"><img v-lazy="ob1.imageUrl" alt=""></a>
-        </div>
-        <!--<div class="ui-col"><a v-if="obligate_category_1[1]" href="{{ obligate_category_1[1].linkUrl || 'javascript:void(0)' }}"><img  v-lazy="obligate_category_1[1].imageUrl" alt=""></a></div>-->
-        <!--<div class="ui-col"><a v-if="obligate_category_1[2]" href="{{ obligate_category_1[2].linkUrl || 'javascript:void(0)' }}"><img  v-lazy="obligate_category_1[2].imageUrl" alt=""></a></div>-->
-        <!--<div class="ui-col"><a v-if="obligate_category_1[3]" href="{{ obligate_category_1[3].linkUrl || 'javascript:void(0)' }}"><img  v-lazy="obligate_category_1[3].imageUrl" alt=""></a></div>-->
-      </div>
-      <!--<div id="obligate_category_1_2" class="ui-row-flex" v-if="obligate_category_1 && obligate_category_1.length > 4">-->
-      <!--<div class="ui-col"><a v-if="obligate_category_1[4]" href="{{ obligate_category_1[4].linkUrl || 'javascript:void(0)' }}"><img  v-lazy="obligate_category_1[4].imageUrl" alt=""></a></div>-->
-      <!--<div class="ui-col"><a v-if="obligate_category_1[5]" href="{{ obligate_category_1[5].linkUrl || 'javascript:void(0)' }}"><img  v-lazy="obligate_category_1[5].imageUrl" alt=""></a></div>-->
-      <!--<div class="ui-col"><a v-if="obligate_category_1[6]" href="{{ obligate_category_1[6].linkUrl || 'javascript:void(0)' }}"><img  v-lazy="obligate_category_1[6].imageUrl" alt=""></a></div>-->
-      <!--<div class="ui-col"><a v-if="obligate_category_1[7]" href="{{ obligate_category_1[7].linkUrl || 'javascript:void(0)' }}"><img  v-lazy="obligate_category_1[7].imageUrl" alt=""></a></div>-->
-      <!--</div>-->
-
-      <!-- 预留广告位2 -->
-      <div id="obligate_category_2_lunbo" class="swipe" v-if="obligate_category_2_lunbo && obligate_category_2_lunbo.length > 1">
-        <div class="swipe-wrap">
-          <figure v-for="img in obligate_category_2_lunbo">
-            <a href="{{img.linkUrl || 'javascript:void(0)'}}"><img :src="img.imageUrl" alt=""></a>
-          </figure>
-        </div>
-        <ul class="swipe-point" v-show="obligate_category_2_lunbo.length > 1">
-          <li :class="{active: $index == 0}" v-for="li in obligate_category_2_lunbo"></li>
-        </ul>
-      </div>
-      <div id="obligate_category_2_lunbo_single" class="ui-row-flex" v-if="obligate_category_2_lunbo && obligate_category_2_lunbo.length == 1">
-        <a href="{{obligate_category_2_lunbo[0].linkUrl}}"><img v-lazy="obligate_category_2_lunbo[0].imageUrl" alt=""></a>
-      </div>
-      <div id="obligate_category_2_1" class="ui-row-flex" v-for="obligate2 in obligate_category_2">
-        <div class="ui-col" v-for="ob2 in obligate2">
-          <a href="{{ ob2.linkUrl || 'javascript:void(0)' }}"><img v-lazy="ob2.imageUrl" alt=""></a>
-        </div>
-        <!--<div class="ui-col"><a v-if="obligate_category_2[1]" href="{{ obligate_category_2[1].linkUrl || 'javascript:void(0)' }}"><img  v-lazy="obligate_category_2[1].imageUrl" alt=""></a></div>-->
-        <!--<div class="ui-col"><a v-if="obligate_category_2[2]" href="{{ obligate_category_2[2].linkUrl || 'javascript:void(0)' }}"><img  v-lazy="obligate_category_2[2].imageUrl" alt=""></a></div>-->
-        <!--<div class="ui-col"><a v-if="obligate_category_2[3]" href="{{ obligate_category_2[3].linkUrl || 'javascript:void(0)' }}"><img  v-lazy="obligate_category_2[3].imageUrl" alt=""></a></div>-->
-      </div>
-      <!--<div id="obligate_category_2_2" class="ui-row-flex" v-if="obligate_category_2 && obligate_category_2.length > 4">-->
-      <!--<div class="ui-col"><a v-if="obligate_category_2[4]" href="{{ obligate_category_2[4].linkUrl || 'javascript:void(0)' }}"><img  v-lazy="obligate_category_2[4].imageUrl" alt=""></a></div>-->
-      <!--<div class="ui-col"><a v-if="obligate_category_2[5]" href="{{ obligate_category_2[5].linkUrl || 'javascript:void(0)' }}"><img  v-lazy="obligate_category_2[5].imageUrl" alt=""></a></div>-->
-      <!--<div class="ui-col"><a v-if="obligate_category_2[6]" href="{{ obligate_category_2[6].linkUrl || 'javascript:void(0)' }}"><img  v-lazy="obligate_category_2[6].imageUrl" alt=""></a></div>-->
-      <!--<div class="ui-col"><a v-if="obligate_category_2[7]" href="{{ obligate_category_2[7].linkUrl || 'javascript:void(0)' }}"><img  v-lazy="obligate_category_2[7].imageUrl" alt=""></a></div>-->
-      <!--</div>-->
-
-      <!-- 预留广告位 -->
-      <div id="obligate_category_3_lunbo" class="swipe" v-if="obligate_category_3_lunbo && obligate_category_3_lunbo.length > 1">
-        <div class="swipe-wrap">
-          <figure v-for="img in obligate_category_3_lunbo">
-            <a href="{{img.linkUrl || 'javascript:void(0)'}}"><img :src="img.imageUrl" alt=""></a>
-          </figure>
-        </div>
-        <ul class="swipe-point" v-show="obligate_category_3_lunbo.length > 1">
-          <li :class="{active: $index == 0}" v-for="li in obligate_category_3_lunbo"></li>
-        </ul>
-      </div>
-      <div id="obligate_category_3_lunbo_single" class="ui-row-flex" v-if="obligate_category_3_lunbo && obligate_category_3_lunbo.length == 1">
-        <a href="{{obligate_category_3_lunbo[0].linkUrl}}"><img v-lazy="obligate_category_3_lunbo[0].imageUrl" alt=""></a>
-      </div>
-      <div id="obligate_category_3_1" class="ui-row-flex" v-for="obligate3 in obligate_category_3">
-        <div class="ui-col" v-for="ob3 in obligate3">
-          <a href="{{ ob3.linkUrl || 'javascript:void(0)' }}"><img v-lazy="ob3.imageUrl" alt=""></a>
-        </div>
-        <!--<div class="ui-col"><a v-if="obligate_category_3[1]" href="{{ obligate_category_3[1].linkUrl || 'javascript:void(0)' }}"><img  v-lazy="obligate_category_3[1].imageUrl" alt=""></a></div>-->
-        <!--<div class="ui-col"><a v-if="obligate_category_3[2]" href="{{ obligate_category_3[2].linkUrl || 'javascript:void(0)' }}"><img  v-lazy="obligate_category_3[2].imageUrl" alt=""></a></div>-->
-        <!--<div class="ui-col"><a v-if="obligate_category_3[3]" href="{{ obligate_category_3[3].linkUrl || 'javascript:void(0)' }}"><img  v-lazy="obligate_category_3[3].imageUrl" alt=""></a></div>-->
-      </div>
-      <!--<div id="obligate_category_3_2" class="ui-row-flex" v-if="obligate_category_3 && obligate_category_3.length > 4">-->
-      <!--<div class="ui-col"><a v-if="obligate_category_3[4]" href="{{ obligate_category_3[4].linkUrl || 'javascript:void(0)' }}"><img  v-lazy="obligate_category_3[4].imageUrl" alt=""></a></div>-->
-      <!--<div class="ui-col"><a v-if="obligate_category_3[5]" href="{{ obligate_category_3[5].linkUrl || 'javascript:void(0)' }}"><img v-lazy="obligate_category_3[5].imageUrl" alt=""></a></div>-->
-      <!--<div class="ui-col"><a v-if="obligate_category_3[6]" href="{{ obligate_category_3[6].linkUrl || 'javascript:void(0)' }}"><img  v-lazy="obligate_category_3[6].imageUrl" alt=""></a></div>-->
-      <!--<div class="ui-col"><a v-if="obligate_category_3[7]" href="{{ obligate_category_3[7].linkUrl || 'javascript:void(0)' }}"><img  v-lazy="obligate_category_3[7].imageUrl" alt=""></a></div>-->
-      <!--</div>-->
-
-      <!-- 轮播 -->
-      <div id="slider2" v-if="recoList && recoList.length > 0" class="swipe tuijian" v-cloak>
-        <div class="swipe-wrap">
-          <figure v-for="both in recoList">
-            <div class="prod-list">
-              <div class="warp" v-for="pro in both" :class="{pr2: $index % 2 == 0, pl2: $index % 2 != 0}">
-                <a class="item" href="javascript:void(0)">
-                  <div class="prod-img">
-                    <img :src="pro.url220x220" v-link-to="'/detail.html?itemId=' + pro.mpId">
-                  </div>
-                  <h5 class="ui-nowrap" v-link-to="'/detail.html?itemId=' + pro.mpId">{{pro.name}}</h5>
-                  <p class="label">
-                    <span class="manjian" v-for="txt in pro.promotionIconTexts">{{txt}}</span>
-                  </p>
-                  <div v-if="pro.promotionPrice != null" class="price ui-nowrap" v-money="pro.promotionPrice"></div>
-                  <div v-if="pro.promotionPrice == null" class="price ui-nowrap" v-money="pro.price"></div>
-                  <p class="sales">已售{{pro.mpSalesVolume || 0}}笔</p>
-                </a>
-              </div>
-            </div>
-          </figure>
-        </div>
-        <ul class="swipe-point">
-          <li :class="{active: $index == 0}" v-for="li in recoList"></li>
-        </ul>
-      </div>
-
-     
-      <!--楼层1标题-->
-      <div class="ui-row-flex" v-if='title_one && title_one.length > 0' v-cloak>
-        <img :src="title_one[0].imageUrl" alt="">
-      </div>
-      <!--楼层1推广图-->
-      <div class="ui-row-flex" v-if='entry_one && entry_one.length > 0' v-cloak>
-        <a :href="entry_one[0].linkUrl || 'javascript:void(0)'"><img v-lazy="entry_one[0].imageUrl" alt=""></a>
-      </div>
-      <!--楼层1推广商品-->
-      <div class="transverse shop-bg pdT5" v-if="product_one && product_one.length >= 15" v-cloak>
-        <div class="prod-warp" :style="{width: 135*15+'px'}" >
-          <!-- href="{{'/detail.html?itemId='+p.mpId}}" -->
-          <a class="item" :href="one.linkUrl || 'javascript:void(0)'" v-for="one in product_one | limitBy 15" >
-            <div class="prod-img">
-              <!--<span :style="{'background-image':'url('+(p.picUrl || '')+')'}"></span>-->
-              <span v-lazy:background-image="one.imageUrl"></span>
-            </div>
-            <h5 class="ui-nowrap f10">{{one.name}}</h5>
-            <div class="price ui-nowrap" v-money="one.refObject.price"></div>
-          </a>
-        </div>
-      </div>
-      <div class="transverse shop-bg pdT5" v-if="product_one && product_one.length > 0 && product_one.length < 15" v-cloak>
-        <div class="prod-warp" :style="{width: 135*product_one.length+'px'}" >
-          <!-- href="{{'/detail.html?itemId='+p.mpId}}" -->
-          <a class="item" :href="one.linkUrl || 'javascript:void(0)'" v-for="one in product_one " >
-            <div class="prod-img">
-              <!--<span :style="{'background-image':'url('+(p.picUrl || '')+')'}"></span>-->
-              <span v-lazy:background-image="one.imageUrl"></span>
-            </div>
-            <h5 class="ui-nowrap f10">{{one.name}}</h5>
-            <div class="price ui-nowrap" v-money="one.refObject.price"></div>
-          </a>
-        </div>
-      </div>
-
-      <!--楼层2标题-->
-      <div class="ui-row-flex" v-if='title_two && title_two.length > 0' v-cloak>
-        <img :src="title_two[0].imageUrl" alt="">
-      </div>
-      <!--楼层2推广图-->
-      <div class="ui-row-flex" v-if='entry_two && entry_two.length > 0' v-cloak>
-        <a :href="entry_two[0].linkUrl || 'javascript:void(0)'"><img v-lazy="entry_two[0].imageUrl" alt=""></a>
-      </div>
-      <!--楼层2推广商品-->
-      <div class="transverse shop-bg pdT5" v-if="product_two && product_two.length >= 15" v-cloak>
-        <div class="prod-warp" :style="{width: 135*15+'px'}">
-          <!-- href="{{'/detail.html?itemId='+p.mpId}}" -->
-          <a class="item" :href="two.linkUrl || 'javascript:void(0)'" v-for="two in product_two | limitBy 15">
-            <div class="prod-img">
-              <!--<span :style="{'background-image':'url('+(p.picUrl || '')+')'}"></span>-->
-              <span v-lazy:background-image="two.imageUrl"></span>
-            </div>
-            <h5 class="ui-nowrap f10">{{two.name}}</h5>
-            <div class="price ui-nowrap" v-money="two.refObject.price"></div>
-          </a>
-        </div>
-      </div>
-       <div class="transverse shop-bg pdT5" v-if="product_two && product_two.length > 0 && product_two.length < 15" v-cloak>
-        <div class="prod-warp" :style="{width: 135*product_two.length+'px'}">
-          <!-- href="{{'/detail.html?itemId='+p.mpId}}" -->
-          <a class="item" :href="two.linkUrl || 'javascript:void(0)'" v-for="two in product_two ">
-            <div class="prod-img">
-              <!--<span :style="{'background-image':'url('+(p.picUrl || '')+')'}"></span>-->
-              <span v-lazy:background-image="two.imageUrl"></span>
-            </div>
-            <h5 class="ui-nowrap f10">{{two.name}}</h5>
-            <div class="price ui-nowrap" v-money="two.refObject.price"></div>
-          </a>
-        </div>
-      </div>
-
-      <!--楼层3标题-->
-      <div class="ui-row-flex" v-if='title_three && title_three.length > 0' v-cloak>
-        <img :src="title_three[0].imageUrl" alt="">
-      </div>
-      <!--楼层3推广图-->
-      <div class="ui-row-flex" v-if='entry_three && entry_three.length > 0' v-cloak>
-        <a :href="entry_three[0].linkUrl || 'javascript:void(0)'"><img v-lazy="entry_three[0].imageUrl" alt=""></a>
-      </div>
-      <!--楼层3推广商品-->
-      <div class="transverse shop-bg pdT5" v-if="product_three && product_three.length >= 15" v-cloak>
-        <div class="prod-warp" :style="{width: 135*15+'px'}">
-          <!-- href="{{'/detail.html?itemId='+p.mpId}}" -->
-          <a class="item" :href="three.linkUrl || 'javascript:void(0)'" v-for="three in product_three | limitBy 15">
-            <div class="prod-img">
-              <!--<span :style="{'background-image':'url('+(p.picUrl || '')+')'}"></span>-->
-              <span v-lazy:background-image="three.imageUrl"></span>
-            </div>
-            <h5 class="ui-nowrap f10">{{three.name}}</h5>
-            <div class="price ui-nowrap" v-money="three.refObject.price"></div>
-          </a>
-        </div>
-      </div>
-      <div class="transverse shop-bg pdT5" v-if="product_three && product_three.length > 0 && product_three.length < 15" v-cloak>
-        <div class="prod-warp" :style="{width: 135*product_three.length+'px'}">
-          <!-- href="{{'/detail.html?itemId='+p.mpId}}" -->
-          <a class="item" :href="three.linkUrl || 'javascript:void(0)'" v-for="three in product_three ">
-            <div class="prod-img">
-              <!--<span :style="{'background-image':'url('+(p.picUrl || '')+')'}"></span>-->
-              <span v-lazy:background-image="three.imageUrl"></span>
-            </div>
-            <h5 class="ui-nowrap f10">{{three.name}}</h5>
-            <div class="price ui-nowrap" v-money="three.refObject.price"></div>
-          </a>
-        </div>
-      </div>
-      <!--楼层4标题-->
-      <div class="ui-row-flex" v-if='title_four && title_four.length > 0' v-cloak>
-        <img :src="title_four[0].imageUrl" alt="">
-      </div>
-      <!--楼层4推广图-->
-      <div class="ui-row-flex" v-if='entry_four && entry_four.length > 0' v-cloak>
-        <a :href="entry_four[0].linkUrl || 'javascript:void(0)'"><img v-lazy="entry_four[0].imageUrl" alt=""></a>
-      </div>
-      <!--楼层4推广商品-->
-      <div class="transverse shop-bg pdT5" v-if="product_four && product_four.length >=15" v-cloak>
-        <div class="prod-warp" :style="{width: 135*15+'px'}">
-          <!-- href="{{'/detail.html?itemId='+p.mpId}}" -->
-          <a class="item" :href="four.linkUrl || 'javascript:void(0)'" v-for="four in product_four | limitBy 15">
-            <div class="prod-img">
-              <!--<span :style="{'background-image':'url('+(p.picUrl || '')+')'}"></span>-->
-              <span v-lazy:background-image="four.imageUrl"></span>
-            </div>
-            <h5 class="ui-nowrap f10">{{four.name}}</h5>
-            <div class="price ui-nowrap" v-money="four.refObject.price"></div>
-          </a>
-        </div>
-      </div>
-      <div class="transverse shop-bg pdT5" v-if="product_four && product_four.length > 0 && product_four.length < 15" v-cloak>
-        <div class="prod-warp" :style="{width: 135*product_four.length+'px'}">
-          <!-- href="{{'/detail.html?itemId='+p.mpId}}" -->
-          <a class="item" :href="four.linkUrl || 'javascript:void(0)'" v-for="four in product_four ">
-            <div class="prod-img">
-              <!--<span :style="{'background-image':'url('+(p.picUrl || '')+')'}"></span>-->
-              <span v-lazy:background-image="four.imageUrl"></span>
-            </div>
-            <h5 class="ui-nowrap f10">{{four.name}}</h5>
-            <div class="price ui-nowrap" v-money="four.refObject.price"></div>
-          </a>
-        </div>
-      </div>
-      <!--楼层5标题-->
-      <div class="ui-row-flex" v-if='title_five && title_five.length > 0' v-cloak>
-        <img :src="title_five[0].imageUrl" alt="">
-      </div>
-      <!--楼层5推广图-->
-      <div class="ui-row-flex" v-if='entry_five && entry_five.length > 0' v-cloak>
-        <a :href="entry_five[0].linkUrl || 'javascript:void(0)'"><img v-lazy="entry_five[0].imageUrl" alt=""></a>
-      </div>
-      <!--楼层5推广商品-->
-      <div class="transverse shop-bg pdT5" v-if="product_five && product_five.length >= 15" v-cloak>
-        <div class="prod-warp" :style="{width: 135*15+'px'}">
-          <!-- href="{{'/detail.html?itemId='+p.mpId}}" -->
-          <a class="item" :href="five.linkUrl || 'javascript:void(0)'" v-for="five in product_five | limitBy 15">
-            <div class="prod-img">
-              <!--<span :style="{'background-image':'url('+(p.picUrl || '')+')'}"></span>-->
-              <span v-lazy:background-image="five.imageUrl"></span>
-            </div>
-            <h5 class="ui-nowrap f10">{{five.name}}</h5>
-            <div class="price ui-nowrap" v-money="five.refObject.price"></div>
-          </a>
-        </div>
-      </div>
-      <div class="transverse shop-bg pdT5" v-if="product_five && product_five.length > 0 && product_five.length < 15" v-cloak>
-        <div class="prod-warp" :style="{width: 135*product_five.length+'px'}">
-          <!-- href="{{'/detail.html?itemId='+p.mpId}}" -->
-          <a class="item" :href="five.linkUrl || 'javascript:void(0)'" v-for="five in product_four ">
-            <div class="prod-img">
-              <!--<span :style="{'background-image':'url('+(p.picUrl || '')+')'}"></span>-->
-              <span v-lazy:background-image="five.imageUrl"></span>
-            </div>
-            <h5 class="ui-nowrap f10">{{five.name}}</h5>
-            <div class="price ui-nowrap" v-money="five.refObject.price"></div>
-          </a>
-        </div>
-      </div>
-     
-      <!--<div class="ui-scroller nav-tabs marT10" v-cloak>
-
-        <ul style="width: 447px">
-          <li :class="{active: $index == tabIndex}" v-for="li in navList"><span>{{ li.categoryName }}</span></li>
-        </ul>
-      </div>-->
-      <!-- <div class="nav-tabs" v-if="tabNavList && tabNavList.length <=4" v-cloak>
-        <ul class="ui-tiled">
-            <li :class="{active: $index == tabIndex}" @click="navTabSwitch($index),advLink(li.id, 1265)" v-for="li in tabNavList | limitBy 4"><span>{{ li.name }}</span></li>
-        </ul>
-    </div>-->
-      <div class="ui-scroller nav-tabs marT10" v-cloak>
-        <ul :style="{width:navList.length * 84 + 'px'}">
-          <li :class="{active: li.categoryId == tabIndex}" v-for="li in navList" @click="getSearchList(li)"><span>{{ li.categoryName }}</span></li>
-        </ul>
-      </div>
-
-      <!-- 商品列表 -->
-      <div class="prod-list" v-cloak>
-        <div class="warp" v-for="pro in hostList" :class="{pr2: $index % 2 == 0, pl2: $index % 2 != 0}">
-          <a class="item" href="javascript:void(0)">
-            <div class="prod-img">
-              <img :src="pro.url220x220" v-link-to="'/detail.html?itemId=' + pro.mpId">
-            </div>
-            <h5 class="ui-nowrap-multi" v-link-to="'/detail.html?itemId=' + pro.mpId">{{pro.name}}</h5>
-            <p class="label">
-              <span class="manjian" v-for="txt in pro.promotionIconTexts">{{txt}}</span>
-
-            </p>
-            <p class="money ui-nowrap">
-              <span class="price ui-nowrap" v-if="pro.promotionPrice != null" v-money="pro.promotionPrice"></span>
-              <span class="price ui-nowrap" v-if="pro.promotionPrice == null" v-money="pro.price"></span>
-              <span class="line-through f12 c9" v-if="pro.promotionPrice != null">{{pro.price|currency '¥'}}</span>
-              <span class="line-through f12 c9" v-if="pro.promotionPrice == null && pro.marketPrice != null">{{pro.marketPrice|currency '¥'}}</span>
-            </p>
-            <span class="sales f10 c9" style="padding-left:12px;">已售{{pro.mpSalesVolume || 0}}笔</span>
-            <!--<span class="add-to-cart">
-                    <i class="icon icon-cart"></i>
-                </span> -->
-          </a>
-        </div>
-      </div>
-      <div class="nomore" v-if="nomore" v-cloak>没有更多了</div>
-    </section>
-
     <!--底部工具-->
     <ui-scroll-top v-ref:scrollTop></ui-scroll-top>
     <ui-set-position :show.sync="showLocation" :call-back="updateLocation"></ui-set-position>
     <ui-message fixed="true" top="7" right="5"></ui-message>
-
-
-    <ui-scroll-top v-ref:scrollTop :hide="true"></ui-scroll-top>
+    <!--弹屏-->
+    <div class="ui-actionsheet tan-pin" :class="{'show':tanPin}" v-cloak>
+        <div class="tanpin-inner">
+            <div class="img">
+                <a @click="toTanPingLink">
+                    <img width="100%" alt="" :src="newcomers_popup.imageUrl">
+                </a>
+            </div>
+            <div class="close hide" :class="{'show':newcomers_popup.imageUrl}" @click="tanPin=false">×</div>
+        </div>
+    </div>
+    <!--弹屏-注册送券-->
+    <div class="ui-actionsheet tan-pin" :class="{'show':regisShow}" v-cloak>
+        <div class="tanpin-inner">
+            <div class="img">
+                <img width="100%" alt="" :src="regis_popup.imageUrl" @click="goRegis()">
+            </div>
+            <div class="regisClose">
+                <img src="/images/close.png" alt="" @click="regisShow = false">
+            </div>
+        </div>
+    </div>
+    <!--<div class="ui-dialog shareRedPacket" :class={show:shareShow}>
+        <div class="ui-dialog-cnt">
+            <div class="ui-dialog-bd">
+                <div class="redPacketImg">
+                    <img src="/images/ic_lucky_money.png" alt="">
+                </div>
+                <div class="shareText text-center">
+                    <p class="theme f16">送你一份见面礼</p>
+                    <p class="c3 f12">新人专享优惠券，先到先得</p>
+                </div>
+                <div class="shareBtn">
+                    <button>注册领取</button>
+                </div>
+                <div class="close">
+                    <img src="/images/close.png" alt="" @click="shareShow = false">
+                </div>
+            </div>
+        </div>
+    </div>-->
+    <!--注册后送的券-->
+    <div class="ui-actionsheet couponsList" :class="{'show':regisCouponsShow}" v-cloak>
+        <div class="close">
+            <img src="/images/close.png" alt="" @click="regisCouponsShow = false">
+        </div>
+        <div class="container">
+            <div class="coupons">
+                <div class="ui-row-flex ui-flex-align-center bg-item marB10" v-for="item in canUseCouponList">
+                    <div class="ui-col ui-col-1 text-center line75">
+                        <div class="theme">
+                            <span class="bold f14">¥</span><span class="f26">{{item.couponValue}}</span>
+                        </div>
+                    </div>
+                    <div class="ui-col ui-col-2">
+                        <p class="c3 f14 mgL15 ui-nowrap"><span class="bold">{{item.moneyRule}}</span><br>
+                        <span class="c3  f13">有限期：{{item.endTime | datedot}}</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="btn-go" @click="goHome()">赶紧去买买买吧！</div>
+        </div>
+    </div>
     <ui-share :show.sync="showShare" :config.sync="shareConfig"></ui-share>
     <!-- 以下标签路径有误 文件格式有误 可取消？ -->
     <script type="text/javascript" src="/cms/view/frontier_guide/h5/templateJS.json"></script>
+    <script>
+        if (!/MicroMessenger/i.test(navigator.userAgent)) document.write(
+            '<script src="https://g.alicdn.com/aliww/h5.openim.sdk/1.0.6/scripts/wsdk.js"><\/script>');
+    </script>
+    <script>if(/MicroMessenger/i.test(navigator.userAgent)) document.write('<script src="//res.wx.qq.com/open/js/jweixin-1.1.0.js"><\/script>');</script>
     <!-- 以下为zepto  js库 -->
-    <script src="/libs/frozenui/lib/zepto.min.js?v=1538036828410"></script>
+    <script src="/libs/frozenui/lib/zepto.min.js?v=1538189604568"></script>
     <!-- 以下为swipe  移动端滑动 JS 库 -->
-    <script src="/libs/swiper/swipe.js?v=1538036828410"></script>
-    <!-- FrozenJS 是针对移动端开发的 js 组件库，其依赖 zepto.js 和 FrozenUI -->
-    <script src="/libs/frozenui/js/frozen.js?v=1538036828410"></script>
-    <!-- HammerJS是一个优秀的、轻量级的触屏设备手势库  打包后才存在 -->
-    <script src="/libs/vendor.js?v=1538036828410"></script>
-    <!-- 与company相关的业务相关配置  打包后才存在 -->
-    <script src="/common.js?v=1538036828410"></script>
+    <script src="/libs/swiper/swipe.js?v=1538189604568"></script>
+     <!-- FrozenJS 是针对移动端开发的 js 组件库，其依赖 zepto.js 和 FrozenUI -->
+    <script src="/libs/frozenui/js/frozen.js?v=1538189604568"></script>
+    <script src="/libs/mob-share.js?v=1538189604568" async></script>
+    <!-- HammerJS是一个优秀的、轻量级的触屏设备手势库 -->
+    <script src="/libs/vendor.js?v=1538189604568"></script>
+    <script type="text/javascript" src="http://webapi.amap.com/maps?v=1.3&key=4cbe65ccdb8919a83e3fa235b93b0fa9"></script>
+    <!-- 与company相关的业务相关配置   -->
+    <script src="/common.js?v=1538189604568"></script>
     <!-- VUE项目入口文件 -->
-    <script src="/index.js?v=1538036828410"></script>
-    <!--  mob网页分享 JS库 -->
-    <script id="-mob-share" src="/libs/mob-share.js?v=1538036828410"></script>
-  </body>
+    <script src="/index.js?v=1538189604568"></script>
+    <script>        
+        !function() {
+            w=this;
+            w['da'] = w['da'] || function () {
+                        w['_daq']= w['_daq'] || [];
+                        w['_daq'].push(arguments);
+                    };
+            w['_vs_time'] = 1 * new Date();
+            var da = document.createElement("script");
+            da.src = "/libs/track.js?v=1538189604568";
+            da.async=1;
+            var e = document.getElementsByTagName("script")[0];
+            e.parentNode.insertBefore(da, e);
+        }();
+        w._content= {
+            accountId: 1,
+            companyId: 30,
+//            currentTime: new Date().getTime(),
+            systemId: '1',
+            trackType: '1',//1:页面加载 2:点击事件
+            pageCode: 'index',
+            sessionId: 'sessionId',
+//            userId: 'gr_user_id',
+            guid: 'guid',
+            ut:'ut'
+        }
+        da('content');
+    </script>
+</body>
 
 </html>

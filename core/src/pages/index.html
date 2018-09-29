@@ -4,15 +4,27 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <!-- 让网站加入QQ登录接口 -->
     <meta property="qc:admins" content="24412715621136453467411615663757" />
+    <!--  telephone=no 禁止把数字转化为拨号链接   -->
     <meta name="format-detection" content="telephone=no">
+    <!--  uc强制竖屏 --> 
     <meta name="screen-orientation" content="portrait">
+    <!-- QQ强制竖屏 -->
     <meta name="x5-orientation" content="portrait">
+     <!-- winphone系统a、input标签被点击时产生的半透明灰色背景去掉 -->
     <meta name="msapplication-tap-highlight" content="no">
 	<meta name="heimdall" content="首页">
     <title></title>
+    <script type="text/javascript">
+     
+      console.log('映射成功ok123456111');
+    </script>
+     <!--  FrozenUI的CSS组件库  -->
     <link rel="stylesheet" href="${staticPath}/libs/frozenui/css/frozen.css?v=${version}">
+     <!--  以下CSS文件打包后才存在  -->
     <link rel="stylesheet" href="${staticPath}/common.css?v=${version}">
+    <!-- 项目主入口CSS文件  打包后才存在-->
     <link rel="stylesheet" href="${staticPath}/index.css?v=${version}">
 
 </head>
@@ -355,21 +367,28 @@
         </div>
     </div>
     <ui-share :show.sync="showShare" :config.sync="shareConfig"></ui-share>
+    <!-- 以下标签路径有误 文件格式有误 可取消？ -->
     <script type="text/javascript" src="/cms/view/frontier_guide/h5/templateJS.json"></script>
     <script>
         if (!/MicroMessenger/i.test(navigator.userAgent)) document.write(
             '<script src="https://g.alicdn.com/aliww/h5.openim.sdk/1.0.6/scripts/wsdk.js"><\/script>');
     </script>
     <script>if(/MicroMessenger/i.test(navigator.userAgent)) document.write('<script src="//res.wx.qq.com/open/js/jweixin-1.1.0.js"><\/script>');</script>
+    <!-- 以下为zepto  js库 -->
     <script src="${staticPath}/libs/frozenui/lib/zepto.min.js?v=${version}"></script>
+    <!-- 以下为swipe  移动端滑动 JS 库 -->
     <script src="${staticPath}/libs/swiper/swipe.js?v=${version}"></script>
+     <!-- FrozenJS 是针对移动端开发的 js 组件库，其依赖 zepto.js 和 FrozenUI -->
     <script src="${staticPath}/libs/frozenui/js/frozen.js?v=${version}"></script>
     <script src="${staticPath}/libs/mob-share.js?v=${version}" async></script>
+    <!-- HammerJS是一个优秀的、轻量级的触屏设备手势库 -->
     <script src="${staticPath}/libs/vendor.js?v=${version}"></script>
     <script type="text/javascript" src="http://webapi.amap.com/maps?v=1.3&key=${mapKey}"></script>
+    <!-- 与company相关的业务相关配置   -->
     <script src="${staticPath}/common.js?v=${version}"></script>
+    <!-- VUE项目入口文件 -->
     <script src="${staticPath}/index.js?v=${version}"></script>
-    <script>
+    <script>        
         !function() {
             w=this;
             w['da'] = w['da'] || function () {
